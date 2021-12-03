@@ -1,0 +1,41 @@
+{
+    "name": "vscode-internals",
+    "displayName": "Zardoy Internals",
+    "description": "Highly experimental commands and features",
+    "preview": true,
+    "version": "0.0.0-dev",
+    "publisher": "zardoy",
+    "private": true,
+    "license": "MIT",
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "categories": [
+        "Other"
+    ],
+    "contributes": {
+        "commands": [],
+        "configuration": [
+            {
+                "properties": {
+                    "features.preserveCamelCase": {
+                        "type": "boolean",
+                        "default": true
+                    }
+                }
+            }
+        ]
+    },
+    "scripts": {
+        "start": "vscode-framework start"
+    },
+    "dependencies": {
+        "vscode-framework": "^0.0.18"
+    },
+    "devDependencies": {
+        "@types/node": "^16.11.11",
+        "@types/vscode": "^1.62.0",
+        "@zardoy/tsconfig": "^1.2.2",
+        "typescript": "^4.5.2"
+    }
+}
