@@ -1,6 +1,6 @@
 {
-    "name": "zardoy-internals",
-    "displayName": "Zardoy Internals",
+    "name": "zardoy-experiments",
+    "displayName": "Zardoy Experiments",
     "description": "Highly experimental features and commands",
     "preview": true,
     "version": "0.0.0-dev",
