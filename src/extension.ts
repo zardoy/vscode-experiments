@@ -1,10 +1,12 @@
 import { extensionCtx, registerActiveDevelopmentCommand } from 'vscode-framework'
 import { preserveCamelCase } from './features/preserveCamelCase'
 import vscode from 'vscode'
+import { registerCodeActions } from './codeActions'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
     preserveCamelCase()
+    registerCodeActions()
 
     registerActiveDevelopmentCommand(() => {
         const decoration = vscode.window.createTextEditorDecorationType({
@@ -22,6 +24,7 @@ export const activate = () => {
             },
             // rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
         })
+        if (!vscode.window.activeTextEditor) throw new Error('no activeTextEditor')
         const pos = vscode.window.activeTextEditor.selection.active
         vscode.window.activeTextEditor.setDecorations(decoration, [
             {

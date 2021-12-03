@@ -21,6 +21,10 @@
                     "features.preserveCamelCase": {
                         "type": "boolean",
                         "default": true
+                    },
+                    "features.codeActions": {
+                        "type": "boolean",
+                        "default": true
                     }
                 }
             }
