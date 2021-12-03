@@ -1,7 +1,7 @@
 {
-    "name": "vscode-internals",
+    "name": "zardoy-internals",
     "displayName": "Zardoy Internals",
-    "description": "Highly experimental commands and features",
+    "description": "Highly experimental features and commands",
     "preview": true,
     "version": "0.0.0-dev",
     "publisher": "zardoy",
