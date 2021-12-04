@@ -61,6 +61,8 @@
         "@types/node": "^16.11.11",
         "@types/vscode": "^1.62.0",
         "@zardoy/tsconfig": "^1.2.2",
+        "eslint": "^8.4.0",
+        "eslint-config-zardoy": "^0.2.1",
         "typescript": "^4.5.2"
     }
 }
