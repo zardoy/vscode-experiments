@@ -14,7 +14,20 @@
         "Other"
     ],
     "contributes": {
-        "commands": [],
+        "commands": [
+            {
+                "command": "tab",
+                "title": "Special Tab"
+            },
+            {
+                "command": "openUrl",
+                "title": "Open URL"
+            },
+            {
+                "command": "addImport",
+                "title": "Add Import"
+            }
+        ],
         "configuration": [
             {
                 "properties": {
@@ -22,7 +35,15 @@
                         "type": "boolean",
                         "default": true
                     },
-                    "features.codeActions": {
+                    "features.tsCodeActions": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "features.regexCodeActions": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "features.missingVscodeImportCodeAction": {
                         "type": "boolean",
                         "default": true
                     }

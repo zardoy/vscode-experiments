@@ -1,17 +1,38 @@
-import { extensionCtx, registerActiveDevelopmentCommand } from 'vscode-framework'
-import { preserveCamelCase } from './features/preserveCamelCase'
 import vscode from 'vscode'
-import { registerCodeActions } from './codeActions'
+import { extensionCtx, registerActiveDevelopmentCommand, registerExtensionCommand } from 'vscode-framework'
+import { preserveCamelCase } from './features/preserveCamelCase'
+import { registerAlwaysTab } from './features/alwaysTab'
+import { registerTsCodeactions } from './features/tsCodeactions'
+import { registerRegexCodeActions } from './features/regexCodeactions'
+import { registerAddVscodeImport } from './features/addVscodeImport'
+import { registerAddImport } from './features/addImport'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
     preserveCamelCase()
-    registerCodeActions()
+    registerTsCodeactions()
+    registerRegexCodeActions()
+    registerAlwaysTab()
+    registerAddVscodeImport()
+    registerAddImport()
 
+    // vscode.languages.registerSelectionRangeProvider('*', {
+    //     provideSelectionRanges(document, positions, token) {
+
+    //     }
+    // })
+
+    // vscode.languages.registerDocumentSemanticTokensProvider('typescript', {
+
+    // }, {})
+
+    registerExtensionCommand('openUrl', async (_, url: string) => {
+        await vscode.env.openExternal(vscode.Uri.parse(url))
+    })
+
+    if (process.env.NODE_ENV !== 'development') return
     registerActiveDevelopmentCommand(() => {
         const decoration = vscode.window.createTextEditorDecorationType({
-            // before: {
-            // },
             dark: {
                 before: {
                     contentIconPath: extensionCtx.asAbsolutePath('resources/editDark.svg'),
