@@ -26,6 +26,10 @@
             {
                 "command": "addImport",
                 "title": "Add Import"
+            },
+            {
+                "command": "goToNextErrorInFile",
+                "title": "Go to Error in File"
             }
         ],
         "configuration": [
