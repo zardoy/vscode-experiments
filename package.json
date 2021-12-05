@@ -34,6 +34,10 @@
             {
                 "command": "fixedSurroundIf",
                 "title": "fixed surround if"
+            },
+            {
+                "command": "removeUnusedImports",
+                "title": "remove unused imports"
             }
         ],
         "configuration": [

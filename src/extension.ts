@@ -7,6 +7,7 @@ import { registerRegexCodeActions } from './features/regexCodeactions'
 import { registerAddVscodeImport } from './features/addVscodeImport'
 import { registerAddImport } from './features/addImport'
 import { registerFixedSurroundIf } from './features/fixedSurroundIf'
+import { registerRemoveUnusedImports } from './features/removeUnusedImports'
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
     preserveCamelCase()
@@ -16,6 +17,7 @@ export const activate = () => {
     registerAddVscodeImport()
     registerAddImport()
     registerFixedSurroundIf()
+    registerRemoveUnusedImports()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
