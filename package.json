@@ -30,6 +30,10 @@
             {
                 "command": "goToNextErrorInFile",
                 "title": "Go to Error in File"
+            },
+            {
+                "command": "fixedSurroundIf",
+                "title": "fixed surround if"
             }
         ],
         "configuration": [

@@ -6,7 +6,7 @@ import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
 import { registerAddVscodeImport } from './features/addVscodeImport'
 import { registerAddImport } from './features/addImport'
-
+import { registerFixedSurroundIf } from './features/fixedSurroundIf'
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
     preserveCamelCase()
@@ -15,6 +15,7 @@ export const activate = () => {
     registerAlwaysTab()
     registerAddVscodeImport()
     registerAddImport()
+    registerFixedSurroundIf()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
