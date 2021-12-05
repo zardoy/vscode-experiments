@@ -3,6 +3,7 @@ import { getExtensionCommandId } from 'vscode-framework'
 import { jsLangs } from '../codeActions'
 
 export const registerRegexCodeActions = () => {
+    // TODO this feature doesn't even work properly with regex below
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const REGEX_REGEX = /\/(?!\*).+?(?<!\\)\//g
 

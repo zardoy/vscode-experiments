@@ -3,8 +3,8 @@ import { registerActiveDevelopmentCommand, registerExtensionCommand } from 'vsco
 import { notSingleSursor } from '../codeActions'
 
 // TODO alt+cmd+backspace rm casePart
-export const registerAlwaysTab = async () => {
-    registerExtensionCommand('tab', () => {
+export const registerAlwaysTab = () => {
+    registerExtensionCommand('tab', async () => {
         const { activeTextEditor } = vscode.window
         if (!activeTextEditor) throw new Error('no activeTextEditor')
         if (notSingleSursor()) return
@@ -35,7 +35,8 @@ export const registerAlwaysTab = async () => {
         // })
 
         let currentIndent = document.lineAt(pos).firstNonWhitespaceCharacterIndex
-        if (currentIndent !== 0)
+        if (currentIndent === 0) await vscode.commands.executeCommand('tab')
+        else
             for (let i = pos.line; i >= 0; i--) {
                 const line = document.lineAt(i)
                 const lineText = line.text
@@ -59,8 +60,5 @@ export const registerAlwaysTab = async () => {
 
                 // }
             }
-
-        // TODO remove it from here
     })
-    await vscode.commands.executeCommand('tab')
 }
