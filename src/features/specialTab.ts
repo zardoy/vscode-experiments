@@ -3,7 +3,7 @@ import { registerActiveDevelopmentCommand, registerExtensionCommand } from 'vsco
 import { notSingleSursor } from '../codeActions'
 
 // TODO alt+cmd+backspace rm casePart
-export const registerAlwaysTab = () => {
+export const registerAlwaysTab = async () => {
     registerExtensionCommand('tab', () => {
         const { activeTextEditor } = vscode.window
         if (!activeTextEditor) throw new Error('no activeTextEditor')
@@ -62,4 +62,5 @@ export const registerAlwaysTab = () => {
 
         // TODO remove it from here
     })
+    await vscode.commands.executeCommand('tab')
 }

@@ -1,7 +1,7 @@
 import vscode from 'vscode'
 import { extensionCtx, registerActiveDevelopmentCommand, registerExtensionCommand } from 'vscode-framework'
 import { preserveCamelCase } from './features/preserveCamelCase'
-import { registerAlwaysTab } from './features/alwaysTab'
+import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
 import { registerAddVscodeImport } from './features/addVscodeImport'
