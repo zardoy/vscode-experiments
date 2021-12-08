@@ -33,11 +33,15 @@
             },
             {
                 "command": "fixedSurroundIf",
-                "title": "fixed surround if"
+                "title": "Surround Lines"
             },
             {
                 "command": "removeUnusedImports",
                 "title": "remove unused imports"
+            },
+            {
+                "command": "problemsBySource",
+                "title": "Show problems by source"
             }
         ],
         "configuration": [
@@ -58,6 +62,20 @@
                     "features.missingVscodeImportCodeAction": {
                         "type": "boolean",
                         "default": true
+                    },
+                    "features.statusBarDiagnostic": {
+                        "type": "string",
+                        "enum": [
+                            "disabled",
+                            "color",
+                            "bgColor"
+                        ],
+                        "default": "color"
+                    },
+                    "features.autoAlignImport": {
+                        "type": "boolean",
+                        "description": "Add newline after last import statement in JS/ST",
+                        "default": true
                     }
                 }
             }
@@ -67,6 +85,7 @@
         "start": "vscode-framework start"
     },
     "dependencies": {
+        "rambda": "^6.9.0",
         "vscode-framework": "^0.0.18"
     },
     "devDependencies": {

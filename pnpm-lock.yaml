@@ -6,10 +6,12 @@ specifiers:
   '@zardoy/tsconfig': ^1.2.2
   eslint: ^8.4.0
   eslint-config-zardoy: ^0.2.1
+  rambda: ^6.9.0
   typescript: ^4.5.2
   vscode-framework: ^0.0.18
 
 dependencies:
+  rambda: 6.9.0
   vscode-framework: 0.0.18_5ed195bf56d3beb6cc8c3dd9d5778b84
 
 devDependencies:
@@ -3269,6 +3271,10 @@ packages:
       buffer-equal: 0.0.1
       minimist: 1.2.5
       through2: 2.0.5
+    dev: false
+
+  /rambda/6.9.0:
+    resolution: {integrity: sha512-yosVdGg1hNGkXPzqGiOYNEpXKjEOxzUCg2rB0l+NKdyCaSf4z+i5ojbN0IqDSezMMf71YEglI+ZUTgTffn5afw==}
     dev: false
 
   /react-is/17.0.2:

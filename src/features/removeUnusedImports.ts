@@ -6,21 +6,20 @@ export const registerRemoveUnusedImports = () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return
         const diagnostics = vscode.languages.getDiagnostics(activeEditor.document.uri)
-        const unusedDecl = diagnostics.filter(({ severity, code }) => severity === vscode.DiagnosticSeverity.Hint && code === 6133)
+        const unusedImport = diagnostics.filter(({ severity, code }) => severity === vscode.DiagnosticSeverity.Hint && code === 6133)
         const { document } = activeEditor
-        if (unusedDecl.length === 0) return
+        if (unusedImport.length === 0) return
         await activeEditor.edit(builder => {
-            for (const decl of unusedDecl) {
-                const declRange = decl.range
-                const line = document.lineAt(declRange.start)
+            for (const problem of unusedImport) {
+                const { range } = problem
+                const line = document.lineAt(range.start)
                 const isUnusedImport =
                     line.text.startsWith('import') ||
-                    decl.range.isEqual(new vscode.Range(line.range.start.with(undefined, line.firstNonWhitespaceCharacterIndex), line.range.end)) ||
-                    decl.range.isEqual(
-                        new vscode.Range(line.range.start.with(undefined, line.firstNonWhitespaceCharacterIndex), line.range.end.translate(0, -1)),
-                    )
+                    range.isEqual(new vscode.Range(line.range.start.with(undefined, line.firstNonWhitespaceCharacterIndex), line.range.end)) ||
+                    range.isEqual(new vscode.Range(line.range.start.with(undefined, line.firstNonWhitespaceCharacterIndex), line.range.end.translate(0, -1)))
                 if (!isUnusedImport) continue
-                builder.delete(line.text.endsWith(',') ? declRange.with({ end: declRange.end.translate(0, 1) }) : declRange)
+                const rangeWithComma = range.with({ end: range.end.translate(0, 1) })
+                builder.delete(document.getText(rangeWithComma).endsWith(',') ? rangeWithComma : range)
                 // const codeFixes = (await vscode.commands.executeCommand('vscode.executeCodeActionProvider', document.uri, decl.range)) as any
                 // const delAllUnusedImportsFix = codeFixes.find(({ title }) => title === 'Delete all unused imports')
                 // const cmd = delAllUnusedImportsFix.command

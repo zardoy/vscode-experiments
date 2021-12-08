@@ -1,20 +1,20 @@
 import vscode from 'vscode'
-import { registerNoop, showQuickPick } from 'vscode-framework'
+import { registerExtensionCommand, registerNoop, showQuickPick } from 'vscode-framework'
 export const registerPickProblemsBySource = () => {
-    registerNoop('Pick problems by source', async () => {
+    registerExtensionCommand('problemsBySource', async () => {
         const document = vscode.window.activeTextEditor?.document
         if (document === undefined) return
         // lodash-marker
-        const diagnosticsByGroup: Record<string, vscode.Diagnostic[]> = {}
+        const diagnosticsBySource: Record<string, vscode.Diagnostic[]> = {}
         const diagnostics = vscode.languages.getDiagnostics(document.uri)
         for (const diagnostic of diagnostics) {
             const source = diagnostic.source ?? 'No source'
-            if (!diagnosticsByGroup[source]) diagnosticsByGroup[source] = []
-            diagnosticsByGroup[source]!.push(diagnostic)
+            if (!diagnosticsBySource[source]) diagnosticsBySource[source] = []
+            diagnosticsBySource[source]!.push(diagnostic)
         }
 
         const selectedSource = await showQuickPick(
-            Object.entries(diagnosticsByGroup)
+            Object.entries(diagnosticsBySource)
                 .sort(([, a], [, b]) => a.length - b.length)
                 .map(([source, { length }]) => ({ label: source, description: `${length}`, value: source })),
         )

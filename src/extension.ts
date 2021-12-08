@@ -8,6 +8,9 @@ import { registerAddVscodeImport } from './features/addVscodeImport'
 import { registerAddImport } from './features/addImport'
 import { registerFixedSurroundIf } from './features/fixedSurroundIf'
 import { registerRemoveUnusedImports } from './features/removeUnusedImports'
+import { registerPickProblemsBySource } from './features/problemsBySource'
+import { registerAutoAlignImport } from './features/alignImport'
+import { registerStatusBarProblems } from './features/statusbarProblems'
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
     preserveCamelCase()
@@ -18,6 +21,9 @@ export const activate = () => {
     registerAddImport()
     registerFixedSurroundIf()
     registerRemoveUnusedImports()
+    registerPickProblemsBySource()
+    registerAutoAlignImport()
+    registerStatusBarProblems()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
