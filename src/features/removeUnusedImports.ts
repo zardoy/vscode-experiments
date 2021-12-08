@@ -6,7 +6,7 @@ export const registerRemoveUnusedImports = () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return
         const diagnostics = vscode.languages.getDiagnostics(activeEditor.document.uri)
-        const unusedImport = diagnostics.filter(({ severity, code }) => severity === vscode.DiagnosticSeverity.Hint && code === 6133)
+        const unusedImport = diagnostics.filter(({ code }) => code === 6133)
         const { document } = activeEditor
         if (unusedImport.length === 0) return
         await activeEditor.edit(builder => {
