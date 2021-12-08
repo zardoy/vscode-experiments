@@ -11,6 +11,8 @@ import { registerRemoveUnusedImports } from './features/removeUnusedImports'
 import { registerPickProblemsBySource } from './features/problemsBySource'
 import { registerAutoAlignImport } from './features/alignImport'
 import { registerStatusBarProblems } from './features/statusbarProblems'
+import { registerOnTypeFormatter } from './features/onTypeFormatter'
+
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
     preserveCamelCase()
@@ -24,6 +26,7 @@ export const activate = () => {
     registerPickProblemsBySource()
     registerAutoAlignImport()
     registerStatusBarProblems()
+    // registerOnTypeFormatter()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {

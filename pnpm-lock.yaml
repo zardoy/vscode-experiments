@@ -4,6 +4,7 @@ specifiers:
   '@types/node': ^16.11.11
   '@types/vscode': ^1.62.0
   '@zardoy/tsconfig': ^1.2.2
+  '@zardoy/utils': ^0.0.2
   eslint: ^8.4.0
   eslint-config-zardoy: ^0.2.1
   rambda: ^6.9.0
@@ -11,6 +12,7 @@ specifiers:
   vscode-framework: ^0.0.18
 
 dependencies:
+  '@zardoy/utils': 0.0.2
   rambda: 6.9.0
   vscode-framework: 0.0.18_5ed195bf56d3beb6cc8c3dd9d5778b84
 
@@ -591,6 +593,15 @@ packages:
     dependencies:
       typescript: 4.5.2
     dev: true
+
+  /@zardoy/utils/0.0.2:
+    resolution: {integrity: sha512-8NW4YupgRx1GEp8r+7GKayQhovCm7mi8o4pZflFnW4+2sAI6Eei7/5/hvblne1LPJTvD2U9wXaXhjfTfQUXRAQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      lodash.compact: 3.0.1
+      rambda: 6.9.0
+      type-fest: 2.8.0
+    dev: false
 
   /accepts/1.3.7:
     resolution: {integrity: sha512-Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==}
@@ -2681,6 +2692,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       p-locate: 5.0.0
+    dev: false
+
+  /lodash.compact/3.0.1:
+    resolution: {integrity: sha1-VAzjg3dFl1gHRx4WtKK6IeclbKU=}
     dev: false
 
   /lodash.merge/4.6.2:

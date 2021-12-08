@@ -76,6 +76,10 @@
                         "type": "boolean",
                         "description": "Add newline after last import statement in JS/ST",
                         "default": true
+                    },
+                    "features.onTypeTsFormatter": {
+                        "type": "boolean",
+                        "default": true
                     }
                 }
             }
@@ -85,6 +89,7 @@
         "start": "vscode-framework start"
     },
     "dependencies": {
+        "@zardoy/utils": "^0.0.2",
         "rambda": "^6.9.0",
         "vscode-framework": "^0.0.18"
     },
