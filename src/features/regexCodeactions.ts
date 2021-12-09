@@ -3,7 +3,6 @@ import { getExtensionCommandId } from 'vscode-framework'
 import { jsLangs } from '../codeActions'
 
 export const registerRegexCodeActions = () => {
-    // TODO this feature doesn't even work properly with regex below
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const REGEX_REGEX = /\/(?!\*).+?(?<!\\)\//g
 
@@ -32,12 +31,13 @@ export const registerRegexCodeActions = () => {
                         })
                     }
 
+                    // const url = `https://regex101.com/?regex=${encodeURIComponent('.+:.+;')}?&flags=gi`
                     return [
                         {
                             title: 'Test with regex101.com',
                             command: getExtensionCommandId('openUrl'),
                             isPreferred: true,
-                            arguments: [`https://regex101.com/?regex=${match[0]!.slice(1, -1)}&flags=gi`],
+                            arguments: [`https://regex101.com/?regex=${encodeURIComponent(match[0]!.slice(1, -1))}&flags=gi`],
                         },
                         ...additionalCodeActions,
                     ]

@@ -12,6 +12,8 @@ import { registerPickProblemsBySource } from './features/problemsBySource'
 import { registerAutoAlignImport } from './features/alignImport'
 import { registerStatusBarProblems } from './features/statusbarProblems'
 import { registerOnTypeFormatter } from './features/onTypeFormatter'
+import { registerNextLetterSwapCase } from './features/nextLetterSwapCase'
+import { registerFixCss } from './features/fixCss'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -27,6 +29,8 @@ export const activate = () => {
     registerAutoAlignImport()
     registerStatusBarProblems()
     // registerOnTypeFormatter()
+    registerNextLetterSwapCase()
+    registerFixCss()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -39,7 +43,8 @@ export const activate = () => {
     // }, {})
 
     registerExtensionCommand('openUrl', async (_, url: string) => {
-        await vscode.env.openExternal(vscode.Uri.parse(url))
+        // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
+        await vscode.env.openExternal(url as any)
     })
 
     registerExtensionCommand('goToNextErrorInFile', async (_, url: string) => {
@@ -60,7 +65,7 @@ export const activate = () => {
         await vscode.commands.executeCommand('editor.action.marker.next')
     })
 
-    if (process.env.NODE_ENV !== 'development') return
+    if (process.env.NODE_ENV !== 'development' || true) return
     registerActiveDevelopmentCommand(() => {
         const decoration = vscode.window.createTextEditorDecorationType({
             dark: {

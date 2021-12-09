@@ -42,6 +42,14 @@
             {
                 "command": "problemsBySource",
                 "title": "Show problems by source"
+            },
+            {
+                "command": "nextLetterSwapCase",
+                "title": "Next Letter Swap Case"
+            },
+            {
+                "command": "fixCss",
+                "title": "Fix CSS: Adopt CSS-IN-JS"
             }
         ],
         "configuration": [
@@ -90,6 +98,7 @@
     },
     "dependencies": {
         "@zardoy/utils": "^0.0.2",
+        "open": "^8.4.0",
         "rambda": "^6.9.0",
         "vscode-framework": "^0.0.18"
     },
