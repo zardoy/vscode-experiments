@@ -50,6 +50,14 @@
             {
                 "command": "fixCss",
                 "title": "Fix CSS: Adopt CSS-IN-JS"
+            },
+            {
+                "command": "insertAutoCompletions",
+                "title": "Insert Auto Completions"
+            },
+            {
+                "command": "copyLineVariableName",
+                "title": "Copy Line Variable Name"
             }
         ],
         "configuration": [
@@ -97,14 +105,14 @@
         "start": "vscode-framework start"
     },
     "dependencies": {
-        "@zardoy/utils": "^0.0.2",
+        "@zardoy/utils": "^0.0.4",
         "open": "^8.4.0",
         "rambda": "^6.9.0",
         "vscode-framework": "^0.0.18"
     },
     "devDependencies": {
         "@types/node": "^16.11.11",
-        "@types/vscode": "^1.62.0",
+        "@types/vscode": "^1.63.0",
         "@zardoy/tsconfig": "^1.2.2",
         "eslint": "^8.4.0",
         "eslint-config-zardoy": "^0.2.1",

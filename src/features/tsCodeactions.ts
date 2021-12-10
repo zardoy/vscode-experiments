@@ -1,6 +1,7 @@
 import vscode from 'vscode'
 import { getExtensionSetting } from 'vscode-framework'
 import { jsLangs } from '../codeActions'
+
 export const registerTsCodeactions = () => {
     if (!getExtensionSetting('features.tsCodeActions')) return
     // TODO schema. check that works on virtual workspaces (e.g. github repos)
@@ -31,7 +32,7 @@ export const registerTsCodeactions = () => {
                     }
                 }
 
-                const match = /^(const|function|class)\b/.exec(document.lineAt(pos.line).text)
+                const match = /^(const|function|class|type|interface)\b/.exec(document.lineAt(pos.line).text)
                 if (match) {
                     const workspaceEdit = new vscode.WorkspaceEdit()
                     workspaceEdit.insert(document.uri, pos.with(undefined, 0), 'export ')

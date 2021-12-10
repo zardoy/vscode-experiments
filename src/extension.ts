@@ -1,5 +1,6 @@
-import vscode from 'vscode'
-import { extensionCtx, registerActiveDevelopmentCommand, registerExtensionCommand } from 'vscode-framework'
+import vscode, { SnippetString } from 'vscode'
+import { oneOf } from '@zardoy/utils'
+import { extensionCtx, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop } from 'vscode-framework'
 import { preserveCamelCase } from './features/preserveCamelCase'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
@@ -14,6 +15,8 @@ import { registerStatusBarProblems } from './features/statusbarProblems'
 import { registerOnTypeFormatter } from './features/onTypeFormatter'
 import { registerNextLetterSwapCase } from './features/nextLetterSwapCase'
 import { registerFixCss } from './features/fixCss'
+import { registerInsertAutoCompletions } from './features/insertAutoCompletions'
+import { registerCopyVariableName } from './features/copyVariableName'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -31,6 +34,8 @@ export const activate = () => {
     // registerOnTypeFormatter()
     registerNextLetterSwapCase()
     registerFixCss()
+    registerInsertAutoCompletions()
+    registerCopyVariableName()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -65,8 +70,7 @@ export const activate = () => {
         await vscode.commands.executeCommand('editor.action.marker.next')
     })
 
-    if (process.env.NODE_ENV !== 'development' || true) return
-    registerActiveDevelopmentCommand(() => {
+    registerNoop('Better Rename', () => {
         const decoration = vscode.window.createTextEditorDecorationType({
             dark: {
                 before: {

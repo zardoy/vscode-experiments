@@ -2,9 +2,9 @@ lockfileVersion: 5.3
 
 specifiers:
   '@types/node': ^16.11.11
-  '@types/vscode': ^1.62.0
+  '@types/vscode': ^1.63.0
   '@zardoy/tsconfig': ^1.2.2
-  '@zardoy/utils': ^0.0.2
+  '@zardoy/utils': ^0.0.4
   eslint: ^8.4.0
   eslint-config-zardoy: ^0.2.1
   open: ^8.4.0
@@ -13,14 +13,14 @@ specifiers:
   vscode-framework: ^0.0.18
 
 dependencies:
-  '@zardoy/utils': 0.0.2
+  '@zardoy/utils': 0.0.4
   open: 8.4.0
   rambda: 6.9.0
-  vscode-framework: 0.0.18_5ed195bf56d3beb6cc8c3dd9d5778b84
+  vscode-framework: 0.0.18_3ecc8e3f9208ac42f88605fb9d9ba8f1
 
 devDependencies:
   '@types/node': 16.11.11
-  '@types/vscode': 1.62.0
+  '@types/vscode': 1.63.0
   '@zardoy/tsconfig': 1.2.2_typescript@4.5.2
   eslint: 8.4.0
   eslint-config-zardoy: 0.2.1_eslint@8.4.0+typescript@4.5.2
@@ -436,8 +436,8 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: false
 
-  /@types/vscode/1.62.0:
-    resolution: {integrity: sha512-iGlQJ1w5e3qPUryroO6v4lxg3ql1ztdTCwQW3xEwFawdyPLoeUSv48SYfMwc7kQA7h6ThUqflZIjgKAykeF9oA==}
+  /@types/vscode/1.63.0:
+    resolution: {integrity: sha512-iePu1axOi5WSThV6l2TYcciBIpAlMarjBC8H0y8L8ocsZLxh7MttzwFU3pjoItF5fRVGxHS0Hsvje9jO3yJsfw==}
     dev: true
 
   /@types/yargs-parser/20.2.1:
@@ -596,8 +596,8 @@ packages:
       typescript: 4.5.2
     dev: true
 
-  /@zardoy/utils/0.0.2:
-    resolution: {integrity: sha512-8NW4YupgRx1GEp8r+7GKayQhovCm7mi8o4pZflFnW4+2sAI6Eei7/5/hvblne1LPJTvD2U9wXaXhjfTfQUXRAQ==}
+  /@zardoy/utils/0.0.4:
+    resolution: {integrity: sha512-XByd7HzxgwJi85o3oTSJDhk6b3H4w21NYHIqX3WtQ+tGBFPLldo8rdzr31oms6coeXvPVwRmoTGkJmAyHTJQRw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       lodash.compact: 3.0.1
@@ -3850,7 +3850,7 @@ packages:
       type-fest: 2.8.0
     dev: false
 
-  /typed-vscode/0.0.5_5ed195bf56d3beb6cc8c3dd9d5778b84:
+  /typed-vscode/0.0.5_3ecc8e3f9208ac42f88605fb9d9ba8f1:
     resolution: {integrity: sha512-BJpELW+Q35iWc6t/Na0ZGprG1jwGgFb3U+71UIDKjxEp+LZZKatMzoBSuPoO/saTeSzMY8YinGsglkgru8u9jg==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
@@ -3858,7 +3858,7 @@ packages:
     peerDependencies:
       '@types/vscode': ^1.62.0
     dependencies:
-      '@types/vscode': 1.62.0
+      '@types/vscode': 1.63.0
       code-block-writer: 11.0.0
       commander: 8.3.0
       cosmiconfig: 7.0.1
@@ -3978,17 +3978,17 @@ packages:
     resolution: {integrity: sha512-DRibZL6DsNhIgYQ+wNdWDL2SL3bKPlVrRiBqV5yuMm++op8W4kGFtaQfCs4KEJn0wBZcHVHJ3eoywX8983k1ow==}
     dev: false
 
-  /vscode-extra/0.0.4_@types+vscode@1.62.0:
+  /vscode-extra/0.0.4_@types+vscode@1.63.0:
     resolution: {integrity: sha512-dI435DBqb9VSGX0HpapJN5jSg3hXXU9y6hlmXIJAiI3sF2YpEZjC+aZncn1NkkuUmbT0IY19cQOjQiez8mmJ7A==}
     engines: {node: '"^12.20.0 || ^14.13.1 || >=16.0.0"'}
     peerDependencies:
       '@types/vscode': ^1.60.0
     dependencies:
-      '@types/vscode': 1.62.0
+      '@types/vscode': 1.63.0
       lodash: 4.17.21
     dev: false
 
-  /vscode-framework/0.0.18_5ed195bf56d3beb6cc8c3dd9d5778b84:
+  /vscode-framework/0.0.18_3ecc8e3f9208ac42f88605fb9d9ba8f1:
     resolution: {integrity: sha512-9Vp/KVboUFtEGc7vKNXQb5YK1B27JBeZ67U+Yi5aH9ZvtM9fERydbL+n2p+GS2oGf9x3pyT2bEfF3j/sXojHig==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
@@ -3997,7 +3997,7 @@ packages:
       '@types/vscode': ^1.58.1
     dependencies:
       '@prisma/debug': 3.6.0
-      '@types/vscode': 1.62.0
+      '@types/vscode': 1.63.0
       '@vscode/test-web': 0.0.15
       change-case: 4.1.2
       chokidar: 3.5.2
@@ -4021,9 +4021,9 @@ packages:
       pkg-dir: 5.0.0
       pretty-format: 27.4.2
       typed-jsonfile: 0.2.0
-      typed-vscode: 0.0.5_5ed195bf56d3beb6cc8c3dd9d5778b84
+      typed-vscode: 0.0.5_3ecc8e3f9208ac42f88605fb9d9ba8f1
       typescript-json-schema: 0.51.0
-      vscode-extra: 0.0.4_@types+vscode@1.62.0
+      vscode-extra: 0.0.4_@types+vscode@1.63.0
       vscode-manifest: 0.0.8
       ws: 8.3.0
     transitivePeerDependencies:
