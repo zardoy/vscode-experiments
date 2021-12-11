@@ -8,7 +8,7 @@ export const registerCopyVariableName = () => {
         // also would make sense to support mutliple selections/cursors
         let varName: string | undefined
         const lineText = activeEditor.document.lineAt(activeEditor.selection.end).text
-        const constName = /\s*const (.+?)(:.+)? =/.exec(lineText)?.[1]
+        const constName = /\s*(const|let) (.+?)(:.+)? =/.exec(lineText)?.[1]
         varName = constName
         if (!varName) {
             const match = /\s*(?:(?:['"](.+)['"])|(.+)):/.exec(lineText)

@@ -1,5 +1,4 @@
-import vscode, { SnippetString } from 'vscode'
-import { oneOf } from '@zardoy/utils'
+import vscode from 'vscode'
 import { extensionCtx, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop } from 'vscode-framework'
 import { preserveCamelCase } from './features/preserveCamelCase'
 import { registerAlwaysTab } from './features/specialTab'
@@ -12,11 +11,11 @@ import { registerRemoveUnusedImports } from './features/removeUnusedImports'
 import { registerPickProblemsBySource } from './features/problemsBySource'
 import { registerAutoAlignImport } from './features/alignImport'
 import { registerStatusBarProblems } from './features/statusbarProblems'
-import { registerOnTypeFormatter } from './features/onTypeFormatter'
 import { registerNextLetterSwapCase } from './features/nextLetterSwapCase'
 import { registerFixCss } from './features/fixCss'
 import { registerInsertAutoCompletions } from './features/insertAutoCompletions'
 import { registerCopyVariableName } from './features/copyVariableName'
+import { registerSignatureCompletions } from './features/signatureCompletions'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -36,6 +35,7 @@ export const activate = () => {
     registerFixCss()
     registerInsertAutoCompletions()
     registerCopyVariableName()
+    registerSignatureCompletions()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -91,5 +91,22 @@ export const activate = () => {
                 range: new vscode.Range(pos, pos.translate(0, 1)),
             },
         ])
+    })
+
+    registerNoop('React-aware rename', async () => {
+        const editor = vscode.window.activeTextEditor
+        if (editor === undefined) return
+        const { document } = editor
+        const pos = editor.selection.end
+        const definitions: vscode.LocationLink[] = await vscode.commands.executeCommand('vscode.executeDefinitionProvider', document.uri, pos)
+        const definition = definitions[0]
+        if (!definition || definition.targetUri !== document.uri) return
+        const { targetRange } = definition
+        console.log(targetRange.start.line === targetRange.end.line)
+        const isUseStatePattern = /\s*const \[(.+), set\1] = /i.exec(document.lineAt(targetRange.end).text)
+        if (!isUseStatePattern) return
+        const wordRange = document.getWordRangeAtPosition(pos)
+        if (!wordRange) return
+        const wordAtCursor = document.getText(wordRange)
     })
 }

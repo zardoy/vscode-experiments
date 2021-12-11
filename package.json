@@ -56,6 +56,10 @@
                 "title": "Insert Auto Completions"
             },
             {
+                "command": "insertCompletions",
+                "title": "Insert Completions"
+            },
+            {
                 "command": "copyLineVariableName",
                 "title": "Copy Line Variable Name"
             }
@@ -94,6 +98,10 @@
                         "default": true
                     },
                     "features.onTypeTsFormatter": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "features.signatureCompletions": {
                         "type": "boolean",
                         "default": true
                     }
