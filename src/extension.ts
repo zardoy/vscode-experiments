@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { extensionCtx, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop } from 'vscode-framework'
+import { extensionCtx, registerExtensionCommand, registerNoop } from 'vscode-framework'
 import { preserveCamelCase } from './features/preserveCamelCase'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
@@ -16,10 +16,11 @@ import { registerFixCss } from './features/fixCss'
 import { registerInsertAutoCompletions } from './features/insertAutoCompletions'
 import { registerCopyVariableName } from './features/copyVariableName'
 import { registerSignatureCompletions } from './features/signatureCompletions'
+import { registerReactAwareRename } from './features/reactAwareRename'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
-    preserveCamelCase()
+    // preserveCamelCase()
     registerTsCodeactions()
     registerRegexCodeActions()
     registerAlwaysTab()
@@ -36,6 +37,7 @@ export const activate = () => {
     registerInsertAutoCompletions()
     registerCopyVariableName()
     registerSignatureCompletions()
+    registerReactAwareRename()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -91,22 +93,5 @@ export const activate = () => {
                 range: new vscode.Range(pos, pos.translate(0, 1)),
             },
         ])
-    })
-
-    registerNoop('React-aware rename', async () => {
-        const editor = vscode.window.activeTextEditor
-        if (editor === undefined) return
-        const { document } = editor
-        const pos = editor.selection.end
-        const definitions: vscode.LocationLink[] = await vscode.commands.executeCommand('vscode.executeDefinitionProvider', document.uri, pos)
-        const definition = definitions[0]
-        if (!definition || definition.targetUri !== document.uri) return
-        const { targetRange } = definition
-        console.log(targetRange.start.line === targetRange.end.line)
-        const isUseStatePattern = /\s*const \[(.+), set\1] = /i.exec(document.lineAt(targetRange.end).text)
-        if (!isUseStatePattern) return
-        const wordRange = document.getWordRangeAtPosition(pos)
-        if (!wordRange) return
-        const wordAtCursor = document.getText(wordRange)
     })
 }

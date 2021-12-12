@@ -62,6 +62,10 @@
             {
                 "command": "copyLineVariableName",
                 "title": "Copy Line Variable Name"
+            },
+            {
+                "command": "reactAwareRename",
+                "title": "React Aware Rename"
             }
         ],
         "configuration": [

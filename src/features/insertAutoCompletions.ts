@@ -30,14 +30,13 @@ export const registerInsertAutoCompletions = () => {
                 activePos,
             )
             const completionsWithLabel = completions.items
-                .map(({ label, kind }) => ({ label: typeof label === 'string' ? label : label.label, kind }))
+                .map(({ label, kind, insertText }) => ({ label: typeof label === 'string' ? label : label.label, kind, insertText }))
                 .filter(({ kind }) => oneOf(kind, vscode.CompletionItemKind.Field, vscode.CompletionItemKind.Method))
             const kinds: vscode.CompletionItemKind[] = []
             if (oneOf(kind, 'all', 'prop')) kinds.push(vscode.CompletionItemKind.Property, vscode.CompletionItemKind.Field)
             if (oneOf(kind, 'all', 'method')) kinds.push(vscode.CompletionItemKind.Method)
             let regexFilter: string | RegExp | undefined
             const optInclude: boolean[] = []
-            if (includeOptional) optInclude.push(true)
             if (showQuickPickToUser) {
                 const selectedTypesRaw = await vscode.window.showQuickPick(
                     [
@@ -122,6 +121,9 @@ export const registerInsertAutoCompletions = () => {
                     if (!selectedSnippetType) return
                     snippetType = selectedSnippetType as any
                 }
+            } else {
+                optInclude.push(true)
+                if (includeOptional) optInclude.push(false)
             }
 
             const completionsFiltered = completionsWithLabel
@@ -136,9 +138,9 @@ export const registerInsertAutoCompletions = () => {
             const snippet = new vscode.SnippetString()
             const num = snippetType === 'all' ? 1 : undefined
             const insertNewLine = activeEditor.document.lineAt(activePos).isEmptyOrWhitespace
-            for (let [i, { label: completionLabel, kind }] of completionsFiltered.entries()) {
-                completionLabel = completionLabel.replace(/\?$/, '')
-                snippet.appendText(destruct || kind === vscode.CompletionItemKind.Method ? completionLabel : `${completionLabel}: `)
+            for (const [i, { label: completionLabel, kind, insertText }] of completionsFiltered.entries()) {
+                const textToInsert = insertText?.toString() ?? completionLabel
+                snippet.appendText(destruct || kind === vscode.CompletionItemKind.Method ? textToInsert : `${textToInsert}: `)
                 if (!destruct) snippet.appendTabstop(num)
                 snippet.appendText(',')
                 if (i !== completionsFiltered.length - 1) snippet.appendText(insertNewLine ? '\n' : ' ')
