@@ -1,6 +1,5 @@
 import vscode from 'vscode'
-import { extensionCtx, registerExtensionCommand, registerNoop } from 'vscode-framework'
-import { preserveCamelCase } from './features/preserveCamelCase'
+import { extensionCtx, getExtensionSetting, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
@@ -13,7 +12,7 @@ import { registerAutoAlignImport } from './features/alignImport'
 import { registerStatusBarProblems } from './features/statusbarProblems'
 import { registerNextLetterSwapCase } from './features/nextLetterSwapCase'
 import { registerFixCss } from './features/fixCss'
-import { registerInsertAutoCompletions } from './features/insertAutoCompletions'
+import { registerInsertCompletions } from './features/insertCompletions'
 import { registerCopyVariableName } from './features/copyVariableName'
 import { registerSignatureCompletions } from './features/signatureCompletions'
 import { registerReactAwareRename } from './features/reactAwareRename'
@@ -34,7 +33,7 @@ export const activate = () => {
     // registerOnTypeFormatter()
     registerNextLetterSwapCase()
     registerFixCss()
-    registerInsertAutoCompletions()
+    registerInsertCompletions()
     registerCopyVariableName()
     registerSignatureCompletions()
     registerReactAwareRename()
@@ -94,4 +93,6 @@ export const activate = () => {
             },
         ])
     })
+
+    if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
 }

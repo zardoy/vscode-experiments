@@ -71,6 +71,10 @@
         "configuration": [
             {
                 "properties": {
+                    "enableDebug": {
+                        "type": "boolean",
+                        "default": false
+                    },
                     "features.preserveCamelCase": {
                         "type": "boolean",
                         "default": true
@@ -106,6 +110,10 @@
                         "default": true
                     },
                     "features.signatureCompletions": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "features.triggerParameterHintsOnSignatureCompletions": {
                         "type": "boolean",
                         "default": true
                     }

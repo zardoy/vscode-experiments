@@ -4,6 +4,7 @@ import { jsLangs } from '../codeActions'
 
 export const registerSignatureCompletions = () => {
     if (!getExtensionSetting('features.signatureCompletions')) return
+    const triggerParameterHintsOnSignatureCompletions = getExtensionSetting('features.triggerParameterHintsOnSignatureCompletions')
     vscode.languages.registerCompletionItemProvider(jsLangs, {
         async provideCompletionItems(document, position, token, { triggerKind }) {
             if (triggerKind !== vscode.CompletionTriggerKind.Invoke) return
@@ -16,6 +17,7 @@ export const registerSignatureCompletions = () => {
             const signature = result.signatures[result.activeSignature]!
             // const argsString = /\((.+)\)/.exec(signature.label)?.[1]
             // TS-aware only
+            if (triggerParameterHintsOnSignatureCompletions) void vscode.commands.executeCommand('editor.action.triggerParameterHints')
             const args = signature.parameters
                 .map(({ label }) => (typeof label === 'string' ? label : signature.label.slice(...label)))
                 .map(str =>
