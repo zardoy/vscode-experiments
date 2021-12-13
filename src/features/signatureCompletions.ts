@@ -18,13 +18,12 @@ export const registerSignatureCompletions = () => {
             // TS-aware only
             const args = signature.parameters
                 .map(({ label }) => (typeof label === 'string' ? label : signature.label.slice(...label)))
-                .map(str => {
-                    console.log(str)
-                    return str
+                .map(str =>
+                    str
                         .replace(/(.+?):.+/, '$1')
                         .replace(/\?$/, '')
-                        .trim()
-                })
+                        .trim(),
+                )
             const completions = [] as vscode.CompletionItem[]
             let prevSuggestionText = ''
             for (const arg of args.slice(result.activeParameter)) {
