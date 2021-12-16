@@ -1,4 +1,6 @@
 {
     "extends": "zardoy",
-    "rules": {}
+    "rules": {
+        "unicorn/import-style": "off"
+    }
 }

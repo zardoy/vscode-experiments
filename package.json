@@ -66,6 +66,10 @@
             {
                 "command": "reactAwareRename",
                 "title": "React Aware Rename"
+            },
+            {
+                "command": "goToMatchingTagOrPair",
+                "title": "Go to Matching Tag or Pair"
             }
         ],
         "configuration": [
