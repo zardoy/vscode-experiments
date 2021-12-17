@@ -1,4 +1,5 @@
-import vscode from 'vscode'
+import * as vscode from 'vscode'
+import { range } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
 import { jsLangs } from '../codeActions'
 
@@ -18,22 +19,25 @@ export const registerSignatureCompletions = () => {
             // const argsString = /\((.+)\)/.exec(signature.label)?.[1]
             // TS-aware only
             if (triggerParameterHintsOnSignatureCompletions) void vscode.commands.executeCommand('editor.action.triggerParameterHints')
-            const args = signature.parameters
-                .map(({ label }) => (typeof label === 'string' ? label : signature.label.slice(...label)))
-                .map(str =>
-                    str
-                        .replace(/(.+?):.+/, '$1')
-                        .replace(/\?$/, '')
-                        .trim(),
-                )
+            const args = signature.parameters.map(({ label }) => (typeof label === 'string' ? label : signature.label.slice(...label)))
             const completions = [] as vscode.CompletionItem[]
-            let prevSuggestionText = ''
-            for (const arg of args.slice(result.activeParameter)) {
-                const label = `${prevSuggestionText}${arg}`
-                const completion = new vscode.CompletionItem({ label, description: 'SIGNATURE' }, vscode.CompletionItemKind.Field)
+
+            const start = result.activeParameter
+            for (const i of range(start, args.length)) {
+                const currentArgs = args.slice(start, i + 1)
+                const argNamesToInsert = currentArgs.map(label => argLabelToName(label))
+                const completion = new vscode.CompletionItem({ label: argNamesToInsert.join(', '), description: 'SIGNATURE' }, vscode.CompletionItemKind.Field)
+                const md = new vscode.MarkdownString()
+                md.appendCodeblock(currentArgs.join('\n'), 'ts')
+                completion.documentation = md
                 completion.sortText = '!100'
-                prevSuggestionText = `${label}, `
-                completion.insertText = prevSuggestionText
+                const snippet = new vscode.SnippetString()
+                for (const [i, argName] of argNamesToInsert.entries()) {
+                    snippet.appendPlaceholder(argName)
+                    if (i !== argNamesToInsert.length - 1) snippet.appendText(', ')
+                }
+
+                completion.insertText = snippet
                 completions.push(completion)
             }
 
@@ -41,3 +45,9 @@ export const registerSignatureCompletions = () => {
         },
     })
 }
+
+const argLabelToName = (label: string) =>
+    label
+        .replace(/(.+?):(.+)/, '$1')
+        .replace(/\?$/, '')
+        .trim()
