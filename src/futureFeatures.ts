@@ -1,5 +1,5 @@
 import { posix } from 'path'
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { registerExtensionCommand, registerNoop } from 'vscode-framework'
 
 const unusedCommands = () => {

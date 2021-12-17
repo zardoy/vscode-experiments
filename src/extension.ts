@@ -1,4 +1,4 @@
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { extensionCtx, getExtensionSetting, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'

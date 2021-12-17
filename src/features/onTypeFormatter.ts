@@ -1,5 +1,5 @@
 import {} from '@zardoy/utils'
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { equals, pluck } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
 import { oneOf } from 'vscode-framework/build/util'

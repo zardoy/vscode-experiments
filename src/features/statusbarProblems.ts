@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { groupBy, pluck, sortBy } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
 export const registerStatusBarProblems = () => {

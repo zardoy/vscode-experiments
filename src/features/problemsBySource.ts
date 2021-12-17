@@ -1,4 +1,4 @@
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { registerExtensionCommand, registerNoop, showQuickPick } from 'vscode-framework'
 export const registerPickProblemsBySource = () => {
     registerExtensionCommand('problemsBySource', async () => {

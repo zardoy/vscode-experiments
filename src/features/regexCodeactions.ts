@@ -1,4 +1,4 @@
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { getExtensionCommandId } from 'vscode-framework'
 import { jsLangs } from '../codeActions'
 

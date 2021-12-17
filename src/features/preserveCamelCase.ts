@@ -1,4 +1,4 @@
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { getExtensionSetting } from 'vscode-framework'
 
 export const preserveCamelCase = () => {

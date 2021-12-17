@@ -1,4 +1,4 @@
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { oneOf } from '@zardoy/utils'
 import { getExtensionCommandId, registerExtensionCommand, showQuickPick } from 'vscode-framework'
 

@@ -1,4 +1,4 @@
-import vscode from 'vscode'
+import * as vscode from 'vscode'
 import { getExtensionSetting } from 'vscode-framework'
 
 export const registerAddVscodeImport = () => {
@@ -22,7 +22,7 @@ export const registerAddVscodeImport = () => {
             importFix.edit = new vscode.WorkspaceEdit()
             importFix.isPreferred = true
             importFix.diagnostics = [problem]
-            importFix.edit.insert(document.uri, new vscode.Position(0, 0), "import vscode from 'vscode'\n")
+            importFix.edit.insert(document.uri, new vscode.Position(0, 0), "import * as vscode from 'vscode'\n")
 
             return [importFix]
         },
