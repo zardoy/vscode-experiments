@@ -70,6 +70,10 @@
             {
                 "command": "goToMatchingTagOrPair",
                 "title": "Go to Matching Tag or Pair"
+            },
+            {
+                "command": "applyCodeaction",
+                "title": "Apply Codeaction"
             }
         ],
         "configuration": [
@@ -123,7 +127,15 @@
                     }
                 }
             }
-        ]
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "applyCodeaction",
+                    "when": "false"
+                }
+            ]
+        }
     },
     "scripts": {
         "start": "vscode-framework start"

@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { getExtensionSetting } from 'vscode-framework'
+import { notFoundModule } from '../codeActions'
 
 export const registerAddVscodeImport = () => {
     if (!getExtensionSetting('features.missingVscodeImportCodeAction')) return
@@ -9,14 +10,8 @@ export const registerAddVscodeImport = () => {
             const problem = diagnostics[0]
             if (!problem) return
 
-            if (problem.code !== 2304) return
-            const module = /'(.+)'\.$/.exec(problem.message)?.[1]
-            if (!module) {
-                console.warn("Can't extract name", problem)
-                return
-            }
-
-            if (module !== 'vscode') return
+            const module = notFoundModule(problem)
+            if (!module || module !== 'vscode') return
 
             const importFix = new vscode.CodeAction('Add vscode import', vscode.CodeActionKind.QuickFix)
             importFix.edit = new vscode.WorkspaceEdit()
