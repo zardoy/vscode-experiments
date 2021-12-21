@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { registerActiveDevelopmentCommand, registerExtensionCommand } from 'vscode-framework'
+import { registerExtensionCommand } from 'vscode-framework'
 import { notSingleSursor } from '../codeActions'
 
 // TODO alt+cmd+backspace rm casePart
