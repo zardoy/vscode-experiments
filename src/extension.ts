@@ -17,6 +17,7 @@ import { registerCopyVariableName } from './features/copyVariableName'
 import { registerSignatureCompletions } from './features/signatureCompletions'
 import { registerReactAwareRename } from './features/reactAwareRename'
 import { registerGoToMatchingTagOrPair } from './features/goToMatchingTagOrPair'
+import { registerInsertTag } from './features/insertTag'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -39,6 +40,7 @@ export const activate = () => {
     registerSignatureCompletions()
     registerReactAwareRename()
     registerGoToMatchingTagOrPair()
+    registerInsertTag()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
