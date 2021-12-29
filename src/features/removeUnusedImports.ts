@@ -19,7 +19,11 @@ export const registerRemoveUnusedImports = () => {
                     range.isEqual(new vscode.Range(line.range.start.with(undefined, line.firstNonWhitespaceCharacterIndex), line.range.end.translate(0, -1)))
                 if (!isUnusedImport) continue
                 const rangeWithComma = range.with({ end: range.end.translate(0, 1) })
-                builder.delete(document.getText(rangeWithComma).endsWith(',') ? rangeWithComma : range)
+                if (document.getText(range).startsWith('import'))
+                    // don't keep empty line
+                    builder.delete(range.with({ end: range.end.with(range.end.line + 1, 0) }))
+                else builder.delete(document.getText(rangeWithComma).endsWith(',') ? rangeWithComma : range)
+
                 // const codeFixes = (await vscode.commands.executeCommand('vscode.executeCodeActionProvider', document.uri, decl.range)) as any
                 // const delAllUnusedImportsFix = codeFixes.find(({ title }) => title === 'Delete all unused imports')
                 // const cmd = delAllUnusedImportsFix.command
