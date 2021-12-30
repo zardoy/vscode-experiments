@@ -1,8 +1,10 @@
 import * as vscode from 'vscode'
 import { equals } from 'rambda'
 import { oneOf } from '@zardoy/utils'
+import { getExtensionSetting } from 'vscode-framework'
 
 export const registerAutoCloseTag = () => {
+    if (!getExtensionSetting('features.jsxAutoCloseTag')) return
     const lastTwoChanges = [] as string[]
     vscode.workspace.onDidChangeTextDocument(async ({ contentChanges, document, reason }) => {
         const editor = vscode.window.activeTextEditor
@@ -31,7 +33,7 @@ export const registerAutoCloseTag = () => {
             const insertText = firstCompletion.insertText as string
             console.log(insertText)
             await editor.edit(builder => {
-                builder.insert(activePos, insertText)
+                builder.insert(activePos.translate(0, 1), insertText)
             })
             // const workspaceEdit = new vscode.WorkspaceEdit()
             // workspaceEdit.insert(document.uri, activePos, insertText)
