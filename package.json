@@ -129,7 +129,7 @@
                         "type": "boolean",
                         "default": true
                     },
-                    "FEATURES.JSXAUTOCLOSETAG": {
+                    "features.jsxAutoCloseTag": {
                         "type": "boolean",
                         "default": true
                     }
