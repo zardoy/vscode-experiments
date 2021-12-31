@@ -32,9 +32,20 @@ export const registerAutoCloseTag = () => {
             if (firstLabel.startsWith('<') || !firstLabel.endsWith('>')) return
             const insertText = firstCompletion.insertText as string
             console.log(insertText)
-            await editor.edit(builder => {
-                builder.insert(activePos.translate(0, 1), insertText)
-            })
+            await editor.edit(
+                builder => {
+                    builder.delete(new vscode.Range(activePos.translate(0, -1), activePos.translate(0, 1)))
+                },
+                {
+                    undoStopAfter: false,
+                    undoStopBefore: false,
+                },
+            )
+            const snippet = new vscode.SnippetString()
+            snippet.appendTabstop(2)
+            snippet.appendText(`</${insertText}`)
+            snippet.appendTabstop(1)
+            await editor.insertSnippet(snippet, activePos.translate(0, 1))
             // const workspaceEdit = new vscode.WorkspaceEdit()
             // workspaceEdit.insert(document.uri, activePos, insertText)
             // await vscode.workspace.applyEdit(workspaceEdit)
