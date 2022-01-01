@@ -78,6 +78,10 @@
             {
                 "command": "insertTag",
                 "title": "Insert Tag"
+            },
+            {
+                "command": "fixedTerminalMaximize",
+                "title": "Fixed Terminal Maximize"
             }
         ],
         "configuration": [

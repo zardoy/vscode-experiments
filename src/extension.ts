@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
-import { extensionCtx, getExtensionSetting, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
+import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
+import { range } from 'rambda'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
@@ -75,6 +76,15 @@ export const activate = () => {
         activeEditor.selections = [new vscode.Selection(nextRange.start, nextRange.end)]
         activeEditor.revealRange(activeEditor.selection)
         await vscode.commands.executeCommand('editor.action.marker.next')
+    })
+
+    registerExtensionCommand('fixedTerminalMaximize', async () => {
+        await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')
+        await new Promise(resolve => {
+            setTimeout(resolve, 50)
+        })
+        await vscode.commands.executeCommand('workbench.action.terminal.scrollUpPage')
+        for (const i of range(0, 3)) await vscode.commands.executeCommand('workbench.action.terminal.scrollDown')
     })
 
     registerNoop('Better Rename', () => {
