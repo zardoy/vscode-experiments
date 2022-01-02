@@ -5,6 +5,7 @@
     "preview": true,
     "version": "0.0.0-dev",
     "publisher": "zardoy",
+    "web": true,
     "private": true,
     "license": "MIT",
     "activationEvents": [
@@ -150,7 +151,13 @@
         }
     },
     "scripts": {
-        "start": "vscode-framework start"
+        "start": "vscode-framework start",
+        "build": "vscode-framework build"
+    },
+    "pnpm": {
+        "overrides": {
+            "esbuild": "^0.14.10"
+        }
     },
     "dependencies": {
         "@zardoy/utils": "^0.0.4",
