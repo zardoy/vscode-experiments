@@ -7,6 +7,14 @@ export const registerAddImport = () => {
         // TODO this command will be removed from here in favor of TS plugin
         const editor = vscode.window.activeTextEditor
         if (editor === undefined) return
+        let insertLine = 0
+        for (const [index, line] of editor.document.getText().split('\n').entries()) {
+            if (/^(#|\/\/|\/\*)/.test(line)) continue
+            insertLine = index
+            break
+        }
+
+        console.log(insertLine)
         // const nextImportIndex = /^(?!import)/m.exec(editor.document.getText())?.index ?? 0
         // let nextImportLine = 1
         // let lineIndex = 0
@@ -18,11 +26,14 @@ export const registerAddImport = () => {
         // }
 
         const currentPos = editor.selection.start
-        await editor.insertSnippet(new vscode.SnippetString("import { $2 } from '$1'\n"), new vscode.Position(0, 0))
-        const { dispose } = vscode.window.onDidChangeTextEditorSelection(({ selections }) => {
+        void editor.insertSnippet(new vscode.SnippetString("import { $2 } from '$1'\n"), new vscode.Position(insertLine, 0))
+        const { dispose } = vscode.window.onDidChangeTextEditorSelection(({ selections, textEditor }) => {
+            if (textEditor.document.uri !== editor.document.uri) return
             const pos = selections[0]!.start
-            if (pos.line > 1) dispose()
-            if (!pos.isEqual(new vscode.Position(1, 0))) return
+            if (pos.line !== insertLine) dispose()
+            const pos2 = new vscode.Position(insertLine, textEditor.document.lineAt(insertLine).text.length)
+            console.log(pos, pos2)
+            if (!pos.isEqual(new vscode.Position(insertLine + 1, 0)) && !pos.isEqual(pos2)) return
 
             // looses selections and mutl-selections
             editor.selection = new vscode.Selection(currentPos.translate(1), currentPos.translate(1))

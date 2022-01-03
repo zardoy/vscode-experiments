@@ -12,4 +12,11 @@ export const registerFixedPaste = () => {
         await vscode.commands.executeCommand('editor.action.reindentselectedlines')
         activeEditor.selection = new vscode.Selection(newPos, newPos)
     })
+    registerExtensionCommand('jsonAwarePaste', async () => {
+        const activeEditor = vscode.window.activeTextEditor
+        if (!activeEditor || activeEditor.viewColumn === undefined) return
+        const clipboardText = await vscode.env.clipboard.readText()
+        const fixedText = clipboardText.split('"').join('\\"')
+        await activeEditor.edit(builder => builder.replace(activeEditor.selection, fixedText))
+    })
 }

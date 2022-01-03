@@ -95,6 +95,10 @@
             {
                 "command": "fixedPaste",
                 "title": "Fixed Paste"
+            },
+            {
+                "command": "jsonAwarePaste",
+                "title": "Json Aware Paste"
             }
         ],
         "configuration": [
