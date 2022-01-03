@@ -29,8 +29,8 @@
                 "title": "Add Import"
             },
             {
-                "command": "goToNextErrorInFile",
-                "title": "Go to Error in File"
+                "command": "goToNextProblemInFile",
+                "title": "Go to Next Problem in File"
             },
             {
                 "command": "fixedSurroundIf",
@@ -83,6 +83,18 @@
             {
                 "command": "fixedTerminalMaximize",
                 "title": "Fixed Terminal Maximize"
+            },
+            {
+                "command": "openFileInWebstorm",
+                "title": "Open File in WebStorm"
+            },
+            {
+                "command": "copyFileName",
+                "title": "Copy File Name"
+            },
+            {
+                "command": "fixedPaste",
+                "title": "Fixed Paste"
             }
         ],
         "configuration": [
@@ -137,6 +149,15 @@
                     "features.jsxAutoCloseTag": {
                         "type": "boolean",
                         "default": true
+                    },
+                    "goToNextProblemInFile.triggerCodeAction": {
+                        "type": "string",
+                        "enum": [
+                            "disabled",
+                            "ifAppliable",
+                            "always"
+                        ],
+                        "default": "ifAppliable"
                     }
                 }
             }
@@ -161,7 +182,9 @@
     },
     "dependencies": {
         "@zardoy/utils": "^0.0.4",
+        "execa": "^6.0.0",
         "open": "^8.4.0",
+        "path-browserify": "^1.0.1",
         "rambda": "^6.9.0",
         "vscode-framework": "^0.0.18"
     },

@@ -20,6 +20,10 @@ import { registerReactAwareRename } from './features/reactAwareRename'
 import { registerGoToMatchingTagOrPair } from './features/goToMatchingTagOrPair'
 import { registerInsertTag } from './features/insertTag'
 import { registerAutoCloseTag } from './features/autoCloseTag'
+import { registerOpenInWebstorm } from './features/openInWebstorm'
+import { registerCopyFileName } from './features/copyFileName'
+import { registerGoToNextProblemInFile } from './features/goToNextProblemInFile'
+import { registerFixedPaste } from './features/fixedPaste'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -44,6 +48,10 @@ export const activate = () => {
     registerGoToMatchingTagOrPair()
     registerInsertTag()
     registerAutoCloseTag()
+    registerOpenInWebstorm()
+    registerCopyFileName()
+    registerGoToNextProblemInFile()
+    registerFixedPaste()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -58,24 +66,6 @@ export const activate = () => {
     registerExtensionCommand('openUrl', async (_, url: string) => {
         // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
         await vscode.env.openExternal(url as any)
-    })
-
-    registerExtensionCommand('goToNextErrorInFile', async (_, url: string) => {
-        const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined) return
-        const diagnostics = vscode.languages.getDiagnostics(activeEditor.document.uri)
-        const errors = diagnostics.filter(({ severity }) => severity === vscode.DiagnosticSeverity.Error)
-        let nextRange = errors[0]?.range
-        for (const { range } of errors) {
-            if (!range.start.isAfter(activeEditor.selection.end)) continue
-            nextRange = range
-            break
-        }
-
-        if (!nextRange) return
-        activeEditor.selections = [new vscode.Selection(nextRange.start, nextRange.end)]
-        activeEditor.revealRange(activeEditor.selection)
-        await vscode.commands.executeCommand('editor.action.marker.next')
     })
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {

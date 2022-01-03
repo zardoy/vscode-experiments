@@ -26,6 +26,7 @@ export const registerAddImport = () => {
 
             // looses selections and mutl-selections
             editor.selection = new vscode.Selection(currentPos.translate(1), currentPos.translate(1))
+            editor.revealRange(editor.selection)
         })
     })
 }
