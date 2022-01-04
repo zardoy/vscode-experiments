@@ -7,6 +7,8 @@ export const registerFixedPaste = () => {
         if (!activeEditor || activeEditor.viewColumn === undefined) return
         const currentPos = activeEditor.selection.start
         await vscode.commands.executeCommand('editor.action.clipboardPasteAction')
+        // no-op for now
+        if (activeEditor.selections.length > 1) return
         const newPos = activeEditor.selection.start
         activeEditor.selection = new vscode.Selection(currentPos, newPos)
         await vscode.commands.executeCommand('editor.action.reindentselectedlines')
@@ -17,6 +19,8 @@ export const registerFixedPaste = () => {
         if (!activeEditor || activeEditor.viewColumn === undefined) return
         const clipboardText = await vscode.env.clipboard.readText()
         const fixedText = clipboardText.split('"').join('\\"')
-        await activeEditor.edit(builder => builder.replace(activeEditor.selection, fixedText))
+        await activeEditor.edit(builder => {
+            for (const selection of activeEditor.selections) builder.replace(selection, fixedText)
+        })
     })
 }
