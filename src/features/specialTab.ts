@@ -29,6 +29,16 @@ export const registerAlwaysTab = () => {
             return
         }
 
+        if (pos.character === 0) {
+            if (lineText !== '' && lineText.trim() === '')
+                await activeTextEditor.edit(builder => builder.delete(new vscode.Range(pos, pos.with({ character: lineText.length }))), {
+                    undoStopAfter: false,
+                    undoStopBefore: false,
+                })
+            await vscode.commands.executeCommand('tab')
+            return
+        }
+
         let currentIndent = document.lineAt(pos).firstNonWhitespaceCharacterIndex
         if (currentIndent === 0) await vscode.commands.executeCommand('tab')
         else
