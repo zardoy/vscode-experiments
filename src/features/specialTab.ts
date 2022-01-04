@@ -28,11 +28,6 @@ export const registerAlwaysTab = () => {
             activeTextEditor.selections = [new vscode.Selection(newPos, newPos)]
             return
         }
-        // vscode.languages.registerOnTypeFormattingEditProvider('typescript', {
-        //     provideOnTypeFormattingEdits(document, position, ch, options, token) {
-
-        //     }
-        // })
 
         let currentIndent = document.lineAt(pos).firstNonWhitespaceCharacterIndex
         if (currentIndent === 0) await vscode.commands.executeCommand('tab')
@@ -44,11 +39,11 @@ export const registerAlwaysTab = () => {
                 // skip empty lines
                 if (lineText === '') continue
                 // console.log(i + 1, currentIndent, nextIndent)
-                if (nextIndent >= currentIndent) continue
+                if (i !== pos.line && nextIndent >= currentIndent) continue
                 // console.log(i + 1, 'text', lineText)
                 if (nextIndent < currentIndent) currentIndent = nextIndent
                 // TODO! matches only first fn on the line, but should I care?
-                const match = /(?:(\([^()]*)\)|(\w+))(?:: .+)? =>/.exec(lineText)
+                const match = /(\([^()]*)\)(?:: .+)? (?:=>|{)/.exec(lineText)
                 if (match) {
                     const newPos = new vscode.Position(i, match.index + (match[1]?.length ?? match[2]!.length))
                     if (activeTextEditor.selection.end.isEqual(newPos)) continue
@@ -56,9 +51,6 @@ export const registerAlwaysTab = () => {
                     activeTextEditor.revealRange(activeTextEditor.selection)
                     return
                 }
-                // if (i === pos.line) {
-
-                // }
             }
     })
 }
