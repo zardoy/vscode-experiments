@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
 export const registerOpenInWebstorm = () => {
-    registerExtensionCommand('openInWebstorm', async () => {
+    registerExtensionCommand('openFileInWebstorm', async () => {
         if (process.env.PLATFORM !== 'web') {
             const activeEditor = vscode.window.activeTextEditor
             if (!activeEditor || activeEditor.viewColumn === undefined) return
