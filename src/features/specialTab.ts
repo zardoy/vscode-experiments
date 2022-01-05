@@ -35,11 +35,12 @@ export const registerAlwaysTab = () => {
                     undoStopAfter: false,
                     undoStopBefore: false,
                 })
-            await vscode.commands.executeCommand('tab')
+            await vscode.commands.executeCommand('editor.action.reindentselectedlines')
             return
         }
 
         let currentIndent = document.lineAt(pos).firstNonWhitespaceCharacterIndex
+        // would never run
         if (currentIndent === 0) await vscode.commands.executeCommand('tab')
         else
             for (let i = pos.line; i >= 0; i--) {
