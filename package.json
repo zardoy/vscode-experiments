@@ -203,11 +203,11 @@
         "vscode-framework": "^0.0.18"
     },
     "devDependencies": {
-        "@types/node": "^16.11.11",
-        "@types/vscode": "^1.63.0",
+        "@types/node": "^16.11.19",
+        "@types/vscode": "^1.63.1",
         "@zardoy/tsconfig": "^1.2.2",
-        "eslint": "^8.4.0",
-        "eslint-config-zardoy": "^0.2.1",
-        "typescript": "^4.5.2"
+        "eslint": "^8.6.0",
+        "eslint-config-zardoy": "^0.2.7",
+        "typescript": "^4.5.4"
     }
 }
