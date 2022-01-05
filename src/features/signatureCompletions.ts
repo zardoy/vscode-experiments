@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { range } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
+import { lowerCaseFirst } from 'lower-case-first'
 import { jsLangs } from '../codeActions'
 
 export const registerSignatureCompletions = () => {
@@ -46,8 +47,18 @@ export const registerSignatureCompletions = () => {
     })
 }
 
-const argLabelToName = (label: string) =>
-    label
-        .replace(/(.+?):(.+)/, '$1')
+const argLabelToName = (label: string) => {
+    const useTypeOnValue = getExtensionSetting('signatureCompletions.useTypeOnValue')
+    console.log('Quired')
+    return label
+        .replace(/(.+?):(.+)/, (_match, arg, type) => {
+            // assumed all types starting with uppercase
+            // still fails with utility types
+            type = type.trim()
+            if (useTypeOnValue.split(', ').includes(arg) && /^[A-Z]/.test(type)) return lowerCaseFirst(type.match(/^([^<]+)<?/)![0])
+
+            return arg
+        })
         .replace(/\?$/, '')
         .trim()
+}

@@ -99,6 +99,10 @@
             {
                 "command": "jsonAwarePaste",
                 "title": "Json Aware Paste"
+            },
+            {
+                "command": "focusLastPasteRange",
+                "title": "Focus Last Paste Range"
             }
         ],
         "configuration": [
@@ -146,6 +150,10 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "signatureCompletions.useTypeOnValue": {
+                        "type": "string",
+                        "default": "value, item"
+                    },
                     "features.triggerParameterHintsOnSignatureCompletions": {
                         "type": "boolean",
                         "default": true
@@ -186,7 +194,9 @@
     },
     "dependencies": {
         "@zardoy/utils": "^0.0.4",
+        "change-case": "^4.1.2",
         "execa": "^6.0.0",
+        "lower-case-first": "^2.0.2",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",
         "rambda": "^6.9.0",
