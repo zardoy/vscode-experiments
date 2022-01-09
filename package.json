@@ -103,6 +103,10 @@
             {
                 "command": "focusLastPasteRange",
                 "title": "Focus Last Paste Range"
+            },
+            {
+                "command": "addNewLineAfterImports",
+                "title": "Add New Line After Imports"
             }
         ],
         "configuration": [

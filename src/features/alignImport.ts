@@ -1,16 +1,13 @@
 import * as vscode from 'vscode'
 import { range } from 'rambda'
+import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
+import { jsLangs } from '../codeActions'
 
-export const registerAutoAlignImport = () => {
+export const registerAutoAlignImport = async () => {
     // TODO doesn't work with line-delimited imports
     const alignImport = async () => {
         const editor = vscode.window.activeTextEditor
-        if (
-            editor === undefined ||
-            editor.viewColumn === undefined ||
-            !['typescript', 'javascript', 'typescriptreact', 'javascriptreact'].includes(editor.document.languageId)
-        )
-            return
+        if (editor === undefined || editor.viewColumn === undefined || !jsLangs.includes(editor.document.languageId)) return
 
         let metImportStatement = false
         let isInImport = false
@@ -32,7 +29,12 @@ export const registerAutoAlignImport = () => {
         }
     }
 
+    registerExtensionCommand('addNewLineAfterImports', async () => {
+        await alignImport()
+    })
+
     vscode.workspace.onWillSaveTextDocument(({ waitUntil }) => {
+        if (!getExtensionSetting('features.autoAlignImport')) return
         waitUntil(alignImport())
     })
 }
