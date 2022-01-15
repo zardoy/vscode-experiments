@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { oneOf } from '@zardoy/utils'
 import { registerExtensionCommand } from 'vscode-framework'
 
 export const registerRemoveUnusedImports = () => {
@@ -6,7 +7,7 @@ export const registerRemoveUnusedImports = () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return
         const diagnostics = vscode.languages.getDiagnostics(activeEditor.document.uri)
-        const unusedImport = diagnostics.filter(({ code }) => code === 6133)
+        const unusedImport = diagnostics.filter(({ code }) => oneOf(code, 6133, 6192))
         const { document } = activeEditor
         if (unusedImport.length === 0) return
         await activeEditor.edit(builder => {
