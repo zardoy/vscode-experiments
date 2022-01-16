@@ -4,7 +4,7 @@ import { jsLangs } from '../codeActions'
 
 export const registerRegexCodeActions = () => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const REGEX_REGEX = /\/(?!\*).+?(?<!\\)\//g
+    const REGEX_REGEX = /\/(?!\*|>).+?(?<!\\)\//g
 
     // Almost done, doesn't work properly with const d = /**  *//d/. TODO FLAGS!
     vscode.languages.registerCodeActionsProvider(jsLangs, {
