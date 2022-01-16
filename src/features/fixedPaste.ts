@@ -21,7 +21,7 @@ export const registerFixedPaste = () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return
         const clipboardText = await vscode.env.clipboard.readText()
-        const fixedText = clipboardText.split('"').join('\\"')
+        const fixedText = clipboardText.split('\\').join('\\\\').split('"').join('\\"')
         await activeEditor.edit(builder => {
             for (const selection of activeEditor.selections) builder.replace(selection, fixedText)
         })
