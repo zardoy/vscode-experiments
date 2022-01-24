@@ -11,6 +11,8 @@ export const registerFixedPaste = () => {
         await vscode.commands.executeCommand('editor.action.clipboardPasteAction')
         // no-op for now
         if (activeEditor.selections.length > 1) return
+        const clipboardText = await vscode.env.clipboard.readText()
+        if (clipboardText.trim().split('\n').length === 1) return
         const newPos = activeEditor.selection.start
         // eslint-disable-next-line no-multi-assign
         lastPasteRange = activeEditor.selection = new vscode.Selection(currentPos, newPos)
