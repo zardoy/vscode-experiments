@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode'
-import { groupBy, pluck, sortBy } from 'rambda'
+import { groupBy, sortBy } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
+
 export const registerStatusBarProblems = () => {
     const setting = getExtensionSetting('features.statusBarDiagnostic')
     if (setting === 'disabled') return
