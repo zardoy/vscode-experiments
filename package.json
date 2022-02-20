@@ -155,8 +155,37 @@
                         "default": true
                     },
                     "signatureCompletions.useTypeOnValue": {
-                        "type": "string",
-                        "default": "value, item"
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "value",
+                            "item"
+                        ]
+                    },
+                    "signatureCompletions.enableLanguages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "typescript",
+                            "javascript",
+                            "typescriptreact",
+                            "javascriptreact"
+                        ]
+                    },
+                    "signatureCompletions.replaceValue": {
+                        "description": "Define type-value to replace map",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "default": {
+                            "string": "str",
+                            "number": "num"
+                        }
                     },
                     "features.triggerParameterHintsOnSignatureCompletions": {
                         "type": "boolean",
@@ -212,6 +241,7 @@
         "@zardoy/tsconfig": "^1.2.2",
         "eslint": "^8.6.0",
         "eslint-config-zardoy": "^0.2.7",
+        "type-fest": "^2.12.0",
         "typescript": "^4.5.4"
     }
 }

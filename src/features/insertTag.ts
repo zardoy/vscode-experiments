@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { registerActiveDevelopmentCommand, registerExtensionCommand } from 'vscode-framework'
+import { registerExtensionCommand } from 'vscode-framework'
 
 export const registerInsertTag = () => {
     registerExtensionCommand('insertTag', async () => {
