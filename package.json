@@ -107,6 +107,14 @@
             {
                 "command": "addNewLineAfterImports",
                 "title": "Add New Line After Imports"
+            },
+            {
+                "command": "previewType",
+                "title": "Preview Type"
+            },
+            {
+                "command": "openRepositoryOfActiveExtension",
+                "title": "Open Repository of Active Extension"
             }
         ],
         "configuration": [
@@ -197,9 +205,11 @@
         }
     },
     "dependencies": {
+        "@types/hosted-git-info": "^3.0.2",
         "@zardoy/utils": "^0.0.4",
         "change-case": "^4.1.2",
         "execa": "^6.0.0",
+        "hosted-git-info": "^4.1.0",
         "lower-case-first": "^2.0.2",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",

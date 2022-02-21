@@ -24,6 +24,7 @@ import { registerOpenInWebstorm } from './features/openInWebstorm'
 import { registerCopyFileName } from './features/copyFileName'
 import { registerGoToNextProblemInFile } from './features/goToNextProblemInFile'
 import { registerFixedPaste } from './features/fixedPaste'
+import { registerOpenRepositoryOfActiveExtension } from './features/openRepositoryOfActiveExtension'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -52,6 +53,7 @@ export const activate = () => {
     registerCopyFileName()
     registerGoToNextProblemInFile()
     registerFixedPaste()
+    registerOpenRepositoryOfActiveExtension()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
