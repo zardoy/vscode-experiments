@@ -56,14 +56,7 @@ export const activate = () => {
     registerOpenRepositoryOfActiveExtension()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
-    //     provideSelectionRanges(document, positions, token) {
-
-    //     }
-    // })
-
     // vscode.languages.registerDocumentSemanticTokensProvider('typescript', {
-
-    // }, {})
 
     registerExtensionCommand('openUrl', async (_, url: string) => {
         // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi

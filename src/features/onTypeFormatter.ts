@@ -5,6 +5,7 @@ import { getExtensionSetting } from 'vscode-framework'
 import { oneOf } from 'vscode-framework/build/util'
 import { jsLangs } from '../codeActions'
 
+// UNUSED
 export const registerOnTypeFormatter = () => {
     if (!getExtensionSetting('features.onTypeTsFormatter')) return
     let eqTyped = false
