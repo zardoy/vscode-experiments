@@ -7,7 +7,7 @@ import { jsLangs } from '../codeActions'
 export const registerSignatureCompletions = () => {
     if (!getExtensionSetting('features.signatureCompletions')) return
     const triggerParameterHintsOnSignatureCompletions = getExtensionSetting('features.triggerParameterHintsOnSignatureCompletions')
-    vscode.languages.registerCompletionItemProvider(jsLangs, {
+    vscode.languages.registerCompletionItemProvider(getExtensionSetting('signatureCompletions.enableLanguages'), {
         async provideCompletionItems(document, position, token, { triggerKind }) {
             if (triggerKind !== vscode.CompletionTriggerKind.Invoke) return
             const surroundingText = document.getText(new vscode.Range(position.translate(0, -1), position.translate(0, 1)))

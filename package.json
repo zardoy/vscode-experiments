@@ -166,6 +166,19 @@
                         "type": "string",
                         "default": "value, item"
                     },
+                    "signatureCompletions.enableLanguages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "typescript",
+                            "javascript",
+                            "typescriptreact",
+                            "javascriptreact",
+                            "vue"
+                        ]
+                    },
                     "features.triggerParameterHintsOnSignatureCompletions": {
                         "type": "boolean",
                         "default": true
