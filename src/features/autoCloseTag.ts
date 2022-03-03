@@ -8,9 +8,10 @@ export const registerAutoCloseTag = () => {
     const lastTwoChanges = [] as string[]
     vscode.workspace.onDidChangeTextDocument(async ({ contentChanges, document, reason }) => {
         const editor = vscode.window.activeTextEditor
+        const { languageId } = document
         if (
             document.uri !== editor?.document.uri ||
-            !document.languageId.endsWith('react') ||
+            (!languageId.endsWith('react') && languageId !== 'vue') ||
             oneOf(reason, vscode.TextDocumentChangeReason.Undo, vscode.TextDocumentChangeReason.Redo)
         )
             return
