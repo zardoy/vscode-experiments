@@ -1,13 +1,13 @@
 import * as vscode from 'vscode'
 import { range } from 'rambda'
 import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
-import { jsLangs } from '../codeActions'
+import { defaultJsSupersetLangs } from '@zardoy/vscode-utils/build/langs'
 
 export const registerAutoAlignImport = () => {
     // TODO doesn't work with line-delimited imports
     const alignImport = async () => {
         const editor = vscode.window.activeTextEditor
-        if (editor === undefined || editor.viewColumn === undefined || !jsLangs.includes(editor.document.languageId)) return
+        if (editor === undefined || editor.viewColumn === undefined || !defaultJsSupersetLangs.includes(editor.document.languageId)) return
 
         let metImportStatement = false
         let isInImport = false

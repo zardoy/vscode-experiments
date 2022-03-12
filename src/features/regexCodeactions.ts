@@ -1,13 +1,12 @@
 import * as vscode from 'vscode'
+import { defaultJsSupersetLangs } from '@zardoy/vscode-utils/build/langs'
 import { getExtensionCommandId } from 'vscode-framework'
-import { jsLangs } from '../codeActions'
 
 export const registerRegexCodeActions = () => {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const REGEX_REGEX = /\/(?!\*|>).+?(?<!\\)\//g
 
     // Almost done, doesn't work properly with const d = /**  *//d/. TODO FLAGS!
-    vscode.languages.registerCodeActionsProvider(jsLangs, {
+    vscode.languages.registerCodeActionsProvider(defaultJsSupersetLangs, {
         async provideCodeActions(document, range, context, token) {
             if (context.triggerKind !== vscode.CodeActionTriggerKind.Invoke) return
             if (!range.start.isEqual(range.end)) return

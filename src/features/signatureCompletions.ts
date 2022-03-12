@@ -2,7 +2,6 @@ import * as vscode from 'vscode'
 import { range } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
 import { lowerCaseFirst } from 'lower-case-first'
-import { jsLangs } from '../codeActions'
 
 export const registerSignatureCompletions = () => {
     if (!getExtensionSetting('features.signatureCompletions')) return
