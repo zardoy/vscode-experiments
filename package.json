@@ -222,7 +222,7 @@
         "@zardoy/utils": "^0.0.4",
         "@zardoy/vscode-utils": "^0.0.2",
         "change-case": "^4.1.2",
-        "execa": "^6.0.0",
+        "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
         "lower-case-first": "^2.0.2",
         "open": "^8.4.0",
@@ -231,11 +231,11 @@
         "vscode-framework": "^0.0.18"
     },
     "devDependencies": {
-        "@types/node": "^16.11.19",
-        "@types/vscode": "^1.63.1",
-        "@zardoy/tsconfig": "^1.2.2",
-        "eslint": "^8.6.0",
-        "eslint-config-zardoy": "^0.2.7",
-        "typescript": "^4.5.4"
+        "@types/node": "^16.11.26",
+        "@types/vscode": "^1.65.0",
+        "@zardoy/tsconfig": "^1.4.0",
+        "eslint": "^8.11.0",
+        "eslint-config-zardoy": "^0.2.10",
+        "typescript": "^4.6.2"
     }
 }
