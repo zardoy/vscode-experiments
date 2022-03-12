@@ -11,6 +11,7 @@ export const registerCopyVariableName = () => {
         const constName = /\s*(?:const|let|type|interface) ([\w\d]+)/.exec(lineText)?.[1]
         varName = constName
         if (!varName) {
+            // TODO replaceDocumentation?: (str
             const match = /\s*(?:(?:['"](.+)['"])|(.+)):/.exec(lineText)
             varName = match?.[1] ?? match?.[2]
         }

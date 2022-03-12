@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand, showQuickPick } from 'vscode-framework'
 
-export const registerOpenRepositoryOfActiveExtension = async () => {
+export const registerOpenRepositoryOfActiveExtension = () => {
     registerExtensionCommand('openRepositoryOfActiveExtension', async () => {
         // eslint-disable-next-line no-negated-condition
         if (process.env.PLATFORM !== 'web') {

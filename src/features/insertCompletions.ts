@@ -1,6 +1,8 @@
 import * as vscode from 'vscode'
 import { oneOf } from '@zardoy/utils'
 import { getExtensionCommandId, registerExtensionCommand, showQuickPick } from 'vscode-framework'
+import { normalizeRegex } from '@zardoy/vscode-utils/build/settings'
+import { fromInsertCompletions } from './tweakTsSuggestions'
 
 export const registerInsertCompletions = () => {
     registerExtensionCommand('insertCompletions', async () => {
@@ -20,6 +22,7 @@ export const registerInsertCompletions = () => {
                 showQuickPick: showQuickPickToUser = false,
             }: { snippetType?: 'all' | 'each'; kind?: 'all' | 'method' | 'prop'; destruct?: boolean; includeOptional?: boolean; showQuickPick?: boolean } = {},
         ) => {
+            fromInsertCompletions.value = true
             const activeEditor = vscode.window.activeTextEditor
             if (!activeEditor || activeEditor.viewColumn === undefined) return
             // TODO how it make sense to run on each selection
@@ -214,13 +217,4 @@ export const registerInsertCompletions = () => {
             await activeEditor.insertSnippet(snippet)
         },
     )
-}
-
-// from GitHub Manager
-const normalizeRegex = (input: string) => {
-    const regexMatch = /^\/.+\/(.*)$/.exec(input)
-    if (!regexMatch) return input
-    const pattern = input.slice(1, -regexMatch[1]!.length - 1)
-    const flags = regexMatch[1]
-    return new RegExp(pattern, flags)
 }

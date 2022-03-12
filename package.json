@@ -195,6 +195,19 @@
                             "always"
                         ],
                         "default": "ifAppliable"
+                    },
+                    "tweakTsSuggestions.enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "tweakTsSuggestions.arrayItemTabstop": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "tweakTsSuggestions.expandMethodBeforeCurly": {
+                        "description": "Whether to expand method with function before existing curly. You can safely enable it as you can still select wether to use patched version or original one",
+                        "type": "boolean",
+                        "default": false
                     }
                 }
             }
