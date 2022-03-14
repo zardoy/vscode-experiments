@@ -26,6 +26,7 @@ import { registerGoToNextProblemInFile } from './features/goToNextProblemInFile'
 import { registerFixedPaste } from './features/fixedPaste'
 import { registerOpenRepositoryOfActiveExtension } from './features/openRepositoryOfActiveExtension'
 import { registerTweakTsSuggestions } from './features/tweakTsSuggestions'
+import { registerCopyCurrentWorkspacePath } from './features/copyCurrentWorkspacePath'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -56,6 +57,7 @@ export const activate = () => {
     registerFixedPaste()
     registerOpenRepositoryOfActiveExtension()
     registerTweakTsSuggestions()
+    registerCopyCurrentWorkspacePath()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {

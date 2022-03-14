@@ -115,6 +115,10 @@
             {
                 "command": "openRepositoryOfActiveExtension",
                 "title": "Open Repository of Active Extension"
+            },
+            {
+                "command": "copyCurrentWorkspacePath",
+                "title": "Copy Current Workspace Path"
             }
         ],
         "configuration": [
