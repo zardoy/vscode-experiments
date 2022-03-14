@@ -43,7 +43,7 @@ export const registerTweakTsSuggestions = () => {
                 // won't work with valid unicode variables & in other cases (such as indexed access, on-method property access)
                 const varNameOffset = /([^.]*$)/.exec(document.getText(new vscode.Range(position.with({ character: 0 }), position)))?.[1]?.length ?? 0
                 const variableName = document.getText(document.getWordRangeAtPosition(position.translate(0, -varNameOffset - 1)))
-                const arrayItemName = (variableName && /(.+?)(e?s)$/.exec(variableName)?.[1]) || 'item'
+                const arrayItemName = (variableName && /(.+?)((?:e?s|sList))$/.exec(variableName)?.[1]) || 'item'
                 const arrayItemSnippet = arrayItemTabstop ? `\${1:${arrayItemName}}` : arrayItemName
                 const beforeExistingMethod = expandMethodBeforeCurly
                     ? false
