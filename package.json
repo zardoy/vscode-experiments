@@ -119,6 +119,10 @@
             {
                 "command": "copyCurrentWorkspacePath",
                 "title": "Copy Current Workspace Path"
+            },
+            {
+                "command": "ensureGitUser",
+                "title": "Ensure Git User"
             }
         ],
         "configuration": [
@@ -212,6 +216,13 @@
                         "description": "Whether to expand method with function before existing curly. You can safely enable it as you can still select wether to use patched version or original one",
                         "type": "boolean",
                         "default": false
+                    },
+                    "ensureGitUser": {
+                        "type": "object",
+                        "additionalItems": {
+                            "type": "string"
+                        },
+                        "description": "Map folder glob - expected user in format: 'name <email>'"
                     }
                 }
             }
@@ -236,12 +247,16 @@
     },
     "dependencies": {
         "@types/hosted-git-info": "^3.0.2",
+        "@types/ini": "^1.3.31",
+        "@types/minimatch": "^3.0.5",
         "@zardoy/utils": "^0.0.4",
         "@zardoy/vscode-utils": "^0.0.2",
         "change-case": "^4.1.2",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
+        "ini": "^2.0.0",
         "lower-case-first": "^2.0.2",
+        "minimatch": "^5.0.1",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",
         "rambda": "^6.9.0",

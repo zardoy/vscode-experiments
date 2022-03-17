@@ -5,6 +5,8 @@ overrides:
 
 specifiers:
   '@types/hosted-git-info': ^3.0.2
+  '@types/ini': ^1.3.31
+  '@types/minimatch': ^3.0.5
   '@types/node': ^16.11.26
   '@types/vscode': ^1.65.0
   '@zardoy/tsconfig': ^1.4.0
@@ -15,7 +17,9 @@ specifiers:
   eslint-config-zardoy: ^0.2.10
   execa: ^6.1.0
   hosted-git-info: ^4.1.0
+  ini: ^2.0.0
   lower-case-first: ^2.0.2
+  minimatch: ^5.0.1
   open: ^8.4.0
   path-browserify: ^1.0.1
   rambda: ^6.9.0
@@ -24,12 +28,16 @@ specifiers:
 
 dependencies:
   '@types/hosted-git-info': 3.0.2
+  '@types/ini': 1.3.31
+  '@types/minimatch': 3.0.5
   '@zardoy/utils': 0.0.4
   '@zardoy/vscode-utils': 0.0.2_@types+vscode@1.65.0
   change-case: 4.1.2
   execa: 6.1.0
   hosted-git-info: 4.1.0
+  ini: 2.0.0
   lower-case-first: 2.0.2
+  minimatch: 5.0.1
   open: 8.4.0
   path-browserify: 1.0.1
   rambda: 6.9.0
@@ -408,6 +416,10 @@ packages:
     resolution: {integrity: sha512-RURNTeEFUwF+ifnp7kK3WLLlTmBSlRynLNS9jeAsI6RHtSrupV0l0nO6kmpaz75EUJVexy348bR452SvmH98vQ==}
     dev: false
 
+  /@types/ini/1.3.31:
+    resolution: {integrity: sha512-8ecxxaG4AlVEM1k9+BsziMw8UsX0qy3jYI1ad/71RrDZ+rdL6aZB0wLfAuflQiDhkD5o4yJ0uPK3OSUic3fG0w==}
+    dev: false
+
   /@types/json-schema/7.0.9:
     resolution: {integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==}
 
@@ -419,6 +431,10 @@ packages:
     resolution: {integrity: sha512-zQPywzif9EycCkvECjYT9dbbttT0dkk657zcLb/803ZOXHsBA963jzEPF/Jnh1zOdBbgFJvUE8kcvZverAoK1w==}
     dependencies:
       '@types/node': 16.11.26
+    dev: false
+
+  /@types/minimatch/3.0.5:
+    resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
     dev: false
 
   /@types/ms/0.7.31:
@@ -776,6 +792,12 @@ packages:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
+
+  /brace-expansion/2.0.1:
+    resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
+    dependencies:
+      balanced-match: 1.0.2
+    dev: false
 
   /braces/3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
@@ -2403,6 +2425,11 @@ packages:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
     dev: false
 
+  /ini/2.0.0:
+    resolution: {integrity: sha512-7PnF4oN3CvZF23ADhA5wRaYEQpJ8qygSkbtTXWBeXWXmEVRXK+1ITciHWwHhsjv1TmW0MgacIv6hEi5pX5NQdA==}
+    engines: {node: '>=10'}
+    dev: false
+
   /internal-slot/1.0.3:
     resolution: {integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==}
     engines: {node: '>= 0.4'}
@@ -2917,6 +2944,13 @@ packages:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
       brace-expansion: 1.1.11
+
+  /minimatch/5.0.1:
+    resolution: {integrity: sha512-nLDxIFRyhDblz3qMuq+SoRZED4+miJ/G+tdDrjkkkRnjAsBexeGpgjLEQ0blJy7rHhR2b93rhQY4SvyWu9v03g==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: false
 
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
