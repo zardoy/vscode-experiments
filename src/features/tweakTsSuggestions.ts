@@ -60,6 +60,7 @@ export const registerTweakTsSuggestions = () => {
                     const arrayMethod = (sortText?: number) => (item: CompatibleCompletionItem) => {
                         const arrayItemSnippetLocal = arrayItemTabstop ? `(${arrayItemSnippet})` : arrayItemSnippet
                         item.additionalSnippetInsert = `(${arrayItemSnippetLocal} => $2)`
+                        item.command = undefined
                         if (sortText !== undefined) item.sortText = sortText.toString()
                         return item
                     }
@@ -145,7 +146,13 @@ const tweakCompletionItem = (
             itemToReplace.sortText = Number.isFinite(+itemToReplace.sortText!) ? (+itemToReplace.sortText! - 1).toString() : `${label.slice(0, -1)}1`
 
         if (itemToReplace.additionalSnippetInsert)
-            itemToReplace.insertText = new vscode.SnippetString(`${getItemLabel(itemToReplace.label)}${itemToReplace.additionalSnippetInsert}`)
+            itemToReplace.insertText = new vscode.SnippetString(
+                `${
+                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                    (typeof itemToReplace.insertText === 'string' ? itemToReplace.insertText : itemToReplace.insertText?.value) ||
+                    getItemLabel(itemToReplace.label)
+                }${itemToReplace.additionalSnippetInsert}`,
+            )
 
         if (typeof itemToReplace.label !== 'object')
             itemToReplace.label = {
@@ -158,6 +165,9 @@ const tweakCompletionItem = (
             const newDoc = itemToReplace.replaceDocumentation(typeof documentation === 'object' ? documentation.value : documentation)
             if (newDoc) itemToReplace.documentation = typeof documentation === 'object' ? new vscode.MarkdownString(newDoc) : newDoc
         }
+
+        // remove obsolete
+        if (itemToReplace.textEdit) itemToReplace.textEdit = undefined
 
         itemLists.targetItems.push(itemToReplace)
     }
