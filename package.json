@@ -123,6 +123,10 @@
             {
                 "command": "ensureGitUser",
                 "title": "Ensure Git User"
+            },
+            {
+                "command": "insertComma",
+                "title": "Insert Comma to the End of Line"
             }
         ],
         "configuration": [
