@@ -28,6 +28,7 @@ import { registerOpenRepositoryOfActiveExtension } from './features/openReposito
 import { registerTweakTsSuggestions } from './features/tweakTsSuggestions'
 import { registerCopyCurrentWorkspacePath } from './features/copyCurrentWorkspacePath'
 import { registerEnsureGitUser } from './features/ensureGitUser'
+import { registerInsertComma } from './features/insertComma'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -60,6 +61,7 @@ export const activate = () => {
     registerTweakTsSuggestions()
     registerCopyCurrentWorkspacePath()
     registerEnsureGitUser()
+    registerInsertComma()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
