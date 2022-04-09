@@ -23,7 +23,7 @@ specifiers:
   minimatch: ^5.0.1
   open: ^8.4.0
   path-browserify: ^1.0.1
-  pluralize: ^8.0.0
+  pluralize: github:plurals/pluralize
   rambda: ^6.9.0
   typescript: ^4.6.2
   vscode-framework: ^0.0.18
@@ -43,7 +43,7 @@ dependencies:
   minimatch: 5.0.1
   open: 8.4.0
   path-browserify: 1.0.1
-  pluralize: 8.0.0
+  pluralize: github.com/plurals/pluralize/36f03cd2d573fa6d23e12e1529fa4627e2af74b4
   rambda: 6.9.0
   vscode-framework: 0.0.18_92077e0647599cc5d6dd1b8e9cda2a05
 
@@ -3385,6 +3385,7 @@ packages:
   /pluralize/8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
+    dev: true
 
   /pngjs/5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
@@ -4377,4 +4378,11 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: false
+
+  github.com/plurals/pluralize/36f03cd2d573fa6d23e12e1529fa4627e2af74b4:
+    resolution: {tarball: https://codeload.github.com/plurals/pluralize/tar.gz/36f03cd2d573fa6d23e12e1529fa4627e2af74b4}
+    name: pluralize
+    version: 8.0.0
+    engines: {node: '>=4'}
     dev: false

@@ -268,7 +268,7 @@
         "minimatch": "^5.0.1",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",
-        "pluralize": "^8.0.0",
+        "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
         "vscode-framework": "^0.0.18"
     },
