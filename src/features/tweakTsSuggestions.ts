@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import { camelCase } from 'change-case'
 import { defaultJsSupersetLangsWithVue } from '@zardoy/vscode-utils/build/langs'
 import { getExtensionSetting } from 'vscode-framework'
+import pluralize from 'pluralize'
 
 export const fromInsertCompletions = {
     value: false,
@@ -43,7 +44,9 @@ export const registerTweakTsSuggestions = () => {
                 // won't work with valid unicode variables & in other cases (such as indexed access, on-method property access)
                 const varNameOffset = /([^.]*$)/.exec(document.getText(new vscode.Range(position.with({ character: 0 }), position)))?.[1]?.length ?? 0
                 const variableName = document.getText(document.getWordRangeAtPosition(position.translate(0, -varNameOffset - 1)))
-                const arrayItemName = (variableName && /(.+?)((?:e?s|sList))$/.exec(variableName)?.[1]) || 'item'
+                const arrayItemName = /(.+?)((?:e?s|sList))$/.test(variableName)
+                    ? pluralize(variableName.endsWith('List') ? variableName.slice(0, -'list'.length) : variableName, 1)
+                    : 'item'
                 const arrayItemSnippet = arrayItemTabstop ? `\${1:${arrayItemName}}` : arrayItemName
                 const beforeExistingMethod = expandMethodBeforeCurly
                     ? false
@@ -95,6 +98,7 @@ export const registerTweakTsSuggestions = () => {
 
 const expressionParsers: Array<(expr: string) => string | void> = [
     expr => {
+        // TODO
         const match = /^getExtensionSetting\(['"](.+)['"]\)$/.exec(expr)?.[1]
         if (!match) return
         return camelCase(match)
@@ -102,7 +106,7 @@ const expressionParsers: Array<(expr: string) => string | void> = [
     expr => {
         const dotIndex = expr.indexOf('.')
         if (dotIndex !== -1) expr = expr.slice(dotIndex + 1)
-        const match = /get(.+)\(/.exec(expr)?.[1]
+        const match = /(get|read|create|retrieve|modify|update)(.+)\(/.exec(expr)?.[1]
         if (!match) return
         return match[0]!.toLowerCase() + match.slice(1)
     },
