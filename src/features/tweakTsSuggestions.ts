@@ -106,7 +106,7 @@ const expressionParsers: Array<(expr: string) => string | void> = [
     expr => {
         const dotIndex = expr.indexOf('.')
         if (dotIndex !== -1) expr = expr.slice(dotIndex + 1)
-        const match = /(get|read|create|retrieve|modify|update|use)(.+)\(/.exec(expr)?.[1]
+        const match = /(?:get|read|create|retrieve|modify|update|use)(.+)\(/.exec(expr)?.[1]
         if (!match) return
         return match[0]!.toLowerCase() + match.slice(1)
     },
