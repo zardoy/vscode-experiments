@@ -98,7 +98,6 @@ export const registerTweakTsSuggestions = () => {
 
 const expressionParsers: Array<(expr: string) => string | void> = [
     expr => {
-        // TODO
         const match = /^getExtensionSetting\(['"](.+)['"]\)$/.exec(expr)?.[1]
         if (!match) return
         return camelCase(match)
@@ -106,14 +105,14 @@ const expressionParsers: Array<(expr: string) => string | void> = [
     expr => {
         const dotIndex = expr.indexOf('.')
         if (dotIndex !== -1) expr = expr.slice(dotIndex + 1)
-        const match = /(?:get|read|create|retrieve|modify|update|use)(.+)\(/.exec(expr)?.[1]
+        const match = /(?:get|read|create|retrieve|modify|update|use)(.+?)\(/.exec(expr)?.[1]
         if (!match) return
         return match[0]!.toLowerCase() + match.slice(1)
     },
 ]
 
 const getConstName = (item: vscode.CompletionItem) => {
-    const doc = typeof item.documentation === 'object' ? item.documentation.value : item.documentation!
+    const doc = typeof item.documentation === 'object' ? item.documentation.value.split('\n')[2]! : item.documentation!
     const expression = doc.slice(doc.startsWith('let') ? 'let name = '.length : 'const name = '.length)
     for (const expressionParser of expressionParsers) {
         const parsed = expressionParser(expression)
