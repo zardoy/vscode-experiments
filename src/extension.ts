@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
+import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
@@ -30,6 +31,7 @@ import { registerCopyCurrentWorkspacePath } from './features/copyCurrentWorkspac
 import { registerEnsureGitUser } from './features/ensureGitUser'
 import { registerInsertComma } from './features/insertComma'
 import { registerSuggestDefaultImportName } from './features/suggestDefaultImportName'
+import { registerProductIconReference } from './features/productIconReference'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -64,6 +66,7 @@ export const activate = () => {
     registerEnsureGitUser()
     registerInsertComma()
     registerSuggestDefaultImportName()
+    registerProductIconReference()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -113,4 +116,8 @@ export const activate = () => {
     })
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
+
+    registerActiveDevelopmentCommand(async () => {
+        await vscode.commands.executeCommand('revealInExplorer', vscode.Uri.joinPath(getCurrentWorkspaceRoot().uri, 'src'));
+    })
 }
