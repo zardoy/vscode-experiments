@@ -12,7 +12,7 @@ specifiers:
   '@types/vscode': ^1.65.0
   '@zardoy/tsconfig': ^1.4.0
   '@zardoy/utils': ^0.0.4
-  '@zardoy/vscode-utils': ^0.0.6
+  '@zardoy/vscode-utils': ^0.0.14
   change-case: ^4.1.2
   eslint: ^8.11.0
   eslint-config-zardoy: ^0.2.10
@@ -34,7 +34,7 @@ dependencies:
   '@types/minimatch': 3.0.5
   '@types/pluralize': 0.0.29
   '@zardoy/utils': 0.0.4
-  '@zardoy/vscode-utils': link:../vscode-utils
+  '@zardoy/vscode-utils': 0.0.14_62wr6wzsquwzoon3ch76oxy76q
   change-case: 4.1.2
   execa: 6.1.0
   hosted-git-info: 4.1.0
@@ -464,10 +464,9 @@ packages:
 
   /@types/vscode/1.65.0:
     resolution: {integrity: sha512-wQhExnh2nEzpjDMSKhUvnNmz3ucpd3E+R7wJkOhBNK3No6fG3VUdmVmMOKD0A8NDZDDDiQcLNxe3oGmX5SjJ5w==}
-    dev: true
 
-  /@types/yauzl/2.9.2:
-    resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
+  /@types/yauzl/2.10.0:
+    resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
       '@types/node': 16.11.26
@@ -639,6 +638,27 @@ packages:
       lodash.compact: 3.0.1
       rambda: 6.9.0
       type-fest: 2.12.0
+    dev: false
+
+  /@zardoy/vscode-utils/0.0.14_62wr6wzsquwzoon3ch76oxy76q:
+    resolution: {integrity: sha512-bSsUm+c7UyZJ1lx9w+fpizvUumZiPqgKAAhm6NQyqrp5f/jyOE4jTQpjPNhyobjQkFT+Xn9tw4cRcdkZVQ7yUA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      '@types/vscode': ^1.65.0
+      vscode-framework: ^0.0.18
+    peerDependenciesMeta:
+      vscode-framework:
+        optional: true
+    dependencies:
+      '@types/vscode': 1.65.0
+      '@zardoy/utils': 0.0.4
+      chokidar: 3.5.3
+      execa: 5.1.1
+      rambda: 7.1.4
+      untildify: 4.0.0
+      vscode-framework: 0.0.18_sidx4bshlgomlvw5dohjzwrkau
+      vscode-manifest: 0.0.8
+      vscode-uri: 3.0.3
     dev: false
 
   /accepts/1.3.8:
@@ -1185,7 +1205,7 @@ packages:
       decompress-tarbz2: 4.1.1
       decompress-targz: 4.1.1
       decompress-unzip: 4.0.1
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       make-dir: 1.3.0
       pify: 2.3.0
       strip-dirs: 2.1.0
@@ -2025,7 +2045,7 @@ packages:
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
-      '@types/yauzl': 2.9.2
+      '@types/yauzl': 2.10.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2305,6 +2325,10 @@ packages:
       ignore: 5.2.0
       merge2: 1.4.1
       slash: 3.0.0
+
+  /graceful-fs/4.2.10:
+    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
+    dev: false
 
   /graceful-fs/4.2.9:
     resolution: {integrity: sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==}
@@ -2730,7 +2754,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
     dev: false
 
   /jsonify/0.0.0:
@@ -3463,7 +3487,7 @@ packages:
   /proper-lockfile/4.1.2:
     resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       retry: 0.12.0
       signal-exit: 3.0.7
     dev: false
@@ -3515,6 +3539,10 @@ packages:
 
   /rambda/6.9.0:
     resolution: {integrity: sha512-yosVdGg1hNGkXPzqGiOYNEpXKjEOxzUCg2rB0l+NKdyCaSf4z+i5ojbN0IqDSezMMf71YEglI+ZUTgTffn5afw==}
+    dev: false
+
+  /rambda/7.1.4:
+    resolution: {integrity: sha512-bPK8sSiVHIC7CqdWga8R+hRi5hfc4hK6S01lZW4KrLwSNryQoKaCOJA9GNiF20J7Nbe1vejRfR37/ASQXFL5EA==}
     dev: false
 
   /react-is/17.0.2:
@@ -4112,7 +4140,6 @@ packages:
     resolution: {integrity: sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /unbox-primitive/1.0.1:
     resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}
@@ -4140,6 +4167,11 @@ packages:
   /universalify/2.0.0:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
     engines: {node: '>= 10.0.0'}
+    dev: false
+
+  /untildify/4.0.0:
+    resolution: {integrity: sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==}
+    engines: {node: '>=8'}
     dev: false
 
   /upper-case-first/2.0.2:

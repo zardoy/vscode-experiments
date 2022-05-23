@@ -280,7 +280,7 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.4",
-        "@zardoy/vscode-utils": "^0.0.6",
+        "@zardoy/vscode-utils": "^0.0.14",
         "change-case": "^4.1.2",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
