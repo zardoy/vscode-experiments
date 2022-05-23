@@ -32,6 +32,9 @@ import { registerEnsureGitUser } from './features/ensureGitUser'
 import { registerInsertComma } from './features/insertComma'
 import { registerSuggestDefaultImportName } from './features/suggestDefaultImportName'
 import { registerProductIconReference } from './features/productIconReference'
+import { registerSelectLineContents } from './features/selectLineContents'
+import { registerCutLineContents } from './features/cutLineContents'
+import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -67,6 +70,9 @@ export const activate = () => {
     registerInsertComma()
     registerSuggestDefaultImportName()
     registerProductIconReference()
+    registerSelectLineContents()
+    registerCutLineContents()
+    registerCutLineContentsPreserve()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -117,7 +123,7 @@ export const activate = () => {
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
 
-    registerActiveDevelopmentCommand(async () => {
-        await vscode.commands.executeCommand('revealInExplorer', vscode.Uri.joinPath(getCurrentWorkspaceRoot().uri, 'src'));
-    })
+    // registerActiveDevelopmentCommand(async () => {
+    //     await vscode.commands.executeCommand('revealInExplorer', vscode.Uri.joinPath(getCurrentWorkspaceRoot().uri, 'src'));
+    // })
 }

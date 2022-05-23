@@ -131,6 +131,18 @@
             {
                 "command": "copyProductIconName",
                 "title": "Copy Product Icon Name"
+            },
+            {
+                "command": "selectLineContents",
+                "title": "Select Line Contents"
+            },
+            {
+                "command": "cutLineContents",
+                "title": "Cut Line Contents"
+            },
+            {
+                "command": "cutLineContentsPreserve",
+                "title": "Cut Line Contents and Preserve Line"
             }
         ],
         "configuration": [
@@ -235,6 +247,11 @@
                             "type": "string"
                         },
                         "description": "Map folder glob - expected user in format: 'name <email>'"
+                    },
+                    "dontLeaveEmptyLines": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
                     }
                 }
             }
