@@ -145,6 +145,10 @@
                 "title": "Cut Line Contents and Preserve Line"
             },
             {
+                "command": "renameVariableParts",
+                "title": "Rename Variable Parts"
+            },
+            {
                 "command": "printActiveDocumrntUri",
                 "title": "Print Active Documrnt URI"
             }
