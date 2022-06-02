@@ -35,6 +35,7 @@ import { registerProductIconReference } from './features/productIconReference'
 import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
+import typeDecorations from './features/typeDecorations'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -73,6 +74,7 @@ export const activate = () => {
     registerSelectLineContents()
     registerCutLineContents()
     registerCutLineContentsPreserve()
+    typeDecorations()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -122,6 +124,32 @@ export const activate = () => {
     })
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
+
+    registerActiveDevelopmentCommand(() => {
+        const decoration = vscode.window.createTextEditorDecorationType({
+            after: {
+                // https://code.visualstudio.com/api/references/theme-color#editor-colors
+                color: new vscode.ThemeColor('editorGhostText.foreground'),
+                contentText: 'test!',
+
+            },
+            rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+        })
+        // https://code.visualstudio.com/api/references/commands
+        // const hover: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', uri, pos)
+        // extract with /: (.+)/
+        // regexp:
+        // : (space)
+        // = (space)
+        vscode.window.onDidChangeTextEditorSelection(({ textEditor, selections }) => {
+            const pos = selections[0]!.end
+            textEditor.setDecorations(decoration, [
+                {
+                    range: new vscode.Range(pos.translate(0, -1), pos),
+                },
+            ])
+        })
+    })
 
     // registerActiveDevelopmentCommand(async () => {
     //     await vscode.commands.executeCommand('revealInExplorer', vscode.Uri.joinPath(getCurrentWorkspaceRoot().uri, 'src'));
