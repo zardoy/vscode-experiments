@@ -219,6 +219,10 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "typeDecorations.enable": {
+                        "type": "boolean",
+                        "default": true
+                    },
                     "goToNextProblemInFile.triggerCodeAction": {
                         "type": "string",
                         "enum": [
@@ -300,5 +304,14 @@
         "eslint": "^8.11.0",
         "eslint-config-zardoy": "^0.2.10",
         "typescript": "^4.6.2"
+    },
+    "prettier": {
+        "semi": false,
+        "singleQuote": true,
+        "proseWrap": "never",
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "arrowParens": "avoid",
+        "printWidth": 160
     }
 }

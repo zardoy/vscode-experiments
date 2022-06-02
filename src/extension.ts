@@ -35,6 +35,7 @@ import { registerProductIconReference } from './features/productIconReference'
 import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
+import typeDecorations from './features/typeDecorations'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -73,6 +74,7 @@ export const activate = () => {
     registerSelectLineContents()
     registerCutLineContents()
     registerCutLineContentsPreserve()
+    typeDecorations()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -129,6 +131,7 @@ export const activate = () => {
                 // https://code.visualstudio.com/api/references/theme-color#editor-colors
                 color: new vscode.ThemeColor('editorGhostText.foreground'),
                 contentText: 'test!',
+
             },
             rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
         })
@@ -142,7 +145,7 @@ export const activate = () => {
             const pos = selections[0]!.end
             textEditor.setDecorations(decoration, [
                 {
-                    range: new vscode.Range(pos, pos.translate(0, 1)),
+                    range: new vscode.Range(pos.translate(0, -1), pos),
                 },
             ])
         })
