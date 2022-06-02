@@ -44,7 +44,7 @@ export default () => {
             break
         }
 
-        if (!typeString) return
+        if (!typeString || typeString === '{') return
         textEditor.setDecorations(decoration, [
             {
                 range: new vscode.Range(pos.translate(0, -1), pos),
