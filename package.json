@@ -223,6 +223,15 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "typeDecorations.languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "*"
+                        ]
+                    },
                     "goToNextProblemInFile.triggerCodeAction": {
                         "type": "string",
                         "enum": [

@@ -3,6 +3,7 @@ import { getExtensionSetting } from 'vscode-framework'
 
 export default () => {
     if (!getExtensionSetting('typeDecorations.enable')) return
+    const enableLanguages = getExtensionSetting('typeDecorations.languages')
     const decoration = vscode.window.createTextEditorDecorationType({
         after: {
             // https://code.visualstudio.com/api/references/theme-color#editor-colors
@@ -13,7 +14,13 @@ export default () => {
     })
     const checkDecorations = async ({ textEditor: editor }: { textEditor?: vscode.TextEditor } = {}): Promise<void> => {
         const textEditor = vscode.window.activeTextEditor
-        if (!textEditor || (editor && textEditor.document.uri !== editor.document.uri) || textEditor.viewColumn === undefined) return
+        if (
+            !textEditor ||
+            (editor && textEditor.document.uri !== editor.document.uri) ||
+            textEditor.viewColumn === undefined ||
+            !vscode.languages.match(enableLanguages, textEditor.document)
+        )
+            return
         const { selections } = textEditor
         const pos = selections[0]!.end
         const { document } = textEditor
@@ -50,12 +57,6 @@ export default () => {
         ])
     }
 
-    // https://code.visualstudio.com/api/references/commands
-    // const hover: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', uri, pos)
-    // extract with /: (.+)/
-    // regexp:
-    // : (space)
-    // = (space)
     void checkDecorations()
     vscode.window.onDidChangeTextEditorSelection(checkDecorations)
 }
