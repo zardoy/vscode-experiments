@@ -243,7 +243,7 @@
                     },
                     "tweakTsSuggestions.enabled": {
                         "type": "boolean",
-                        "default": true
+                        "default": false
                     },
                     "tweakTsSuggestions.arrayItemTabstop": {
                         "type": "boolean",
