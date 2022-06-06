@@ -223,6 +223,10 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "autoRemoveSemicolon.enable": {
+                        "type": "boolean",
+                        "default": true
+                    },
                     "typeDecorations.languages": {
                         "type": "array",
                         "items": {

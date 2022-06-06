@@ -37,6 +37,7 @@ import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
 import typeDecorations from './features/typeDecorations'
+import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -76,6 +77,7 @@ export const activate = () => {
     registerCutLineContents()
     registerCutLineContentsPreserve()
     typeDecorations()
+    autoRemoveSemicolon()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
