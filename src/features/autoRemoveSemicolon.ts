@@ -20,10 +20,13 @@ export default () => {
             ) &&
             /;.$/.test(line.text)
         )
-            void textEditor.edit(editBuilder => {
-                const endPos = contentChanges[0]!.range.end
-                editBuilder.delete(new vscode.Range(endPos.translate(0, -1), endPos))
-            })
+            void textEditor.edit(
+                editBuilder => {
+                    const endPos = contentChanges[0]!.range.end
+                    editBuilder.delete(new vscode.Range(endPos.translate(0, -1), endPos))
+                },
+                { undoStopAfter: false, undoStopBefore: false },
+            )
         if (
             equals(
                 contentChanges.map(({ text }) => text),
