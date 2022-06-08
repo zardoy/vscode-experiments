@@ -143,6 +143,10 @@
             {
                 "command": "cutLineContentsPreserve",
                 "title": "Cut Line Contents and Preserve Line"
+            },
+            {
+                "command": "printActiveDocumrntUri",
+                "title": "Print Active Documrnt URI"
             }
         ],
         "configuration": [
@@ -312,7 +316,7 @@
     },
     "devDependencies": {
         "@types/node": "^16.11.26",
-        "@types/vscode": "^1.65.0",
+        "@types/vscode": "^1.66.0",
         "@zardoy/tsconfig": "^1.4.0",
         "eslint": "^8.11.0",
         "eslint-config-zardoy": "^0.2.10",
