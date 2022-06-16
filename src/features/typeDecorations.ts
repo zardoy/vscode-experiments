@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { getExtensionSetting } from 'vscode-framework'
 import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
+import unescape from 'lodash.unescape'
 
 export default () => {
     if (!getExtensionSetting('typeDecorations.enable')) return
@@ -15,9 +16,8 @@ export default () => {
     })
 
     const checkIfInStyles = async (document: vscode.TextDocument, position: vscode.Position) => {
-        const {languageId, uri} = document
+        const { languageId, uri } = document
         const stylesLangs = new Set(['scss', 'css', 'less', 'sass'])
-        console.log('stylesLangs.includes(languageId)', stylesLangs.has(languageId))
         if (stylesLangs.has(languageId)) return true
         if (languageId === 'vue') {
             const outline = await getNormalizedVueOutline(uri)
@@ -32,7 +32,7 @@ export default () => {
         }
 
         return false
-    } 
+    }
 
     const checkDecorations = async ({ textEditor: editor }: { textEditor?: vscode.TextEditor } = {}): Promise<void> => {
         const textEditor = vscode.window.activeTextEditor
@@ -59,14 +59,14 @@ export default () => {
                     return content
                 })
                 .join('')
-            const typeMatch = /: (.+)/.exec(hoverString)
+            // eslint-disable-next-line no-await-in-loop
+            const typeMatch = (await checkIfInStyles(document, pos)) ? /Syntax: (.*)/.exec(hoverString) : /: (.+)/.exec(hoverString)
             if (!typeMatch) continue
-            typeString = typeMatch[1]!
+            typeString = unescape(typeMatch[1]!)
             break
         }
 
-        const isInStyles = await checkIfInStyles(document, pos)
-        if (!typeString || typeString === '{'|| isInStyles) return
+        if (!typeString || typeString === '{') return
         textEditor.setDecorations(decoration, [
             {
                 range: new vscode.Range(pos.translate(0, -1), pos),
