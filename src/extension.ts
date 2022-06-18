@@ -39,6 +39,7 @@ import { registerCutLineContentsPreserve } from './features/cutLineContentsPrese
 import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
+import collapseNodeModules from './features/collapseNodeModules'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -80,6 +81,7 @@ export const activate = () => {
     typeDecorations()
     autoRemoveSemicolon()
     printDocumentUri()
+    collapseNodeModules()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -127,6 +129,8 @@ export const activate = () => {
             },
         ])
     })
+
+    registerActiveDevelopmentCommand(async () => {})
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
 }
