@@ -40,6 +40,7 @@ import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
 import collapseNodeModules from './features/collapseNodeModules'
+import renameConsoleTime from './features/renameConsoleTime'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -82,6 +83,7 @@ export const activate = () => {
     autoRemoveSemicolon()
     printDocumentUri()
     collapseNodeModules()
+    renameConsoleTime()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
