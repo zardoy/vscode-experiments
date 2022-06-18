@@ -42,8 +42,8 @@ const unusedCommands = () => {
             })
             quickPick.show()
         })
-        if (selectedPath === undefined) return
-        await vscode.workspace.openTextDocument(Utils.joinPath(currentUri, selectedPath))
+        // if (selectedPath === undefined) return
+        // await vscode.workspace.openTextDocument(Utils.joinPath(currentUri, selectedPath))
     })
     registerNoop('enhenced terminal', () => {
         const writeEmitter = new vscode.EventEmitter<string>()
@@ -62,17 +62,17 @@ const unusedCommands = () => {
                         ctrlBackspace: 23,
                         del: 27,
                     }
-                    if (data.charCodeAt(0) === 127) {
-                        // backspace
-                        writeEmitter.fire(`\b${ansiEscapes.eraseEndLine}`)
-                        return
-                    }
+                    // if (data.codePointAt(0) === 127) {
+                    //     // backspace
+                    //     writeEmitter.fire(`\b${ansiEscapes.eraseEndLine}`)
+                    //     return
+                    // }
 
                     if (data === '\r') {
                         writeEmitter.fire(`\r\necho: "${line}"\r\n\n`)
                         line = ''
                     } else {
-                        console.log('data', data.charCodeAt(0))
+                        console.log('data', data.codePointAt(0))
                         line += data
                         writeEmitter.fire(data)
                     }

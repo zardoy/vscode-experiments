@@ -288,7 +288,8 @@
     },
     "scripts": {
         "start": "vscode-framework start",
-        "build": "vscode-framework build"
+        "build": "vscode-framework build",
+        "lint": "eslint src/**"
     },
     "pnpm": {
         "overrides": {

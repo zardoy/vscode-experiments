@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
-import { registerExtensionCommand, registerNoop, showQuickPick } from 'vscode-framework'
+import { registerExtensionCommand, showQuickPick } from 'vscode-framework'
+
 export const registerPickProblemsBySource = () => {
     registerExtensionCommand('problemsBySource', async () => {
         const document = vscode.window.activeTextEditor?.document
@@ -18,7 +19,7 @@ export const registerPickProblemsBySource = () => {
                 .sort(([, a], [, b]) => a.length - b.length)
                 .map(([source, { length }]) => ({ label: source, description: `${length}`, value: source })),
         )
-        if (selectedSource === undefined) return
+        // if (selectedSource === undefined) return
         // snippet like navigation?
     })
 }
