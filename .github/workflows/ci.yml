@@ -11,6 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+      - run: pnpx prettier --check src/**
       - name: Cache pnpm modules
         uses: actions/cache@v2
         with:
