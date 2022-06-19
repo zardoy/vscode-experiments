@@ -1,6 +1,8 @@
 import * as vscode from 'vscode'
 import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
+import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
+import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
@@ -30,6 +32,14 @@ import { registerCopyCurrentWorkspacePath } from './features/copyCurrentWorkspac
 import { registerEnsureGitUser } from './features/ensureGitUser'
 import { registerInsertComma } from './features/insertComma'
 import { registerSuggestDefaultImportName } from './features/suggestDefaultImportName'
+import { registerProductIconReference } from './features/productIconReference'
+import { registerSelectLineContents } from './features/selectLineContents'
+import { registerCutLineContents } from './features/cutLineContents'
+import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
+import typeDecorations from './features/typeDecorations'
+import autoRemoveSemicolon from './features/autoRemoveSemicolon'
+import printDocumentUri from './features/printDocumentUri'
+import renameConsoleTime from './features/renameConsoleTime'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -64,6 +74,14 @@ export const activate = () => {
     registerEnsureGitUser()
     registerInsertComma()
     registerSuggestDefaultImportName()
+    registerProductIconReference()
+    registerSelectLineContents()
+    registerCutLineContents()
+    registerCutLineContentsPreserve()
+    typeDecorations()
+    autoRemoveSemicolon()
+    printDocumentUri()
+    renameConsoleTime()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {

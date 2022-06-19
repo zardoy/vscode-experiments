@@ -127,6 +127,26 @@
             {
                 "command": "insertComma",
                 "title": "Insert Comma to the End of Line"
+            },
+            {
+                "command": "copyProductIconName",
+                "title": "Copy Product Icon Name"
+            },
+            {
+                "command": "selectLineContents",
+                "title": "Select Line Contents"
+            },
+            {
+                "command": "cutLineContents",
+                "title": "Cut Line Contents"
+            },
+            {
+                "command": "cutLineContentsPreserve",
+                "title": "Cut Line Contents and Preserve Line"
+            },
+            {
+                "command": "printActiveDocumrntUri",
+                "title": "Print Active Documrnt URI"
             }
         ],
         "configuration": [
@@ -203,6 +223,23 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "typeDecorations.enable": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "autoRemoveSemicolon.enable": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "typeDecorations.languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "*"
+                        ]
+                    },
                     "goToNextProblemInFile.triggerCodeAction": {
                         "type": "string",
                         "enum": [
@@ -214,7 +251,7 @@
                     },
                     "tweakTsSuggestions.enabled": {
                         "type": "boolean",
-                        "default": true
+                        "default": false
                     },
                     "tweakTsSuggestions.arrayItemTabstop": {
                         "type": "boolean",
@@ -231,6 +268,11 @@
                             "type": "string"
                         },
                         "description": "Map folder glob - expected user in format: 'name <email>'"
+                    },
+                    "dontLeaveEmptyLines": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
                     }
                 }
             }
@@ -246,7 +288,8 @@
     },
     "scripts": {
         "start": "vscode-framework start",
-        "build": "vscode-framework build"
+        "build": "vscode-framework build",
+        "lint": "eslint src/**"
     },
     "pnpm": {
         "overrides": {
@@ -259,8 +302,9 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.4",
-        "@zardoy/vscode-utils": "^0.0.2",
+        "@zardoy/vscode-utils": "^0.0.15",
         "change-case": "^4.1.2",
+        "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
         "ini": "^2.0.0",
@@ -274,10 +318,19 @@
     },
     "devDependencies": {
         "@types/node": "^16.11.26",
-        "@types/vscode": "^1.65.0",
+        "@types/vscode": "^1.66.0",
         "@zardoy/tsconfig": "^1.4.0",
         "eslint": "^8.11.0",
         "eslint-config-zardoy": "^0.2.10",
         "typescript": "^4.6.2"
+    },
+    "prettier": {
+        "semi": false,
+        "singleQuote": true,
+        "proseWrap": "never",
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "arrowParens": "avoid",
+        "printWidth": 160
     }
 }
