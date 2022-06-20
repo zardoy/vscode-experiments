@@ -39,6 +39,7 @@ import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
 import renameConsoleTime from './features/renameConsoleTime'
+import { registerRenameVariableParts } from './features/renameVariableParts'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -81,6 +82,7 @@ export const activate = () => {
     autoRemoveSemicolon()
     printDocumentUri()
     renameConsoleTime()
+    registerRenameVariableParts()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
@@ -130,34 +132,4 @@ export const activate = () => {
     })
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
-
-    registerActiveDevelopmentCommand(() => {
-        const decoration = vscode.window.createTextEditorDecorationType({
-            after: {
-                // https://code.visualstudio.com/api/references/theme-color#editor-colors
-                color: new vscode.ThemeColor('editorGhostText.foreground'),
-                contentText: 'test!',
-
-            },
-            rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
-        })
-        // https://code.visualstudio.com/api/references/commands
-        // const hover: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', uri, pos)
-        // extract with /: (.+)/
-        // regexp:
-        // : (space)
-        // = (space)
-        vscode.window.onDidChangeTextEditorSelection(({ textEditor, selections }) => {
-            const pos = selections[0]!.end
-            textEditor.setDecorations(decoration, [
-                {
-                    range: new vscode.Range(pos.translate(0, -1), pos),
-                },
-            ])
-        })
-    })
-
-    // registerActiveDevelopmentCommand(async () => {
-    //     await vscode.commands.executeCommand('revealInExplorer', vscode.Uri.joinPath(getCurrentWorkspaceRoot().uri, 'src'));
-    // })
 }
