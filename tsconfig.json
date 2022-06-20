@@ -3,5 +3,8 @@
     "compilerOptions": {},
     "include": [
         "src"
+    ],
+    "exclude": [
+        "src/futureFeatures.ts"
     ]
 }
