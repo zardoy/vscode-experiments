@@ -8,6 +8,7 @@ export const registerRenameVariableParts = () => {
     registerExtensionCommand('renameVariableParts', async () => {
         const activeEditor = getActiveRegularEditor()
         if (!activeEditor) return
+
         const quickPick = vscode.window.createQuickPick()
         const { document, selection } = activeEditor
         const editRange = selection.isEmpty ? document.getWordRangeAtPosition(selection.end) : selection
@@ -26,21 +27,26 @@ export const registerRenameVariableParts = () => {
         })
 
         let editingIndex: number | undefined
-        const resetItems = () => {
-            editingIndex = undefined
-            // preserve original casing
-            const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
-            if (parts[0]?.[0]?.[ensureMethod]() !== parts[0]?.[0]) parts[0] = `${parts[0]![ensureMethod]()}${parts[0]!.slice(1)}`
-            quickPick.items = parts.map(part => ({ label: part }))
-            quickPick.title = `Rename variable parts: ${quickPick.items.map(({ label }) => label).join('')}`
-        }
 
         const getName = () => parts.join('')
 
         const isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
         resetItems()
+
+        function resetItems() {
+            editingIndex = undefined
+            // preserve original casing
+            const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
+            const wordPartsEqual = parts[0]?.[0]?.[ensureMethod]() === parts[0]?.[0]
+            
+            if (!wordPartsEqual) parts[0] = `${parts[0]![ensureMethod]()}${parts[0]!.slice(1)}`
+            quickPick.items = parts.map(part => ({ label: part }))
+            quickPick.title = `Rename variable parts: ${quickPick.items.map(({ label }) => label).join('')}`
+        }
+
         const registerCommand = (command: keyof RegularCommands, handler: () => void) =>
             vscode.commands.registerCommand(`${getExtensionContributionsPrefix()}${command}`, handler)
+
         const mainDisposable = vscode.Disposable.from(
             quickPick,
             registerCommand('renameVariablePartsAcceptDeletePart', () => {
@@ -81,18 +87,19 @@ export const registerRenameVariableParts = () => {
         )
         quickPick.onDidAccept(() => {
             const activeItem = quickPick.activeItems[0]!
-            if (editingIndex === undefined) {
-                editingIndex = quickPick.items.indexOf(activeItem)
-                const { label } = activeItem
-                quickPick.items = [
-                    /* { label } */
-                ]
-                quickPick.value = label
-            } else {
+            if (editingIndex) {
                 parts.splice(editingIndex, 1, quickPick.value)
                 resetItems()
                 quickPick.value = ''
+                return;
             }
+
+            editingIndex = quickPick.items.indexOf(activeItem)
+            const { label } = activeItem
+            quickPick.items = [
+                /* { label } */
+            ]
+            quickPick.value = label
         })
         quickPick.onDidHide(() => {
             mainDisposable.dispose()
