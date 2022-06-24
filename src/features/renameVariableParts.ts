@@ -87,19 +87,19 @@ export const registerRenameVariableParts = () => {
         )
         quickPick.onDidAccept(() => {
             const activeItem = quickPick.activeItems[0]!
-            if (editingIndex) {
-                parts.splice(editingIndex, 1, quickPick.value)
-                resetItems()
-                quickPick.value = ''
+            if (editingIndex === undefined) {
+                editingIndex = quickPick.items.indexOf(activeItem)
+                const { label } = activeItem
+                quickPick.items = [
+                    /* { label } */
+                ]
+                quickPick.value = label
                 return;
             }
 
-            editingIndex = quickPick.items.indexOf(activeItem)
-            const { label } = activeItem
-            quickPick.items = [
-                /* { label } */
-            ]
-            quickPick.value = label
+            parts.splice(editingIndex, 1, quickPick.value)
+            resetItems()
+            quickPick.value = ''
         })
         quickPick.onDidHide(() => {
             mainDisposable.dispose()
