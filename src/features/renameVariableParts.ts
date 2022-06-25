@@ -31,20 +31,42 @@ export const registerRenameVariableParts = () => {
         const getName = () => parts.join('')
 
         const isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
-        
+
         const resetItems = () => {
             editingIndex = undefined
             // preserve original casing
             const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
             const wordPartsEqual = parts[0]?.[0]?.[ensureMethod]() === parts[0]?.[0]
-            
+
             if (!wordPartsEqual) parts[0] = `${parts[0]![ensureMethod]()}${parts[0]!.slice(1)}`
             quickPick.items = parts.map(part => ({ label: part }))
             quickPick.title = `Rename variable parts: ${quickPick.items.map(({ label }) => label).join('')}`
         }
 
         resetItems()
-        
+
+        const moveVariableParts = (direction: 'up' | 'down') => {
+            const currentActiveItemIndex = quickPick.items.indexOf(quickPick.activeItems[0]!)
+            const currentPart = parts[currentActiveItemIndex]!
+            if (direction === 'up') {
+                const prevPart = parts[currentActiveItemIndex - 1]!
+                if (!prevPart) return
+                parts.splice(currentActiveItemIndex - 1, 1, currentPart)
+                parts.splice(currentActiveItemIndex, 1, prevPart)
+            }
+
+            if (direction === 'down') {
+                const nextPart = parts[currentActiveItemIndex + 1]
+                if (!nextPart) return
+
+                parts.splice(currentActiveItemIndex + 1, 1, currentPart)
+                parts.splice(currentActiveItemIndex, 1, nextPart)
+            }
+
+            resetItems()
+            quickPick.activeItems = quickPick.items.filter(({ label }) => label === currentPart)
+        }
+
         const registerCommand = (command: keyof RegularCommands, handler: () => void) =>
             vscode.commands.registerCommand(`${getExtensionContributionsPrefix()}${command}`, handler)
 
@@ -63,20 +85,10 @@ export const registerRenameVariableParts = () => {
                 resetItems()
             }),
             registerCommand('renameVariablePartsPartMoveUp', () => {
-                console.log(editingIndex)
-                if (editingIndex === undefined) return
-
-                parts.splice(editingIndex - 1, 1, 'test')
-                parts.splice(editingIndex, 1, 'test2')
-                resetItems()
+               moveVariableParts('up')
             }),
             registerCommand('renameVariablePartsPartMoveDown', () => {
-                console.log(editingIndex)
-                if (editingIndex === undefined) return
-
-                parts.splice(editingIndex - 1, 1, 'test1')
-                parts.splice(editingIndex, 1, 'test2')
-                resetItems()
+                moveVariableParts('down')
             }),
             registerCommand('renameVariablePartsAccept', async () => {
                 quickPick.hide()
