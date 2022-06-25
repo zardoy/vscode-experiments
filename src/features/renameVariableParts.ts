@@ -85,7 +85,7 @@ export const registerRenameVariableParts = () => {
                 resetItems()
             }),
             registerCommand('renameVariablePartsPartMoveUp', () => {
-               moveVariableParts('up')
+                moveVariableParts('up')
             }),
             registerCommand('renameVariablePartsPartMoveDown', () => {
                 moveVariableParts('down')
