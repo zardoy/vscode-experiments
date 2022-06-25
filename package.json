@@ -363,13 +363,13 @@
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
-                "command": "renameVariablePartsPartMoveUp",
+                "command": "zardoyExperiments.renameVariablePartsPartMoveUp",
                 "key": "ctrl+i",
                 "mac": "cmd+i",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
-                "command": "renameVariablePartsPartMoveDown",
+                "command": "zardoyExperiments.renameVariablePartsPartMoveDown",
                 "key": "ctrl+k",
                 "mac": "cmd+k",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
