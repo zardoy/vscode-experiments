@@ -31,9 +31,8 @@ export const registerRenameVariableParts = () => {
         const getName = () => parts.join('')
 
         const isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
-        resetItems()
-
-        function resetItems() {
+        
+        const resetItems = () => {
             editingIndex = undefined
             // preserve original casing
             const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
@@ -44,6 +43,8 @@ export const registerRenameVariableParts = () => {
             quickPick.title = `Rename variable parts: ${quickPick.items.map(({ label }) => label).join('')}`
         }
 
+        resetItems()
+        
         const registerCommand = (command: keyof RegularCommands, handler: () => void) =>
             vscode.commands.registerCommand(`${getExtensionContributionsPrefix()}${command}`, handler)
 
@@ -61,8 +62,22 @@ export const registerRenameVariableParts = () => {
                 parts.push(onlyPart)
                 resetItems()
             }),
-            registerCommand('renameVariablePartsPartMoveUp', () => {}),
-            registerCommand('renameVariablePartsPartMoveDown', () => {}),
+            registerCommand('renameVariablePartsPartMoveUp', () => {
+                console.log(editingIndex)
+                if (editingIndex === undefined) return
+
+                parts.splice(editingIndex - 1, 1, 'test')
+                parts.splice(editingIndex, 1, 'test2')
+                resetItems()
+            }),
+            registerCommand('renameVariablePartsPartMoveDown', () => {
+                console.log(editingIndex)
+                if (editingIndex === undefined) return
+
+                parts.splice(editingIndex - 1, 1, 'test1')
+                parts.splice(editingIndex, 1, 'test2')
+                resetItems()
+            }),
             registerCommand('renameVariablePartsAccept', async () => {
                 quickPick.hide()
                 const edit: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
@@ -94,7 +109,7 @@ export const registerRenameVariableParts = () => {
                     /* { label } */
                 ]
                 quickPick.value = label
-                return;
+                return
             }
 
             parts.splice(editingIndex, 1, quickPick.value)
