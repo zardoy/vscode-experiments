@@ -364,14 +364,14 @@
             },
             {
                 "command": "zardoyExperiments.renameVariablePartsPartMoveUp",
-                "key": "ctrl+i",
-                "mac": "cmd+i",
+                "key": "ctrl+alt+i",
+                "mac": "cmd+alt+i",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
                 "command": "zardoyExperiments.renameVariablePartsPartMoveDown",
-                "key": "ctrl+k",
-                "mac": "cmd+k",
+                "key": "ctrl+alt+k",
+                "mac": "cmd+alt+k",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             }
         ]
