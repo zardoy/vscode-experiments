@@ -14,6 +14,7 @@ specifiers:
   '@zardoy/utils': ^0.0.4
   '@zardoy/vscode-utils': ^0.0.15
   change-case: ^4.1.2
+  escape-string-regexp: ^5.0.0
   eslint: ^8.11.0
   eslint-config-zardoy: ^0.2.10
   execa: ^6.1.0
@@ -37,6 +38,7 @@ dependencies:
   '@zardoy/utils': 0.0.4
   '@zardoy/vscode-utils': 0.0.15_unawbvmxtbzqonmqpdnuuihcuq
   change-case: 4.1.2
+  escape-string-regexp: 5.0.0
   execa: 6.1.0
   hosted-git-info: 4.1.0
   ini: 2.0.0
@@ -1589,7 +1591,7 @@ packages:
     dev: false
 
   /escape-string-regexp/1.0.5:
-    resolution: {integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=}
+    resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}
     engines: {node: '>=0.8.0'}
 
   /escape-string-regexp/2.0.0:
@@ -1600,6 +1602,11 @@ packages:
   /escape-string-regexp/4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+
+  /escape-string-regexp/5.0.0:
+    resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /escodegen/1.14.3:
     resolution: {integrity: sha512-qFcX0XJkdg+PB3xjZZG/wKSuT1PnQWx57+TVSjIMmILd2yC/6ByYElPwJnslDsuWuSAp4AwJGumarAAmJch5Kw==}

@@ -42,8 +42,8 @@ const unusedCommands = () => {
             })
             quickPick.show()
         })
-        if (selectedPath === undefined) return
-        await vscode.workspace.openTextDocument(Utils.joinPath(currentUri, selectedPath))
+        // if (selectedPath === undefined) return
+        // await vscode.workspace.openTextDocument(Utils.joinPath(currentUri, selectedPath))
     })
     registerNoop('enhenced terminal', () => {
         const writeEmitter = new vscode.EventEmitter<string>()
@@ -62,17 +62,17 @@ const unusedCommands = () => {
                         ctrlBackspace: 23,
                         del: 27,
                     }
-                    if (data.charCodeAt(0) === 127) {
-                        // backspace
-                        writeEmitter.fire(`\b${ansiEscapes.eraseEndLine}`)
-                        return
-                    }
+                    // if (data.codePointAt(0) === 127) {
+                    //     // backspace
+                    //     writeEmitter.fire(`\b${ansiEscapes.eraseEndLine}`)
+                    //     return
+                    // }
 
                     if (data === '\r') {
                         writeEmitter.fire(`\r\necho: "${line}"\r\n\n`)
                         line = ''
                     } else {
-                        console.log('data', data.charCodeAt(0))
+                        console.log('data', data.codePointAt(0))
                         line += data
                         writeEmitter.fire(data)
                     }
@@ -125,5 +125,49 @@ const unusedCommands = () => {
             // for (const edit of textEdits) builder.replace(new vscode.Range(patchPos(edit.range.start), patchPos(edit.range.end)), edit.newText)
         })
         dispose()
+    })
+    registerNoop('preserve camel case', () => {
+        const lastCharPos: Record<string, { char: string; pos: vscode.Position }> = {}
+        vscode.window.onDidChangeTextEditorSelection(e => {
+            if (e.textEditor.viewColumn === undefined) return
+            const pos = e.selections[0].start
+            const uriKey = e.textEditor.document.uri.toString()
+
+            const lastPos = lastCharPos[uriKey]
+            if (lastPos) {
+                const replaceRange = new vscode.Range(pos, pos.translate(0, 1))
+                // TODO detect actual shift
+                if (lastPos.pos.translate(0, 1).isEqual(pos) && e.textEditor.document.getText(replaceRange) === lastPos.char)
+                    void e.textEditor.edit(
+                        builder => {
+                            builder.replace(replaceRange, lastPos.char.toUpperCase())
+                        },
+                        {
+                            undoStopAfter: false,
+                            undoStopBefore: false,
+                        },
+                    )
+
+                lastCharPos[uriKey] = undefined
+                return
+            }
+
+            if (
+                e.kind === undefined ||
+                !e.selections[0].start.isEqual(e.selections[0].end) ||
+                // TODO
+                e.selections.length !== 1
+            )
+                return
+
+            const text = e.textEditor.document.getText(new vscode.Range(new vscode.Position(pos.line, 0), pos.translate(0, 1)))
+            const match = /.*(const|let) (\w)$/.exec(text)
+            if (!match) return
+            // TODO! match with url
+            lastCharPos[uriKey] = {
+                char: match[2]!,
+                pos,
+            }
+        })
     })
 }

@@ -25,7 +25,7 @@ export const registerTweakTsSuggestions = () => {
                 }
 
                 // that's why the behaviour is so inconsistent
-                if (document.getText(new vscode.Range(position.translate(undefined, -1), position)) !== '.') return
+                if (position.character === 0 || document.getText(new vscode.Range(position.translate(undefined, -1), position)) !== '.') return
                 console.time('tweak: fetch completions')
                 fromInner = true
                 const { items: sourceItems }: vscode.CompletionList = await vscode.commands.executeCommand(
