@@ -176,6 +176,7 @@ export const registerInsertCompletions = () => {
                         { title: 'Select snippet type' },
                     )!
                     if (!selectedSnippetType) return
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     snippetType = selectedSnippetType as any
                 }
             } else {

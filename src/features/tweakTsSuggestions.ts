@@ -163,14 +163,14 @@ const tweakCompletionItem = (
                 description: 'PATCHED',
             }
 
-        const { documentation } = itemToReplace
-        if (itemToReplace.replaceDocumentation && documentation) {
-            const newDoc = itemToReplace.replaceDocumentation(typeof documentation === 'object' ? documentation.value : documentation)
+        const { documentation, replaceDocumentation, textEdit } = itemToReplace
+        if (replaceDocumentation && documentation) {
+            const newDoc = replaceDocumentation(typeof documentation === 'object' ? documentation.value : documentation)
             if (newDoc) itemToReplace.documentation = typeof documentation === 'object' ? new vscode.MarkdownString(newDoc) : newDoc
         }
 
         // remove obsolete
-        if (itemToReplace.textEdit) itemToReplace.textEdit = undefined
+        if (textEdit) itemToReplace.textEdit = undefined
 
         itemLists.targetItems.push(itemToReplace)
     }
