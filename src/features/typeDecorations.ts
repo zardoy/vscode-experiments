@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { getExtensionSetting } from 'vscode-framework'
 import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
-import unescape from 'lodash.unescape'
+import { markdownToTxt } from 'markdown-to-txt'
 
 export default () => {
     if (!getExtensionSetting('typeDecorations.enable')) return
@@ -64,7 +64,7 @@ export default () => {
                 .join('')
             const typeMatch = isInStyles ? /Syntax: (.*)/.exec(hoverString) : /: (.+)/.exec(hoverString)
             if (!typeMatch) continue
-            typeString = unescape(typeMatch[1]!).replaceAll('\\', '')
+            typeString = markdownToTxt(typeMatch[1]!)
             break
         }
 
