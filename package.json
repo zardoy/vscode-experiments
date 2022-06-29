@@ -227,6 +227,14 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "typeDecorations.ignoreValues": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "markdownDescription": "Ignore specific resolved values from type decorations. In future it can be regex if starts & ends with `/`. Examples can be: `any`, `unknown`",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
                     "autoRemoveSemicolon.enable": {
                         "type": "boolean",
                         "default": true
