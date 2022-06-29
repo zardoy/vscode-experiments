@@ -44,10 +44,6 @@ export default () => {
             !vscode.languages.match(enableLanguages, textEditor.document)
         )
             return
-        const { selections, document } = textEditor
-        const pos = selections[0]!.end
-        const text = document.lineAt(pos).text.slice(0, pos.character)
-        const match = /(:| =) $/.exec(text)
         textEditor.setDecorations(decoration, [])
         const {
             selections: [selection],
@@ -60,7 +56,7 @@ export default () => {
         const textAfter = lineText.slice(pos.character)
         const match = /(:| =) $/.exec(textBefore)
         // if in destructure or object literal
-        const endingMatch = /^\s*(}|]|;|$)/
+        const endingMatch = /^\s*(}|]|;|,|$)/
         if (!match || !endingMatch.test(textAfter)) return
         const offset = match[0]!.length
         const isInStyles = await checkIfInStyles(document, pos)

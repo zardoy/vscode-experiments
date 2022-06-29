@@ -234,6 +234,7 @@
                         "items": {
                             "type": "string"
                         }
+                    },
                     "typeDecorations.enableInStyles": {
                         "type": "boolean",
                         "default": false
