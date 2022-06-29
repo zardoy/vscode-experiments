@@ -1,15 +1,18 @@
 import * as vscode from 'vscode'
 import { equals } from 'rambda'
 import { defaultJsSupersetLangsWithVue } from '@zardoy/vscode-utils/build/langs'
+import { getExtensionSetting } from 'vscode-framework'
 
 export default () => {
+    if (!getExtensionSetting('autoRemoveSemicolon.enable')) return
     vscode.workspace.onDidChangeTextDocument(async ({ document, contentChanges }) => {
         const textEditor = vscode.window.activeTextEditor
 
         if (
             document.uri !== textEditor?.document.uri ||
             textEditor.viewColumn === undefined ||
-            !vscode.languages.match(defaultJsSupersetLangsWithVue, document)
+            !vscode.languages.match(defaultJsSupersetLangsWithVue, document) ||
+            contentChanges.length === 0
         )
             return
         const line = document.lineAt(contentChanges[0]!.range.end)
