@@ -227,6 +227,10 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "typeDecorationsInStyles.enable": {
+                        "type": "boolean",
+                        "default": false
+                    },
                     "autoRemoveSemicolon.enable": {
                         "type": "boolean",
                         "default": true

@@ -16,6 +16,8 @@ export default () => {
     })
 
     const checkIfInStyles = async (document: vscode.TextDocument, position: vscode.Position) => {
+        if (!getExtensionSetting('typeDecorationsInStyles.enable')) return false
+
         const { languageId, uri } = document
         const stylesLangs = new Set(['scss', 'css', 'less', 'sass'])
         if (stylesLangs.has(languageId)) return true
@@ -52,7 +54,7 @@ export default () => {
         const offset = match[0]!.length
         const hoverData: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', document.uri, pos.translate(0, -offset))
         let typeString: string | undefined
-        
+
         const isInStyles = await checkIfInStyles(document, pos)
         for (const hover of hoverData) {
             const hoverString = hover.contents
