@@ -227,7 +227,7 @@
                         "type": "boolean",
                         "default": true
                     },
-                    "typeDecorationsInStyles.enable": {
+                    "typeDecorations.enableInStyles": {
                         "type": "boolean",
                         "default": false
                     },
