@@ -52,6 +52,8 @@ export default () => {
         const offset = match[0]!.length
         const hoverData: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', document.uri, pos.translate(0, -offset))
         let typeString: string | undefined
+        
+        const isInStyles = await checkIfInStyles(document, pos)
         for (const hover of hoverData) {
             const hoverString = hover.contents
                 .map(content => {
@@ -59,8 +61,7 @@ export default () => {
                     return content
                 })
                 .join('')
-            // eslint-disable-next-line no-await-in-loop
-            const typeMatch = (await checkIfInStyles(document, pos)) ? /Syntax: (.*)/.exec(hoverString) : /: (.+)/.exec(hoverString)
+            const typeMatch = isInStyles ? /Syntax: (.*)/.exec(hoverString) : /: (.+)/.exec(hoverString)
             if (!typeMatch) continue
             typeString = unescape(typeMatch[1]!)
             break
