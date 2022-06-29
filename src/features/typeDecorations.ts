@@ -1,5 +1,7 @@
 import * as vscode from 'vscode'
 import { getExtensionSetting } from 'vscode-framework'
+import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
+import { markdownToTxt } from 'markdown-to-txt'
 
 export default () => {
     if (!getExtensionSetting('typeDecorations.enable')) return
@@ -12,6 +14,26 @@ export default () => {
         },
         rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
     })
+
+    const checkIfInStyles = async (document: vscode.TextDocument, position: vscode.Position) => {
+        const { languageId, uri } = document
+        const stylesLangs = new Set(['scss', 'css', 'less', 'sass'])
+        if (stylesLangs.has(languageId)) return true
+        if (languageId === 'vue') {
+            const outline = await getNormalizedVueOutline(uri)
+            if (!outline) {
+                console.warn('No default vue outline. Install Volar or Vetur')
+                return true
+            }
+
+            const style = outline.find(item => item.name === 'style')
+            if (style?.range.contains(position)) return true
+            return false
+        }
+
+        return false
+    }
+
     const checkDecorations = async ({ textEditor: editor }: { textEditor?: vscode.TextEditor } = {}): Promise<void> => {
         const textEditor = vscode.window.activeTextEditor
         if (
@@ -21,16 +43,18 @@ export default () => {
             !vscode.languages.match(enableLanguages, textEditor.document)
         )
             return
-        const { selections } = textEditor
+        const { selections, document } = textEditor
         const pos = selections[0]!.end
-        const { document } = textEditor
         const text = document.lineAt(pos).text.slice(0, pos.character)
         const match = /(:| =) $/.exec(text)
         textEditor.setDecorations(decoration, [])
         if (!match) return
         const offset = match[0]!.length
+        const isInStyles = await checkIfInStyles(document, pos)
+        if (isInStyles && !getExtensionSetting('typeDecorations.enableInStyles')) return
         const hoverData: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', document.uri, pos.translate(0, -offset))
         let typeString: string | undefined
+
         for (const hover of hoverData) {
             const hoverString = hover.contents
                 .map(content => {
@@ -38,9 +62,9 @@ export default () => {
                     return content
                 })
                 .join('')
-            const typeMatch = /: (.+)/.exec(hoverString)
+            const typeMatch = isInStyles ? /Syntax: (.*)/.exec(hoverString) : /: (.+)/.exec(hoverString)
             if (!typeMatch) continue
-            typeString = typeMatch[1]!
+            typeString = markdownToTxt(typeMatch[1]!)
             break
         }
 

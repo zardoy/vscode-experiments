@@ -227,6 +227,10 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "typeDecorations.enableInStyles": {
+                        "type": "boolean",
+                        "default": false
+                    },
                     "autoRemoveSemicolon.enable": {
                         "type": "boolean",
                         "default": true
@@ -309,6 +313,7 @@
         "hosted-git-info": "^4.1.0",
         "ini": "^2.0.0",
         "lower-case-first": "^2.0.2",
+        "markdown-to-txt": "^2.0.1",
         "minimatch": "^5.0.1",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",
