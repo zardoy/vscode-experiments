@@ -65,7 +65,7 @@ export default () => {
                 .join('')
             const typeMatch = isInStyles ? /Syntax: (.*)/.exec(hoverString) : /: (.+)/.exec(hoverString)
             if (!typeMatch) continue
-            typeString = unescape(typeMatch[1]!)
+            typeString = unescape(typeMatch[1]!).replaceAll('\\', '')
             break
         }
 
