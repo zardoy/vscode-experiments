@@ -48,7 +48,7 @@ export default () => {
         const {
             selections: [selection],
         } = textEditor
-        if (!selection || !selection.start.isEqual(selection.end)) return
+        if (!selection || !selection.isEmpty) return
         const pos = selection.end
         const { document } = textEditor
         const lineText = document.lineAt(pos).text
