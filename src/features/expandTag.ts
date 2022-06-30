@@ -26,7 +26,7 @@ const getTextSafe = (
 const supportedLangs = new Set(['vue', 'svelte'])
 
 export default () => {
-    // TODO to utils
+    // TODO to vscode-utils
     const findCurrentOutlineItem = (items: vscode.DocumentSymbol[], pos: vscode.Position): vscode.DocumentSymbol | undefined => {
         let itemIndex = -1
         for (const [i, item] of items.entries()) {
@@ -60,10 +60,11 @@ export default () => {
         })
         activeEditor.selection = new vscode.Selection(newCursorPosition, newCursorPosition)
     })
+
     if (!getExtensionSetting('features.autoExpandTag')) return
     vscode.workspace.onDidChangeTextDocument(async ({ document, contentChanges }) => {
         const activeEditor = getActiveRegularEditor()
-        if (document.uri !== activeEditor?.document.uri) return
+        if (document.uri !== activeEditor?.document.uri || !supportedLangs.has(activeEditor.document.languageId)) return
         if (
             !equals(
                 contentChanges.map(({ text }) => text),
