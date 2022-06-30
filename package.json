@@ -147,6 +147,10 @@
             {
                 "command": "printActiveDocumrntUri",
                 "title": "Print Active Documrnt URI"
+            },
+            {
+                "command": "expandTag",
+                "title": "Expand Tag"
             }
         ],
         "configuration": [
@@ -277,6 +281,11 @@
                         "type": "boolean",
                         "default": true,
                         "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
+                    },
+                    "features.autoExpandTag": {
+                        "type": "boolean",
+                        "markdownDescription": "Type space after `/` in `<div />` to expand the tag. Doesn't support React for now",
+                        "default": true
                     }
                 }
             }
