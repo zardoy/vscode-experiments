@@ -55,9 +55,10 @@ export default () => {
         const textBefore = lineText.slice(0, pos.character)
         const textAfter = lineText.slice(pos.character)
         const match = /(:| =) $/.exec(textBefore)
+        const isInBannedPosition = /(const|let) (\w|\d)+ = $/i.test(textBefore)
         // if in destructure or object literal
         const endingMatch = /^\s*(}|]|;|,|$)/
-        if (!match || !endingMatch.test(textAfter)) return
+        if (!match || isInBannedPosition || !endingMatch.test(textAfter)) return
         const offset = match[0]!.length
         const isInStyles = await checkIfInStyles(document, pos)
         if (isInStyles && !getExtensionSetting('typeDecorations.enableInStyles')) return
