@@ -6,6 +6,7 @@ import { markdownToTxt } from 'markdown-to-txt'
 export default () => {
     if (!getExtensionSetting('typeDecorations.enable')) return
     const enableLanguages = getExtensionSetting('typeDecorations.languages')
+    const ignoreValues = getExtensionSetting('typeDecorations.ignoreValues')
     const decoration = vscode.window.createTextEditorDecorationType({
         after: {
             // https://code.visualstudio.com/api/references/theme-color#editor-colors
@@ -43,12 +44,21 @@ export default () => {
             !vscode.languages.match(enableLanguages, textEditor.document)
         )
             return
-        const { selections, document } = textEditor
-        const pos = selections[0]!.end
-        const text = document.lineAt(pos).text.slice(0, pos.character)
-        const match = /(:| =) $/.exec(text)
         textEditor.setDecorations(decoration, [])
-        if (!match) return
+        const {
+            selections: [selection],
+        } = textEditor
+        if (!selection || !selection.isEmpty) return
+        const pos = selection.end
+        const { document } = textEditor
+        const lineText = document.lineAt(pos).text
+        const textBefore = lineText.slice(0, pos.character)
+        const textAfter = lineText.slice(pos.character)
+        const match = /(:| =) $/.exec(textBefore)
+        const isInBannedPosition = /(const|let) (\w|\d)+ = $/i.test(textBefore)
+        // if in destructure or object literal
+        const endingMatch = /^\s*(}|]|;|,|$)/
+        if (!match || isInBannedPosition || !endingMatch.test(textAfter)) return
         const offset = match[0]!.length
         const isInStyles = await checkIfInStyles(document, pos)
         if (isInStyles && !getExtensionSetting('typeDecorations.enableInStyles')) return
@@ -68,7 +78,7 @@ export default () => {
             break
         }
 
-        if (!typeString || typeString === '{') return
+        if (!typeString || typeString === '{' || ignoreValues.includes(typeString)) return
         textEditor.setDecorations(decoration, [
             {
                 range: new vscode.Range(pos.translate(0, -1), pos),
