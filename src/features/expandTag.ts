@@ -23,7 +23,8 @@ const getTextSafe = (
     return document.getText(new vscode.Range(positionBefore, positionAfter))
 }
 
-const supportedLangs = new Set(['vue', 'svelte'])
+const outlineBasedLangs = ['vue', 'svelte']
+const allSupportedLangs = new Set([...outlineBasedLangs, 'typescriptreact', 'javascriptreact'])
 
 export default () => {
     // TODO to vscode-utils
@@ -46,16 +47,18 @@ export default () => {
         const activeEditor = getActiveRegularEditor()
         if (!activeEditor) return
         const position = activeEditor.selection.end
-        if (!supportedLangs.has(activeEditor.document.languageId)) return
-        const outline: vscode.DocumentSymbol[] = await vscode.commands.executeCommand('vscode.executeDocumentSymbolProvider', activeEditor.document.uri)
+        const { document } = activeEditor
+        if (!outlineBasedLangs.includes(document.languageId)) return
+        const outline: vscode.DocumentSymbol[] = await vscode.commands.executeCommand('vscode.executeDocumentSymbolProvider', document.uri)
         const outlineItem = findCurrentOutlineItem(outline, position)
         if (!outlineItem) return
         const tagName = /^([-\w]+)/i.exec(outlineItem.name)?.[1]
         if (!tagName) return
         const tagEndPos = outlineItem.range.end
-        const newCursorPosition = tagEndPos.translate(0, -1)
+        const removeStartOffset = / ?\/ ?>/.exec(getTextSafe(document, tagEndPos, [0, -3]))?.[0]?.length ?? 2
+        const newCursorPosition = tagEndPos.translate(0, -removeStartOffset + 1)
         await activeEditor.edit(builder => {
-            builder.delete(new vscode.Range(tagEndPos.translate(0, -2), tagEndPos.translate(0, -1)))
+            builder.delete(new vscode.Range(tagEndPos.translate(0, -removeStartOffset), tagEndPos.translate(0, -1)))
             builder.insert(tagEndPos, `</${tagName}>`)
         })
         activeEditor.selection = new vscode.Selection(newCursorPosition, newCursorPosition)
@@ -64,7 +67,7 @@ export default () => {
     if (!getExtensionSetting('features.autoExpandTag')) return
     vscode.workspace.onDidChangeTextDocument(async ({ document, contentChanges }) => {
         const activeEditor = getActiveRegularEditor()
-        if (document.uri !== activeEditor?.document.uri || !supportedLangs.has(activeEditor.document.languageId)) return
+        if (document.uri !== activeEditor?.document.uri || !allSupportedLangs.has(activeEditor.document.languageId)) return
         if (
             !equals(
                 contentChanges.map(({ text }) => text),
