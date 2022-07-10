@@ -323,7 +323,7 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.4",
-        "@zardoy/vscode-utils": "^0.0.15",
+        "@zardoy/vscode-utils": "^0.0.16",
         "change-case": "^4.1.2",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
