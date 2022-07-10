@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { getActiveRegularEditor } from '@zardoy/vscode-utils'
+import { findCurrentOutlineItem } from '@zardoy/vscode-utils/build/outline'
 import { equals } from 'rambda'
 import { getExtensionCommandId, getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
 
@@ -27,22 +28,6 @@ const outlineBasedLangs = ['vue', 'svelte']
 const allSupportedLangs = new Set([...outlineBasedLangs, 'typescriptreact', 'javascriptreact'])
 
 export default () => {
-    // TODO to vscode-utils
-    const findCurrentOutlineItem = (items: vscode.DocumentSymbol[], pos: vscode.Position): vscode.DocumentSymbol | undefined => {
-        let itemIndex = -1
-        for (const [i, item] of items.entries()) {
-            if (item.children.length > 0) {
-                const foundItem = findCurrentOutlineItem(item.children, pos)
-                if (foundItem) return foundItem
-            }
-
-            if (item.range.contains(pos)) itemIndex = i
-        }
-
-        if (itemIndex === -1) return
-        return items[itemIndex]!
-    }
-
     registerExtensionCommand('expandTag', async () => {
         const activeEditor = getActiveRegularEditor()
         if (!activeEditor) return
