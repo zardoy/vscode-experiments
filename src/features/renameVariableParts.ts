@@ -36,13 +36,15 @@ export const registerRenameVariableParts = () => {
             editingIndex = undefined
             // preserve original casing
             const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
-            const wordPartsEqual = parts[0]?.[0]?.[ensureMethod]() === parts[0]?.[0]
+            const firstCharacterEqual = parts[0]?.[0]?.[ensureMethod]() === parts[0]?.[0]
 
-            if (!wordPartsEqual) parts[0] = `${parts[0]![ensureMethod]()}${parts[0]!.slice(1)}`
+            if (!firstCharacterEqual) parts[0] = `${parts[0]![0]![ensureMethod]()}${parts[0]!.slice(1)}`
             quickPick.items = parts.map(part => ({ label: part }))
             quickPick.title = `Rename variable parts: ${quickPick.items.map(({ label }) => label).join('')}`
         }
 
+        const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
+ 
         resetItems()
 
         const moveVariableParts = (direction: 'up' | 'down') => {
@@ -51,20 +53,25 @@ export const registerRenameVariableParts = () => {
             if (direction === 'up') {
                 const prevPart = parts[currentActiveItemIndex - 1]!
                 if (!prevPart) return
+                const normallizedPart = currentActiveItemIndex === 1
+                ? upperCaseFirstLetter(prevPart)
+                : prevPart
                 parts.splice(currentActiveItemIndex - 1, 1, currentPart)
-                parts.splice(currentActiveItemIndex, 1, prevPart)
+                parts.splice(currentActiveItemIndex, 1, normallizedPart)
             }
 
             if (direction === 'down') {
                 const nextPart = parts[currentActiveItemIndex + 1]
                 if (!nextPart) return
-
-                parts.splice(currentActiveItemIndex + 1, 1, currentPart)
+                const normallizedPart = currentActiveItemIndex === 0
+                 ? upperCaseFirstLetter(currentPart)
+                 : currentPart
+                parts.splice(currentActiveItemIndex + 1, 1, normallizedPart)
                 parts.splice(currentActiveItemIndex, 1, nextPart)
             }
 
             resetItems()
-            quickPick.activeItems = quickPick.items.filter(({ label }) => label === currentPart)
+            quickPick.activeItems = quickPick.items.filter(({ label }) => label.toLowerCase() === currentPart.toLowerCase())
         }
 
         const registerCommand = (command: keyof RegularCommands, handler: () => void) =>
