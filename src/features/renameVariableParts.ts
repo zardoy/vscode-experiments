@@ -44,7 +44,7 @@ export const registerRenameVariableParts = () => {
         }
 
         const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
- 
+
         resetItems()
 
         const moveVariableParts = (direction: 'up' | 'down') => {
@@ -53,9 +53,7 @@ export const registerRenameVariableParts = () => {
             if (direction === 'up') {
                 const prevPart = parts[currentActiveItemIndex - 1]!
                 if (!prevPart) return
-                const normallizedPart = currentActiveItemIndex === 1
-                ? upperCaseFirstLetter(prevPart)
-                : prevPart
+                const normallizedPart = currentActiveItemIndex === 1 ? upperCaseFirstLetter(prevPart) : prevPart
                 parts.splice(currentActiveItemIndex - 1, 1, currentPart)
                 parts.splice(currentActiveItemIndex, 1, normallizedPart)
             }
@@ -63,9 +61,7 @@ export const registerRenameVariableParts = () => {
             if (direction === 'down') {
                 const nextPart = parts[currentActiveItemIndex + 1]
                 if (!nextPart) return
-                const normallizedPart = currentActiveItemIndex === 0
-                 ? upperCaseFirstLetter(currentPart)
-                 : currentPart
+                const normallizedPart = currentActiveItemIndex === 0 ? upperCaseFirstLetter(currentPart) : currentPart
                 parts.splice(currentActiveItemIndex + 1, 1, normallizedPart)
                 parts.splice(currentActiveItemIndex, 1, nextPart)
             }
