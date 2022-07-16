@@ -175,6 +175,10 @@
             {
                 "command": "printActiveDocumrntUri",
                 "title": "Print Active Documrnt URI"
+            },
+            {
+                "command": "expandTag",
+                "title": "Expand Tag"
             }
         ],
         "configuration": [
@@ -255,6 +259,18 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "typeDecorations.ignoreValues": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "markdownDescription": "Ignore specific resolved values from type decorations. In future it can be regex if starts & ends with `/`. Examples can be: `any`, `unknown`",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "typeDecorations.enableInStyles": {
+                        "type": "boolean",
+                        "default": false
+                    },
                     "autoRemoveSemicolon.enable": {
                         "type": "boolean",
                         "default": true
@@ -301,6 +317,11 @@
                         "type": "boolean",
                         "default": true,
                         "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
+                    },
+                    "features.autoExpandTag": {
+                        "type": "boolean",
+                        "markdownDescription": "Type space after `/` in `<div />` to expand the tag. Doesn't support React for now",
+                        "default": true
                     }
                 }
             }
@@ -392,13 +413,14 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.4",
-        "@zardoy/vscode-utils": "^0.0.15",
+        "@zardoy/vscode-utils": "^0.0.16",
         "change-case": "^4.1.2",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
         "ini": "^2.0.0",
         "lower-case-first": "^2.0.2",
+        "markdown-to-txt": "^2.0.1",
         "minimatch": "^5.0.1",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",

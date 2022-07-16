@@ -2,6 +2,8 @@ import * as vscode from 'vscode'
 import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
 import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
+import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
+import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
@@ -40,6 +42,7 @@ import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
 import renameConsoleTime from './features/renameConsoleTime'
 import { registerRenameVariableParts } from './features/renameVariableParts'
+import expandTag from './features/expandTag'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -83,6 +86,7 @@ export const activate = () => {
     printDocumentUri()
     renameConsoleTime()
     registerRenameVariableParts()
+    expandTag()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
