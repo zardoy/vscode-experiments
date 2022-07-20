@@ -40,6 +40,7 @@ import { registerCutLineContentsPreserve } from './features/cutLineContentsPrese
 import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
+import collapseNodeModules from './features/collapseNodeModules'
 import renameConsoleTime from './features/renameConsoleTime'
 import expandTag from './features/expandTag'
 
@@ -83,6 +84,7 @@ export const activate = () => {
     typeDecorations()
     autoRemoveSemicolon()
     printDocumentUri()
+    collapseNodeModules()
     renameConsoleTime()
     expandTag()
 
@@ -132,6 +134,8 @@ export const activate = () => {
             },
         ])
     })
+
+    registerActiveDevelopmentCommand(async () => {})
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
 }
