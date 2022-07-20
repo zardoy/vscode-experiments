@@ -86,12 +86,12 @@ export const registerRenameVariableParts = () => {
 
         const mainDisposable = vscode.Disposable.from(
             quickPick,
-            registerCommand('renameVariablePartsAcceptDeletePart', () => {
+            registerCommand('renameVariablePartsDeletePart', () => {
                 if (parts.length === 0) return
                 parts.splice(editingIndex ?? quickPick.items.indexOf(quickPick.activeItems[0]!), 1)
                 resetItems()
             }),
-            registerCommand('renameVariablePartsAcceptExtractPart', () => {
+            registerCommand('renameVariablePartsExtractPart', () => {
                 if (parts.length === 0) return
                 const onlyPart = parts[editingIndex ?? quickPick.items.indexOf(quickPick.activeItems[0]!)]!
                 parts.splice(0, parts.length)

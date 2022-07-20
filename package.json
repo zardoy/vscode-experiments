@@ -157,11 +157,11 @@
                 "title": "Rename Variable Parts Accept Without Using Rename Provider"
             },
             {
-                "command": "renameVariablePartsAcceptDeletePart",
+                "command": "renameVariablePartsDeletePart",
                 "title": "Rename Variable Parts Accept Delete Part"
             },
             {
-                "command": "renameVariablePartsAcceptExtractPart",
+                "command": "renameVariablePartsExtractPart",
                 "title": "Rename Variable Parts Accept Extract Part"
             },
             {
@@ -341,11 +341,11 @@
                     "when": "false"
                 },
                 {
-                    "command": "renameVariablePartsAcceptDeletePart",
+                    "command": "renameVariablePartsDeletePart",
                     "when": "false"
                 },
                 {
-                    "command": "renameVariablePartsAcceptExtractPart",
+                    "command": "renameVariablePartsExtractPart",
                     "when": "false"
                 },
                 {
@@ -372,13 +372,13 @@
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
-                "command": "zardoyExperiments.renameVariablePartsAcceptDeletePart",
+                "command": "zardoyExperiments.renameVariablePartsDeletePart",
                 "key": "ctrl+d",
                 "mac": "cmd+d",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
-                "command": "zardoyExperiments.renameVariablePartsAcceptExtractPart",
+                "command": "zardoyExperiments.renameVariablePartsExtractPart",
                 "key": "ctrl+e",
                 "mac": "cmd+e",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
