@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { getActiveRegularEditor } from '@zardoy/vscode-utils'
-import { noCase } from 'change-case'
+import { noCase, camelCase } from 'change-case'
 import { getExtensionContributionsPrefix, registerExtensionCommand, RegularCommands } from 'vscode-framework'
 
 // doesn't support multicursor
@@ -19,8 +19,12 @@ export const registerRenameVariableParts = () => {
 
         // TODO make reactive via valtio
         const parts: string[] = []
-        noCase(document.getText(editRange), {
+        // expected: dash or underscore
+        let seperatorChar = ''
+        const inputText = document.getText(editRange)
+        noCase(inputText, {
             transform(part, index) {
+                if (index === 1) seperatorChar = inputText[parts[0]!.length]!
                 parts.push(part)
                 return ''
             },
@@ -28,17 +32,24 @@ export const registerRenameVariableParts = () => {
 
         let editingIndex: number | undefined
 
-        const getName = () => parts.join('')
+        const getResultingName = () => parts.join(seperatorChar)
 
+        // if transformation results no differences - we're already in camel case
+        // we don't support mixed casing e.g. SomeVariable_meta
+        const isCamelCase = camelCase(inputText) === inputText
+        if (isCamelCase) seperatorChar = ''
         const isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
 
         const resetItems = () => {
             editingIndex = undefined
-            // preserve original casing
-            const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
-            const firstCharacterEqual = parts[0]?.[0]?.[ensureMethod]() === parts[0]?.[0]
+            if (isCamelCase) {
+                // preserve original casing
+                const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
+                const firstCharactersEqual = parts[0]?.[0]?.[ensureMethod]() === parts[0]?.[0]
 
-            if (!firstCharacterEqual) parts[0] = `${parts[0]![0]![ensureMethod]()}${parts[0]!.slice(1)}`
+                if (!firstCharactersEqual) parts[0] = `${parts[0]![0]![ensureMethod]()}${parts[0]!.slice(1)}`
+            }
+
             quickPick.items = parts.map(part => ({ label: part }))
             quickPick.title = `Rename variable parts: ${quickPick.items.map(({ label }) => label).join('')}`
         }
@@ -53,7 +64,7 @@ export const registerRenameVariableParts = () => {
             if (direction === 'up') {
                 const prevPart = parts[currentActiveItemIndex - 1]!
                 if (!prevPart) return
-                const normallizedPart = currentActiveItemIndex === 1 ? upperCaseFirstLetter(prevPart) : prevPart
+                const normallizedPart = currentActiveItemIndex === 1 && isCamelCase ? upperCaseFirstLetter(prevPart) : prevPart
                 parts.splice(currentActiveItemIndex - 1, 1, currentPart)
                 parts.splice(currentActiveItemIndex, 1, normallizedPart)
             }
@@ -61,7 +72,7 @@ export const registerRenameVariableParts = () => {
             if (direction === 'down') {
                 const nextPart = parts[currentActiveItemIndex + 1]
                 if (!nextPart) return
-                const normallizedPart = currentActiveItemIndex === 0 ? upperCaseFirstLetter(currentPart) : currentPart
+                const normallizedPart = currentActiveItemIndex === 0 && isCamelCase ? upperCaseFirstLetter(currentPart) : currentPart
                 parts.splice(currentActiveItemIndex + 1, 1, normallizedPart)
                 parts.splice(currentActiveItemIndex, 1, nextPart)
             }
@@ -99,13 +110,13 @@ export const registerRenameVariableParts = () => {
                     'vscode.executeDocumentRenameProvider',
                     document.uri,
                     selection.end,
-                    getName(),
+                    getResultingName(),
                 )
                 await vscode.workspace.applyEdit(edit)
             }),
             registerCommand('renameVariablePartsAcceptReplace', () => {
                 void activeEditor.edit(builder => {
-                    builder.replace(editRange, getName())
+                    builder.replace(editRange, getResultingName())
                 })
                 quickPick.hide()
             }),
