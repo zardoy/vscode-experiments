@@ -24,6 +24,7 @@ export const registerAutoAlignImport = () => {
             }
 
             if (isInImport) continue
+            // eslint-disable-next-line no-await-in-loop
             if (metImportStatement && line.trim() !== '') await editor.edit(builder => builder.insert(new vscode.Position(lineIndex, 0), '\n'))
             break
         }

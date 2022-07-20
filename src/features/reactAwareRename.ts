@@ -7,8 +7,8 @@ export const registerReactAwareRename = () => {
             // Another naive implementation that shouldn't be used
             const editor = vscode.window.activeTextEditor
             if (editor === undefined || !editor.document.languageId.endsWith('react')) return false
-            const { document } = editor
-            const pos = editor.selection.end
+            const { document, selection } = editor
+            const pos = selection.end
             const definitions: vscode.LocationLink[] = await vscode.commands.executeCommand('vscode.executeDefinitionProvider', document.uri, pos)
             const definition = definitions[0]
             if (!definition || definition.targetUri.toString() !== document.uri.toString()) return false

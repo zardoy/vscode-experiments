@@ -53,6 +53,7 @@ const unusedCommands = () => {
             pty: {
                 onDidWrite: writeEmitter.event,
                 open: () => writeEmitter.fire('Type and press enter to echo the text\r\n\r\n'),
+                // eslint-disable-next-line no-empty-function
                 close: () => {},
                 handleInput: (data: string) => {
                     // https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797#general-ascii-codes

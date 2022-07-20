@@ -9,7 +9,7 @@ export const registerAlwaysTab = () => {
         if (!activeTextEditor) throw new Error('no activeTextEditor')
         if (notSingleSursor()) return
         const pos = activeTextEditor.selection.start
-        const { document } = activeTextEditor
+        const { document, selection } = activeTextEditor
         const lineText = document.lineAt(pos).text
         const matchImport = /(import .*from )(['"].*['"])/.exec(lineText)
         if (matchImport) {
@@ -57,9 +57,9 @@ export const registerAlwaysTab = () => {
                 const match = /(\([^()]*)\)(?:: .+)? (?:=>|{)/.exec(lineText)
                 if (match) {
                     const newPos = new vscode.Position(i, match.index + (match[1]?.length ?? match[2]!.length))
-                    if (activeTextEditor.selection.end.isEqual(newPos)) continue
+                    if (selection.end.isEqual(newPos)) continue
                     activeTextEditor.selections = [new vscode.Selection(newPos, newPos)]
-                    activeTextEditor.revealRange(activeTextEditor.selection)
+                    activeTextEditor.revealRange(selection)
                     return
                 }
             }

@@ -6,9 +6,9 @@ export const registerInsertComma = () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor) return
         // TODO insert at all lines
-        const { document } = activeEditor
+        const { document, selections } = activeEditor
         await activeEditor.edit(builder => {
-            for (const selection of activeEditor.selections) {
+            for (const selection of selections) {
                 const pos = document.lineAt(selection.active).range.end
                 if (document.getText(new vscode.Range(pos.translate(0, -1), pos)) !== ',') builder.insert(pos, ',')
             }

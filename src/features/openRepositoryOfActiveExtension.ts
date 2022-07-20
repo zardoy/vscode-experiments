@@ -28,6 +28,7 @@ export const registerOpenRepositoryOfActiveExtension = () => {
             let urlPath = ''
             if (repo.domain === 'github.com' && repoDir) urlPath = `/tree/master/${repoDir}`
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             await vscode.env.openExternal(`${repo.browse()}${urlPath}` as any)
         } else {
             void vscode.window.showWarningMessage('Web is not supported by this feature')
