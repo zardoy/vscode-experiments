@@ -151,6 +151,10 @@
             {
                 "command": "expandTag",
                 "title": "Expand Tag"
+            },
+            {
+                "command": "focusTabByNumber",
+                "title": "Focus Tab by Number"
             }
         ],
         "configuration": [
@@ -294,6 +298,11 @@
                         "type": "boolean",
                         "markdownDescription": "Type space after `/` in `<div />` to expand the tag. Doesn't support React for now",
                         "default": true
+                    },
+                    "features.showTabNumbers": {
+                        "type": "boolean",
+                        "markdownDescription": "For `focusTabByNumber` command",
+                        "default": false
                     }
                 }
             }
