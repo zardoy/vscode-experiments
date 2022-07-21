@@ -153,6 +153,10 @@
                 "title": "Expand Tag"
             },
             {
+                "command": "focusTabByNumberFromLeft",
+                "title": "Focus Tab by Number From Left"
+            },
+            {
                 "command": "focusTabByNumber",
                 "title": "Focus Tab by Number"
             }
@@ -300,8 +304,14 @@
                         "default": true
                     },
                     "features.showTabNumbers": {
-                        "type": "boolean",
+                        "type": "string",
                         "markdownDescription": "For `focusTabByNumber` command",
+                        "enum": [
+                            "disabled",
+                            "fromLeft",
+                            "recentlyFocused",
+                            "recentlyOpened"
+                        ],
                         "default": false
                     }
                 }
@@ -311,6 +321,14 @@
             "commandPalette": [
                 {
                     "command": "applyCodeaction",
+                    "when": "false"
+                },
+                {
+                    "command": "focusTabByNumberFromLeft",
+                    "when": "false"
+                },
+                {
+                    "command": "focusTabByNumber",
                     "when": "false"
                 }
             ]
