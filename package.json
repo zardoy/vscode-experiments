@@ -151,6 +151,10 @@
             {
                 "command": "expandTag",
                 "title": "Expand Tag"
+            },
+            {
+                "command": "extractCssClases",
+                "title": "Extract Css Clases"
             }
         ],
         "configuration": [
@@ -336,7 +340,8 @@
         "path-browserify": "^1.0.1",
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
-        "vscode-framework": "^0.0.18"
+        "vscode-framework": "^0.0.18",
+        "vscode-html-languageservice": "^5.0.1"
     },
     "devDependencies": {
         "@types/node": "^16.11.26",
