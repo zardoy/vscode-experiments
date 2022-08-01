@@ -11,5 +11,7 @@ export default () => {
     registerExtensionCommand('focusTabByNumberFromLeft', async (_, number) => focusTabFromLeft(number))
     const mode = getExtensionSetting('features.showTabNumbers');
     if (mode === 'disabled') return
-    registerExtensionCommand('focusTabByNumber', () => {})
+    registerExtensionCommand('focusTabByNumber', async (_, number) => {
+        if (mode === 'fromLeft') await focusTabFromLeft(number)
+    })
 }

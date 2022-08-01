@@ -42,6 +42,7 @@ import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
 import renameConsoleTime from './features/renameConsoleTime'
 import expandTag from './features/expandTag'
+import tabsWithNumbers from './features/tabsWithNumbers'
 
 export const activate = () => {
     // preserve camelcase identifiers (only vars for now)
@@ -85,6 +86,7 @@ export const activate = () => {
     printDocumentUri()
     renameConsoleTime()
     expandTag()
+    tabsWithNumbers()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
