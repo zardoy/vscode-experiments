@@ -5,6 +5,7 @@ import { noCase } from 'change-case'
 import { proxy, subscribe } from 'valtio/vanilla'
 
 // TODO add color settings
+// TODO! +1
 export default () => {
     const focusTabFromLeft = async (number: number) => {
         const tabDocument = vscode.window.tabGroups.activeTabGroup.tabs[number]?.input as vscode.TextDocument | undefined
@@ -53,10 +54,14 @@ export default () => {
         provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
             if (!recentByMode) {
                 const { tabs } = vscode.window.tabGroups.activeTabGroup
-                // tabs.find(() => )
+                const tabIndex = tabs.findIndex(tab => {
+                    const document = tab.input as vscode.TextDocument | undefined
+                    return document?.uri.toString() === uri.toString()
+                })
+                if (tabIndex === -1) return
                 return {
                     badge: '',
-                    tooltip: `${tabIndex}: by ${humanReadableMode}`,
+                    tooltip: `${tabIndex} ${humanReadableMode}`,
                 }
             }
 
