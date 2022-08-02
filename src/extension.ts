@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { join } from 'path'
 import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
 import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
@@ -95,6 +96,10 @@ export const activate = () => {
     // vscode.languages.registerDocumentSemanticTokensProvider('typescript', {
 
     // }, {})
+
+    registerActiveDevelopmentCommand(() => {
+        void vscode.env.openExternal(vscode.Uri.file(join(vscode.env.appRoot, 'extensions/node_modules/typescript/lib')))
+    })
 
     registerExtensionCommand('openUrl', async (_, url: string) => {
         // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi

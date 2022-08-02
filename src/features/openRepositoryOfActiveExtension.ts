@@ -1,10 +1,12 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand, showQuickPick } from 'vscode-framework'
+import { noWebSupported } from '../util'
 
 export const registerOpenRepositoryOfActiveExtension = () => {
     registerExtensionCommand('openRepositoryOfActiveExtension', async () => {
-        // eslint-disable-next-line no-negated-condition
-        if (process.env.PLATFORM !== 'web') {
+        if (process.env.PLATFORM === 'web') {
+            noWebSupported()
+        } else {
             const { fromUrl } = await import('hosted-git-info')
             // TODO copy id, link button
             const extensionId = await showQuickPick(
@@ -29,8 +31,6 @@ export const registerOpenRepositoryOfActiveExtension = () => {
             if (repo.domain === 'github.com' && repoDir) urlPath = `/tree/master/${repoDir}`
 
             await vscode.env.openExternal(`${repo.browse()}${urlPath}` as any)
-        } else {
-            void vscode.window.showWarningMessage('Web is not supported by this feature')
         }
     })
 }

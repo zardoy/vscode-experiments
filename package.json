@@ -151,6 +151,10 @@
             {
                 "command": "expandTag",
                 "title": "Expand Tag"
+            },
+            {
+                "command": "executeVscodeScript",
+                "title": "Execute Vscode Script"
             }
         ],
         "configuration": [
