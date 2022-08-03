@@ -5,10 +5,9 @@ import { noCase } from 'change-case'
 import { proxy, subscribe } from 'valtio/vanilla'
 
 // TODO add color settings
-// TODO! +1
 export default () => {
-    const focusTabFromLeft = async (number: number) => {
-        const tabDocument = vscode.window.tabGroups.activeTabGroup.tabs[number]?.input as vscode.TextDocument | undefined
+    const focusTabFromLeft = async (index: number) => {
+        const tabDocument = vscode.window.tabGroups.activeTabGroup.tabs[index]?.input as vscode.TextDocument | undefined
         if (!tabDocument) return
         await vscode.window.showTextDocument(tabDocument)
     }
@@ -18,8 +17,14 @@ export default () => {
     // for recentByMode
     const recentFileStack: vscode.Uri[] = proxy([])
     registerExtensionCommand('focusTabByNumber', async (_, number) => {
-        if (mode === 'fromLeft') await focusTabFromLeft(number)
-        const tabUriToFocus = recentFileStack[number]
+        if (mode === 'disabled') {
+            void vscode.window.showWarningMessage('features.showTabNumbers setting is disabled')
+            return
+        }
+
+        const index = number - 1
+        if (mode === 'fromLeft') await focusTabFromLeft(index)
+        const tabUriToFocus = recentFileStack[index]
         if (!tabUriToFocus) return
         const tabDocument = findCustomArray(vscode.window.tabGroups.all as vscode.TabGroup[], tabGroup =>
             findCustomArray(tabGroup.tabs as vscode.Tab[], tab => {
@@ -30,15 +35,20 @@ export default () => {
         if (!tabDocument) return
         await vscode.window.showTextDocument(tabDocument)
     })
+    if (mode === 'disabled') return
     const humanReadableMode = noCase(mode)
 
     class FileDecorationProvider implements vscode.FileDecorationProvider {
         listeners: Array<(e: vscode.Uri | vscode.Uri[] | undefined) => any> = []
 
         constructor() {
-            subscribe(recentFileStack, op => {
-                console.log('changed', op)
-                // for (const listener of this.listeners) listener(data)
+            subscribe(recentFileStack, ops => {
+                // TODO!! update from ops if was deleted
+                // const uris = ops.map(op => {
+                //     const uri = op[2]! as vscode.Uri
+                //     return uri
+                // })
+                for (const listener of this.listeners) listener(recentFileStack)
             })
         }
 
@@ -57,28 +67,29 @@ export default () => {
                     return document?.uri.toString() === uri.toString()
                 })
                 if (tabIndex === -1) return
+                const tabNumber = tabIndex + 1
                 return {
-                    badge: '',
-                    tooltip: `${tabIndex} ${humanReadableMode}`,
+                    badge: `${tabNumber}`,
+                    tooltip: `${tabNumber} ${humanReadableMode}`,
                 }
             }
 
             const tabIndex = recentFileStack.findIndex((elemUri, index) => elemUri.toString() === uri.toString())
             if (tabIndex === -1) return
+            const tabNumber = tabIndex + 1
             return {
-                badge: `${tabIndex}`,
+                badge: `${tabNumber}`,
                 propagate: false,
-                tooltip: `${tabIndex}: by ${humanReadableMode}`,
+                tooltip: `${tabNumber}: by ${humanReadableMode}`,
             }
         }
     }
     vscode.window.registerFileDecorationProvider(new FileDecorationProvider())
     if (!recentByMode) return
     vscode.window.onDidChangeActiveTextEditor(textEditor => {
-        console.log('switch text editor', textEditor?.document.uri.toString())
         if (!textEditor || textEditor.viewColumn === undefined) return
         const { uri } = textEditor.document
-        const elemIndex = recentFileStack.indexOf(uri)
+        const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === uri.toString())
         if (elemIndex === -1) {
             recentFileStack.unshift(uri)
             return
@@ -90,8 +101,7 @@ export default () => {
         }
     })
     vscode.workspace.onDidCloseTextDocument(document => {
-        console.log('close document', document.uri.toString())
-        const elemIndex = recentFileStack.indexOf(document.uri)
+        const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === document.uri.toString())
         if (elemIndex === -1) return
         recentFileStack.splice(elemIndex, 1)
     })
