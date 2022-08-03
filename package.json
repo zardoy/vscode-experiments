@@ -153,10 +153,6 @@
                 "title": "Expand Tag"
             },
             {
-                "command": "focusTabByNumberFromLeft",
-                "title": "Focus Tab by Number From Left"
-            },
-            {
                 "command": "focusTabByNumber",
                 "title": "Focus Tab by Number"
             }
@@ -321,10 +317,6 @@
             "commandPalette": [
                 {
                     "command": "applyCodeaction",
-                    "when": "false"
-                },
-                {
-                    "command": "focusTabByNumberFromLeft",
                     "when": "false"
                 },
                 {

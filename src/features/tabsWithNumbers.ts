@@ -13,9 +13,7 @@ export default () => {
         await vscode.window.showTextDocument(tabDocument)
     }
 
-    registerExtensionCommand('focusTabByNumberFromLeft', async (_, number) => focusTabFromLeft(number))
     const mode = getExtensionSetting('features.showTabNumbers')
-    if (mode === 'disabled') return
     const recentByMode = oneOf(mode, 'recentlyOpened', 'recentlyFocused')
     // for recentByMode
     const recentFileStack: vscode.Uri[] = proxy([])
