@@ -155,6 +155,10 @@
             {
                 "command": "focusTabByNumber",
                 "title": "Focus Tab by Number"
+            },
+            {
+                "command": "generateKeybindingsForTabsWithNumbers",
+                "title": "Generate Keybindings for Tabs with Numbers"
             }
         ],
         "configuration": [
@@ -309,6 +313,11 @@
                             "recentlyOpened"
                         ],
                         "default": "disabled"
+                    },
+                    "showTabNumbers.reversedMode": {
+                        "type": "boolean",
+                        "description": "Display numbers on tabs in reversed mode. Doesn't affect fromLeft mode",
+                        "default": false
                     }
                 }
             }
