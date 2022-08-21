@@ -4,16 +4,17 @@ import { getExtensionCommandId, getExtensionSetting, getExtensionSettingId, regi
 import { noCase } from 'change-case'
 import { proxy, subscribe } from 'valtio/vanilla'
 import { range } from 'rambda'
+import { VscodeTab } from '../types'
 
 export default () => {
     const focusTabFromLeft = async (index: number) => {
-        const tabDocument = vscode.window.tabGroups.activeTabGroup.tabs[index]?.input as vscode.TextDocument | undefined
-        if (!tabDocument) return
-        await vscode.window.showTextDocument(tabDocument)
+        const { uri } = (vscode.window.tabGroups.activeTabGroup.tabs[index]?.input as VscodeTab | undefined) ?? {}
+        if (!uri) return
+        await vscode.window.showTextDocument(uri)
     }
 
     const disposables: vscode.Disposable[] = []
-    let updateDecorations: () => void | undefined
+    let updateDecorations: (uris?: vscode.Uri[]) => void | undefined
     const register = () => {
         const mode = getExtensionSetting('features.showTabNumbers')
         const recentByMode = oneOf(mode, 'recentlyOpened', 'recentlyFocused')
@@ -32,14 +33,14 @@ export default () => {
                 // eslint-disable-next-line sonarjs/no-duplicate-string
                 const tabUriToFocus = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack)[index]
                 if (!tabUriToFocus) return
-                const tabDocument = findCustomArray(vscode.window.tabGroups.all as vscode.TabGroup[], tabGroup =>
+                const tabUri = findCustomArray(vscode.window.tabGroups.all as vscode.TabGroup[], tabGroup =>
                     findCustomArray(tabGroup.tabs as vscode.Tab[], tab => {
-                        const document = tab.input as vscode.TextDocument | undefined
-                        return document?.uri.toString() === tabUriToFocus.toString() && document
+                        const { uri } = (tab.input as VscodeTab | undefined) ?? {}
+                        return uri?.toString() === tabUriToFocus.toString() && uri
                     }),
                 )
-                if (!tabDocument) return
-                await vscode.window.showTextDocument(tabDocument)
+                if (!tabUri) return
+                await vscode.window.showTextDocument(tabUri)
             }),
         )
         if (mode === 'disabled') return
@@ -53,8 +54,8 @@ export default () => {
                     const deletedUris = compact(ops.map(([operation, _affectedIndexes, uri]) => (operation === 'delete' ? (uri as vscode.Uri) : undefined)))
                     for (const listener of this.listeners) listener([...recentFileStack, ...deletedUris])
                 })
-                updateDecorations = () => {
-                    for (const listener of this.listeners) listener(recentFileStack)
+                updateDecorations = uris => {
+                    for (const listener of this.listeners) listener(uris ?? recentFileStack)
                 }
             }
 
@@ -69,8 +70,8 @@ export default () => {
                 if (!recentByMode) {
                     const { tabs } = vscode.window.tabGroups.activeTabGroup
                     const tabIndex = tabs.findIndex(tab => {
-                        const document = tab.input as vscode.TextDocument | undefined
-                        return document?.uri.toString() === uri.toString()
+                        const { uri: tabUri } = (tab.input as VscodeTab | undefined) ?? {}
+                        return tabUri?.toString() === uri.toString()
                     })
                     if (tabIndex === -1) return
                     const tabNumber = tabIndex + 1
@@ -93,7 +94,16 @@ export default () => {
             }
         }
         disposables.push(vscode.window.registerFileDecorationProvider(new FileDecorationProvider()))
-        if (!recentByMode) return
+        if (!recentByMode) {
+            disposables.push(
+                vscode.window.tabGroups.onDidChangeTabs(() => {
+                    const updating = compact(vscode.window.tabGroups.activeTabGroup.tabs.map(({ input }) => (input as VscodeTab | undefined)?.uri))
+                    updateDecorations(updating)
+                }),
+            )
+            return
+        }
+
         disposables.push(
             vscode.window.onDidChangeActiveTextEditor(textEditor => {
                 if (!textEditor || textEditor.viewColumn === undefined) return
