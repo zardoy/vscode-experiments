@@ -159,6 +159,14 @@
             {
                 "command": "generateKeybindingsForTabsWithNumbers",
                 "title": "Generate Keybindings for Tabs with Numbers"
+            },
+            {
+                "command": "gitNextChange",
+                "title": "Git Next Change"
+            },
+            {
+                "command": "gitPreviousChange",
+                "title": "Git Previous Change"
             }
         ],
         "configuration": [

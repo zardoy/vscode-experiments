@@ -1,5 +1,13 @@
 import * as vscode from 'vscode'
-import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
+import {
+    extensionCtx,
+    getExtensionCommandId,
+    getExtensionSetting,
+    registerActiveDevelopmentCommand,
+    registerExtensionCommand,
+    registerNoop,
+    setDebugEnabled,
+} from 'vscode-framework'
 import { range } from 'rambda'
 import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
 import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
@@ -43,8 +51,13 @@ import printDocumentUri from './features/printDocumentUri'
 import renameConsoleTime from './features/renameConsoleTime'
 import expandTag from './features/expandTag'
 import tabsWithNumbers from './features/tabsWithNumbers'
+import { execa } from 'execa'
+import { getGitActiveRepoOrThrow, getGitApiOrThrow, GitExtension, GitRepository, initGitApi } from './git-api'
+import { findCustomArray } from '@zardoy/utils'
 
 export const activate = () => {
+    initGitApi()
+
     // preserve camelcase identifiers (only vars for now)
     // preserveCamelCase()
     registerTsCodeactions()
@@ -133,6 +146,40 @@ export const activate = () => {
                 range: new vscode.Range(pos, pos.translate(0, 1)),
             },
         ])
+    })
+
+    registerActiveDevelopmentCommand(async () => {
+        const repo = getGitActiveRepoOrThrow()
+        if (!repo) return
+        const isNextChange = false
+        const input = vscode.window.tabGroups.activeTabGroup.activeTab?.input
+        if (!(input instanceof vscode.TabInputTextDiff) || input?.original?.scheme !== 'git') return
+        console.log(vscode.window.visibleTextEditors.map(({ document }) => document.uri.toString()))
+        return
+        const fileEditor = vscode.window.visibleTextEditors.find(({ document }) => document.uri.scheme === 'file')!
+        const prevSelection = fileEditor.selection
+        const { indexChanges, mergeChanges, workingTreeChanges } = repo.state
+        const { dispose } = vscode.window.onDidChangeTextEditorSelection(async ({ textEditor }) => {
+            if (textEditor.document.uri.scheme !== 'file') return
+            dispose()
+            const performFileMove = !textEditor.selection.active[isNextChange ? 'isAfter' : 'isBefore'](prevSelection.active)
+            if (performFileMove) {
+                const changesNames = ['indexChanges', 'mergeChanges', 'workingTreeChanges']
+                for (const [i, changes] of [indexChanges, mergeChanges, workingTreeChanges].entries()) {
+                    const fileIndex = changes.findIndex(({ uri }) => {
+                        return fileEditor.document.uri.toString() === uri.toString()
+                    })
+                    if (fileIndex === -1) return
+                    const { uri } = changes[fileIndex + (isNextChange ? 1 : -1)] ?? {}
+                    if (!uri) {
+                        void vscode.window.showInformationMessage(`Reached ${isNextChange ? 'last' : 'first'} change file in ${changesNames[i]}`)
+                        return
+                    }
+                    console.log('open', uri?.toString())
+                }
+            }
+        })
+        await vscode.commands.executeCommand(isNextChange ? 'workbench.action.compareEditor.nextChange' : 'workbench.action.compareEditor.previousChange')
     })
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
