@@ -18,6 +18,7 @@ export const registerRegexCodeActions = () => {
                 )
                 if (regexRange.intersection(new vscode.Range(pos, pos))) {
                     console.log('regex detected', match[0])
+                    // eslint-disable-next-line no-await-in-loop
                     const clipboardRegex = /^\/(?!\*).+?(?<!\\)\//.exec(await vscode.env.clipboard.readText())
                     const additionalCodeActions: vscode.CodeAction[] = []
                     if (clipboardRegex) {

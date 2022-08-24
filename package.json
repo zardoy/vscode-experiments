@@ -145,6 +145,38 @@
                 "title": "Cut Line Contents and Preserve Line"
             },
             {
+                "command": "renameVariableParts",
+                "title": "Rename Variable Parts"
+            },
+            {
+                "command": "renameVariablePartsAccept",
+                "title": "Rename Variable Parts Accept Renaming"
+            },
+            {
+                "command": "renameVariablePartsAcceptReplace",
+                "title": "Rename Variable Parts Accept Without Using Rename Provider"
+            },
+            {
+                "command": "renameVariablePartsDeletePart",
+                "title": "Rename Variable Parts Delete Part"
+            },
+            {
+                "command": "renameVariablePartsExtractPart",
+                "title": "Rename Variable Parts Extract Part"
+            },
+            {
+                "command": "renameVariablePartsLowercasePart",
+                "title": "Rename Variable Parts Lowercase Part"
+            },
+            {
+                "command": "renameVariablePartsPartMoveDown",
+                "title": "Rename Variable Parts Part Move Down"
+            },
+            {
+                "command": "renameVariablePartsPartMoveUp",
+                "title": "Rename Variable Parts Part Move Up"
+            },
+            {
                 "command": "printActiveDocumrntUri",
                 "title": "Print Active Documrnt URI"
             },
@@ -339,9 +371,81 @@
                 {
                     "command": "focusTabByNumber",
                     "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsAccept",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsAcceptReplace",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsDeletePart",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsExtractPart",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsLowercasePart",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsPartMoveUp",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsPartMoveDown",
+                    "when": "false"
                 }
             ]
-        }
+        },
+        "keybindings": [
+            {
+                "command": "zardoyExperiments.renameVariablePartsAccept",
+                "key": "ctrl+o",
+                "mac": "cmd+o",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsAcceptReplace",
+                "key": "ctrl+p",
+                "mac": "cmd+p",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsDeletePart",
+                "key": "ctrl+d",
+                "mac": "cmd+d",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsExtractPart",
+                "key": "ctrl+e",
+                "mac": "cmd+e",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsLowercasePart",
+                "key": "ctrl+l",
+                "mac": "cmd+l",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsPartMoveUp",
+                "key": "ctrl+alt+i",
+                "mac": "cmd+shift+i",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsPartMoveDown",
+                "key": "ctrl+alt+k",
+                "mac": "cmd+shift+k",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            }
+        ]
     },
     "scripts": {
         "start": "vscode-framework start",
@@ -372,7 +476,7 @@
         "path-browserify": "^1.0.1",
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
-        "valtio": "^1.6.3",
+        "valtio": "^1.6.4",
         "vscode-framework": "^0.0.18"
     },
     "devDependencies": {

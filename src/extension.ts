@@ -41,6 +41,7 @@ import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
 import renameConsoleTime from './features/renameConsoleTime'
+import { registerRenameVariableParts } from './features/renameVariableParts'
 import expandTag from './features/expandTag'
 import tabsWithNumbers from './features/tabsWithNumbers'
 import { initGitApi } from './git-api'
@@ -89,6 +90,7 @@ export const activate = () => {
     autoRemoveSemicolon()
     printDocumentUri()
     renameConsoleTime()
+    registerRenameVariableParts()
     expandTag()
     tabsWithNumbers()
     gitNextChange()
@@ -105,6 +107,7 @@ export const activate = () => {
 
     registerExtensionCommand('openUrl', async (_, url: string) => {
         // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await vscode.env.openExternal(url as any)
     })
 
@@ -114,6 +117,7 @@ export const activate = () => {
             setTimeout(resolve, 50)
         })
         await vscode.commands.executeCommand('workbench.action.terminal.scrollUpPage')
+        // eslint-disable-next-line no-await-in-loop
         for (const i of range(0, 3)) await vscode.commands.executeCommand('workbench.action.terminal.scrollDown')
     })
 
