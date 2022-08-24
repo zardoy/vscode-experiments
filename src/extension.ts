@@ -43,8 +43,12 @@ import printDocumentUri from './features/printDocumentUri'
 import renameConsoleTime from './features/renameConsoleTime'
 import expandTag from './features/expandTag'
 import tabsWithNumbers from './features/tabsWithNumbers'
+import { initGitApi } from './git-api'
+import gitNextChange from './features/gitNextChange'
 
 export const activate = () => {
+    initGitApi()
+
     // preserve camelcase identifiers (only vars for now)
     // preserveCamelCase()
     registerTsCodeactions()
@@ -87,6 +91,7 @@ export const activate = () => {
     renameConsoleTime()
     expandTag()
     tabsWithNumbers()
+    gitNextChange()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
