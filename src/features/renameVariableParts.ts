@@ -3,6 +3,7 @@ import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { noCase, camelCase } from 'change-case'
 import { getExtensionContributionsPrefix, registerExtensionCommand, RegularCommands } from 'vscode-framework'
 import { proxy, subscribe } from 'valtio/vanilla'
+import { lowerCaseFirst } from 'lower-case-first'
 
 // doesn't support multicursor
 export const registerRenameVariableParts = () => {
@@ -34,7 +35,7 @@ export const registerRenameVariableParts = () => {
 
         // if transformation results no differences - we're already in camel case
         // we don't support mixed casing e.g. SomeVariable_meta
-        const isCamelCase = camelCase(inputText) === inputText
+        const isCamelCase = [inputText, lowerCaseFirst(inputText)].includes(camelCase(inputText))
         if (isCamelCase) seperatorChar = ''
         let isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
 
