@@ -155,7 +155,7 @@ export const registerRenameVariableParts = () => {
 
                 const prevIndex = index - 1
                 parts.splice(index, 1)
-                parts[prevIndex] = parts[prevIndex]! + content.toLowerCase()
+                parts[prevIndex] = `${parts[prevIndex]!}${content.toLowerCase()}`
                 if (editingIndex) quickPick.value = ''
                 resetItems()
             }),
