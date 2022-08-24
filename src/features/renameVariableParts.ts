@@ -32,6 +32,12 @@ export const registerRenameVariableParts = () => {
             },
         })
 
+        // if transformation results no differences - we're already in camel case
+        // we don't support mixed casing e.g. SomeVariable_meta
+        const isCamelCase = camelCase(inputText) === inputText
+        if (isCamelCase) seperatorChar = ''
+        let isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
+
         let editingIndex: number | undefined
 
         const getResultingName = () => parts.join(seperatorChar)
@@ -59,12 +65,6 @@ export const registerRenameVariableParts = () => {
         }
 
         const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
-
-        // if transformation results no differences - we're already in camel case
-        // we don't support mixed casing e.g. SomeVariable_meta
-        const isCamelCase = camelCase(inputText) === inputText
-        if (isCamelCase) seperatorChar = ''
-        const isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
 
         const updateMainTitle = () => {
             quickPick.title = `Rename variable parts: ${getQuickPickTitle()}`
@@ -111,7 +111,7 @@ export const registerRenameVariableParts = () => {
         })
 
         const moveVariableParts = (direction: 'up' | 'down') => {
-            const currentActiveItemIndex = quickPick.items.indexOf(quickPick.activeItems[0]!)
+            const currentActiveItemIndex = getActiveItemIndex() ?? -1
             const currentPart = parts[currentActiveItemIndex]
             // handle -1 index
             if (!currentPart) return
@@ -140,6 +140,23 @@ export const registerRenameVariableParts = () => {
                 const onlyPart = parts[editingIndex ?? getActiveItemIndex()!]!
                 parts.splice(0, parts.length)
                 parts.push(onlyPart)
+                resetItems()
+            }),
+            registerCommand('renameVariablePartsLowercasePart', () => {
+                if (parts.length === 0) return
+                const index = editingIndex ?? getActiveItemIndex()!
+                const content = editingIndex ? quickPick.value : parts[index]!
+
+                if (index === 0) {
+                    isPascalCase = false
+                    parts[0] = content.toLowerCase()
+                    return
+                }
+
+                const prevIndex = index - 1
+                parts.splice(index, 1)
+                parts[prevIndex] = parts[prevIndex]! + content.toLowerCase()
+                if (editingIndex) quickPick.value = ''
                 resetItems()
             }),
             registerCommand('renameVariablePartsPartMoveUp', () => {

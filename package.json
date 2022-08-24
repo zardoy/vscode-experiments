@@ -165,6 +165,10 @@
                 "title": "Rename Variable Parts Accept Extract Part"
             },
             {
+                "command": "renameVariablePartsLowercasePart",
+                "title": "Rename Variable Parts Lowercase Part"
+            },
+            {
                 "command": "renameVariablePartsPartMoveDown",
                 "title": "Rename Variable Parts Part Move Down"
             },
@@ -349,6 +353,10 @@
                     "when": "false"
                 },
                 {
+                    "command": "renameVariablePartsLowercasePart",
+                    "when": "false"
+                },
+                {
                     "command": "renameVariablePartsPartMoveUp",
                     "when": "false"
                 },
@@ -367,8 +375,8 @@
             },
             {
                 "command": "zardoyExperiments.renameVariablePartsAcceptReplace",
-                "key": "ctrl+l",
-                "mac": "cmd+l",
+                "key": "ctrl+p",
+                "mac": "cmd+p",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
@@ -381,6 +389,12 @@
                 "command": "zardoyExperiments.renameVariablePartsExtractPart",
                 "key": "ctrl+e",
                 "mac": "cmd+e",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsLowercasePart",
+                "key": "ctrl+l",
+                "mac": "cmd+l",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
