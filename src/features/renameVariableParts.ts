@@ -2,9 +2,11 @@ import * as vscode from 'vscode'
 import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { noCase, camelCase } from 'change-case'
 import { getExtensionContributionsPrefix, registerExtensionCommand, RegularCommands } from 'vscode-framework'
+import { proxy, subscribe } from 'valtio/vanilla'
 
 // doesn't support multicursor
 export const registerRenameVariableParts = () => {
+    // small task: add back button when editingIndex (like in GitLens menus)
     registerExtensionCommand('renameVariableParts', async () => {
         const activeEditor = getActiveRegularEditor()
         if (!activeEditor) return
@@ -17,10 +19,10 @@ export const registerRenameVariableParts = () => {
             return
         }
 
-        // TODO make reactive via valtio
-        const parts: string[] = []
-        // expected: dash or underscore
+        const parts = proxy([] as string[])
+        /** expected: dash or underscore */
         let seperatorChar = ''
+        // init parts
         const inputText = document.getText(editRange)
         noCase(inputText, {
             transform(part, index) {
@@ -33,6 +35,30 @@ export const registerRenameVariableParts = () => {
         let editingIndex: number | undefined
 
         const getResultingName = () => parts.join(seperatorChar)
+        const getQuickPickTitle = () => {
+            const partsTemp = [...parts]
+            const mainIndex = editingIndex === undefined ? getActiveItemIndex() ?? -1 : editingIndex
+            const mainPart = partsTemp[mainIndex]
+            // handle -1 case
+            if (!mainPart) return ''
+            partsTemp[mainIndex] = editingIndex === undefined ? `|${mainPart}` : `[${mainPart}]`
+            return partsTemp.join(seperatorChar)
+        }
+
+        const getActiveItemIndex = () => {
+            const [activeItem] = quickPick.activeItems
+            if (!activeItem) return
+            return quickPick.items.indexOf(activeItem)
+        }
+
+        const setActiveItem = (existingIndex: number) => {
+            // do it in next loop after items update (most probably)
+            setTimeout(() => {
+                quickPick.activeItems = [quickPick.items[existingIndex]!]
+            })
+        }
+
+        const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
 
         // if transformation results no differences - we're already in camel case
         // we don't support mixed casing e.g. SomeVariable_meta
@@ -40,45 +66,63 @@ export const registerRenameVariableParts = () => {
         if (isCamelCase) seperatorChar = ''
         const isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
 
+        const updateMainTitle = () => {
+            quickPick.title = `Rename variable parts: ${getQuickPickTitle()}`
+        }
+
         const resetItems = () => {
+            quickPick.items = parts.map(part => ({ label: part }))
+            if (editingIndex !== undefined) setActiveItem(editingIndex)
+            updateMainTitle()
             editingIndex = undefined
+        }
+
+        // watch parts
+        const updateParts = () => {
+            // of course we could do this normalization at apply step
+            // but we want nice true display in quickPick items
             if (isCamelCase) {
-                // preserve original casing
+                // do camel case capitalization
+
+                // #region preserve casing for first word
                 const ensureMethod = isPascalCase ? 'toUpperCase' : 'toLowerCase'
                 const firstCharactersEqual = parts[0]?.[0]?.[ensureMethod]() === parts[0]?.[0]
 
                 if (!firstCharactersEqual) parts[0] = `${parts[0]![0]![ensureMethod]()}${parts[0]!.slice(1)}`
+                // #endregion
+
+                // ensure every single next part is capitalized
+                for (const [i, part] of parts.entries()) {
+                    if (i === 0) continue
+                    parts[i] = upperCaseFirstLetter(part)
+                }
             }
 
-            quickPick.items = parts.map(part => ({ label: part }))
-            quickPick.title = `Rename variable parts: ${quickPick.items.map(({ label }) => label).join('')}`
+            if (editingIndex === undefined) resetItems()
         }
 
-        const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
-
+        updateParts()
         resetItems()
+        subscribe(parts, updateParts)
+
+        quickPick.onDidChangeActive(() => {
+            if (editingIndex !== undefined) return
+            updateMainTitle()
+        })
 
         const moveVariableParts = (direction: 'up' | 'down') => {
             const currentActiveItemIndex = quickPick.items.indexOf(quickPick.activeItems[0]!)
-            const currentPart = parts[currentActiveItemIndex]!
-            if (direction === 'up') {
-                const prevPart = parts[currentActiveItemIndex - 1]!
-                if (!prevPart) return
-                const normallizedPart = currentActiveItemIndex === 1 && isCamelCase ? upperCaseFirstLetter(prevPart) : prevPart
-                parts.splice(currentActiveItemIndex - 1, 1, currentPart)
-                parts.splice(currentActiveItemIndex, 1, normallizedPart)
-            }
+            const currentPart = parts[currentActiveItemIndex]
+            // handle -1 index
+            if (!currentPart) return
+            const moveOffset = direction === 'up' ? -1 : 1
+            const newItemIndex = currentActiveItemIndex + moveOffset
+            const prevOrNextPart = parts[newItemIndex]!
+            if (!prevOrNextPart) return
+            parts.splice(newItemIndex, 1, currentPart)
+            parts.splice(currentActiveItemIndex, 1, prevOrNextPart)
 
-            if (direction === 'down') {
-                const nextPart = parts[currentActiveItemIndex + 1]
-                if (!nextPart) return
-                const normallizedPart = currentActiveItemIndex === 0 && isCamelCase ? upperCaseFirstLetter(currentPart) : currentPart
-                parts.splice(currentActiveItemIndex + 1, 1, normallizedPart)
-                parts.splice(currentActiveItemIndex, 1, nextPart)
-            }
-
-            resetItems()
-            quickPick.activeItems = quickPick.items.filter(({ label }) => label.toLowerCase() === currentPart.toLowerCase())
+            setActiveItem(newItemIndex)
         }
 
         const registerCommand = (command: keyof RegularCommands, handler: () => void) =>
@@ -88,12 +132,12 @@ export const registerRenameVariableParts = () => {
             quickPick,
             registerCommand('renameVariablePartsDeletePart', () => {
                 if (parts.length === 0) return
-                parts.splice(editingIndex ?? quickPick.items.indexOf(quickPick.activeItems[0]!), 1)
+                parts.splice(editingIndex ?? getActiveItemIndex()!, 1)
                 resetItems()
             }),
             registerCommand('renameVariablePartsExtractPart', () => {
                 if (parts.length === 0) return
-                const onlyPart = parts[editingIndex ?? quickPick.items.indexOf(quickPick.activeItems[0]!)]!
+                const onlyPart = parts[editingIndex ?? getActiveItemIndex()!]!
                 parts.splice(0, parts.length)
                 parts.push(onlyPart)
                 resetItems()
@@ -129,11 +173,11 @@ export const registerRenameVariableParts = () => {
         quickPick.onDidAccept(() => {
             const activeItem = quickPick.activeItems[0]!
             if (editingIndex === undefined) {
+                if (!activeItem) return
                 editingIndex = quickPick.items.indexOf(activeItem)
                 const { label } = activeItem
-                quickPick.items = [
-                    /* { label } */
-                ]
+                quickPick.items = []
+                quickPick.title = `Editing part: ${getQuickPickTitle()}`
                 quickPick.value = label
                 return
             }
@@ -147,6 +191,5 @@ export const registerRenameVariableParts = () => {
         })
         await vscode.commands.executeCommand('setContext', 'zardoyExperiments.renameVariablePartsOpened', true)
         quickPick.show()
-        // vscode.commands.executeCommand('')
     })
 }
