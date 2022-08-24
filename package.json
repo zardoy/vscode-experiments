@@ -158,11 +158,11 @@
             },
             {
                 "command": "renameVariablePartsDeletePart",
-                "title": "Rename Variable Parts Accept Delete Part"
+                "title": "Rename Variable Parts Delete Part"
             },
             {
                 "command": "renameVariablePartsExtractPart",
-                "title": "Rename Variable Parts Accept Extract Part"
+                "title": "Rename Variable Parts Extract Part"
             },
             {
                 "command": "renameVariablePartsLowercasePart",
