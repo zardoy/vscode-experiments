@@ -348,12 +348,14 @@ const enum GitErrorCodes {
     EmptyCommitMessage = 'EmptyCommitMessage',
 }
 
-export let gitApi: API | undefined | null
+export const gitApi = {
+    api: undefined as API | undefined | null,
+}
 
 export const initGitApi = () => {
     const gitExtension = vscode.extensions.getExtension('vscode.git')
     if (!gitExtension) {
-        gitApi = null
+        gitApi.api = null
         return
     }
     gitExtension.activate().then(async (api: GitExtension) => {
@@ -361,16 +363,16 @@ export const initGitApi = () => {
         if (!git) return
         git.onDidChangeState(api => {
             if (api === 'initialized') {
-                gitApi = git
+                gitApi.api = git
             }
         })
     })
 }
 
 export const getGitApiOrThrow = () => {
-    if (gitApi === null) throw new Error('Git extension is disabled')
-    if (gitApi === undefined) throw new Error('Git extension is not ready yet')
-    return gitApi
+    if (gitApi.api === null) throw new Error('Git extension is disabled')
+    if (gitApi.api === undefined) throw new Error('Git extension is not ready yet')
+    return gitApi.api
 }
 
 export const getGitActiveRepoOrThrow = () => {
