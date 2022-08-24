@@ -13,20 +13,20 @@ export default () => {
         const runPreviousOrNextChange = async (isNext: boolean) => {
             await vscode.commands.executeCommand(isNext ? 'workbench.action.compareEditor.nextChange' : 'workbench.action.compareEditor.previousChange')
         }
+
         const performFileMove = () => {
             const changesNames = ['indexChanges', 'mergeChanges', 'workingTreeChanges']
             for (const [i, changes] of [indexChanges, mergeChanges, workingTreeChanges].entries()) {
-                const fileIndex = changes.findIndex(({ uri }) => {
-                    return rightEditor.document.uri.path === uri.path
-                })
+                const fileIndex = changes.findIndex(({ uri }) => rightEditor.document.uri.path === uri.path)
                 if (fileIndex === -1) continue
                 const { uri } = changes[fileIndex + (isNextChange ? 1 : -1)] ?? {}
                 void runPreviousOrNextChange(!isNextChange)
                 if (!uri) {
-                    void vscode.window.showInformationMessage(`Reached ${isNextChange ? 'last' : 'first'} change file in ${changesNames[i]}`)
+                    void vscode.window.showInformationMessage(`Reached ${isNextChange ? 'last' : 'first'} change file in ${changesNames[i]!}`)
                     return
                 }
-                vscode.commands.executeCommand('git.openChange', uri).then(() => {
+
+                void vscode.commands.executeCommand('git.openChange', uri).then(() => {
                     const nextEditor = detectGitTabTextEditor()
                     if (!nextEditor) return
 
@@ -36,6 +36,7 @@ export default () => {
                 })
             }
         }
+
         const { indexChanges, mergeChanges, workingTreeChanges } = repo.state
         let posChanged = false
         const { dispose } = vscode.window.onDidChangeTextEditorSelection(async ({ textEditor }) => {
@@ -46,9 +47,7 @@ export default () => {
             if (doFileMove) performFileMove()
         })
         await runPreviousOrNextChange(isNextChange)
-        if (!posChanged) {
-            performFileMove()
-        }
+        if (!posChanged) performFileMove()
     }
 
     registerExtensionCommand('gitNextChange', gitNextOrPreviousChange)
