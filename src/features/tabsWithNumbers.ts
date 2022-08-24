@@ -1,14 +1,15 @@
 import * as vscode from 'vscode'
 import { oneOf, findCustomArray, compact } from '@zardoy/utils'
-import { getExtensionCommandId, getExtensionSetting, getExtensionSettingId, registerExtensionCommand, RegularCommands } from 'vscode-framework'
+import { getExtensionCommandId, getExtensionSetting, getExtensionSettingId, registerExtensionCommand } from 'vscode-framework'
 import { noCase } from 'change-case'
 import { proxy, subscribe } from 'valtio/vanilla'
 import { range } from 'rambda'
-import { VscodeTab } from '../types'
 
 export default () => {
     const focusTabFromLeft = async (index: number) => {
-        const { uri } = (vscode.window.tabGroups.activeTabGroup.tabs[index]?.input as VscodeTab | undefined) ?? {}
+        const input = vscode.window.tabGroups.activeTabGroup.tabs[index]?.input
+        if (!(input instanceof vscode.TabInputText)) return
+        const { uri } = input
         if (!uri) return
         await vscode.window.showTextDocument(uri)
     }
@@ -35,7 +36,8 @@ export default () => {
                 if (!tabUriToFocus) return
                 const tabUri = findCustomArray(vscode.window.tabGroups.all as vscode.TabGroup[], tabGroup =>
                     findCustomArray(tabGroup.tabs as vscode.Tab[], tab => {
-                        const { uri } = (tab.input as VscodeTab | undefined) ?? {}
+                        if (!(tab.input instanceof vscode.TabInputText)) return
+                        const { uri } = tab.input
                         return uri?.toString() === tabUriToFocus.toString() && uri
                     }),
                 )
@@ -70,7 +72,8 @@ export default () => {
                 if (!recentByMode) {
                     const { tabs } = vscode.window.tabGroups.activeTabGroup
                     const tabIndex = tabs.findIndex(tab => {
-                        const { uri: tabUri } = (tab.input as VscodeTab | undefined) ?? {}
+                        if (!(tab.input instanceof vscode.TabInputText)) return
+                        const { uri: tabUri } = tab.input
                         return tabUri?.toString() === uri.toString()
                     })
                     if (tabIndex === -1) return
@@ -97,7 +100,12 @@ export default () => {
         if (!recentByMode) {
             disposables.push(
                 vscode.window.tabGroups.onDidChangeTabs(() => {
-                    const updating = compact(vscode.window.tabGroups.activeTabGroup.tabs.map(({ input }) => (input as VscodeTab | undefined)?.uri))
+                    const updating = compact(
+                        vscode.window.tabGroups.activeTabGroup.tabs.map(({ input }) => {
+                            if (!(input instanceof vscode.TabInputText)) return
+                            return input.uri
+                        }),
+                    )
                     updateDecorations(updating)
                 }),
             )
