@@ -12,7 +12,7 @@ specifiers:
   '@types/vscode': ^1.66.0
   '@zardoy/tsconfig': ^1.4.0
   '@zardoy/utils': ^0.0.9
-  '@zardoy/vscode-utils': ^0.0.16
+  '@zardoy/vscode-utils': ^0.0.19
   change-case: ^4.1.2
   escape-string-regexp: ^5.0.0
   eslint: ^8.11.0
@@ -37,7 +37,7 @@ dependencies:
   '@types/minimatch': 3.0.5
   '@types/pluralize': 0.0.29
   '@zardoy/utils': 0.0.9
-  '@zardoy/vscode-utils': 0.0.16_unawbvmxtbzqonmqpdnuuihcuq
+  '@zardoy/vscode-utils': 0.0.19_unawbvmxtbzqonmqpdnuuihcuq
   change-case: 4.1.2
   escape-string-regexp: 5.0.0
   execa: 6.1.0
@@ -688,7 +688,7 @@ packages:
     dependencies:
       lodash.compact: 3.0.1
       rambda: 6.9.0
-      type-fest: 2.12.0
+      type-fest: 2.19.0
     dev: false
 
   /@zardoy/utils/0.0.9:
@@ -700,9 +700,10 @@ packages:
       type-fest: 2.18.0
     dev: false
 
-  /@zardoy/vscode-utils/0.0.16_unawbvmxtbzqonmqpdnuuihcuq:
-    resolution: {integrity: sha512-j0cMRweGK+6T+qE1NsH5Wx4ryIxfyFj6WF4UD/YGejKKStnAJiAxVL6hK0kPOw04p3Z8zOIOGVjgu7rUNrI4xA==}
+  /@zardoy/vscode-utils/0.0.19_unawbvmxtbzqonmqpdnuuihcuq:
+    resolution: {integrity: sha512-yeL65+tsgIwPKRz0yV7bC8MQgNmxrn95YO6FfQLcTS5E17ma5zcPDh4bUTuBgdDAX2uygLr39DISkN632XYxLg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    hasBin: true
     peerDependencies:
       '@types/vscode': ^1.65.0
       vscode-framework: ^0.0.18
@@ -713,8 +714,9 @@ packages:
       '@types/vscode': 1.67.0
       '@zardoy/utils': 0.0.4
       chokidar: 3.5.3
+      commander: 9.4.0
       execa: 5.1.1
-      rambda: 7.1.4
+      rambda: 7.2.1
       untildify: 4.0.0
       vscode-framework: 0.0.18_i5w5uxrvzwrv6la6qaiybxnb7e
       vscode-manifest: 0.0.8
@@ -1122,6 +1124,11 @@ packages:
   /commander/8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
+    dev: false
+
+  /commander/9.4.0:
+    resolution: {integrity: sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==}
+    engines: {node: ^12.20.0 || >=14}
     dev: false
 
   /concat-map/0.0.1:
@@ -3673,8 +3680,8 @@ packages:
     resolution: {integrity: sha512-yosVdGg1hNGkXPzqGiOYNEpXKjEOxzUCg2rB0l+NKdyCaSf4z+i5ojbN0IqDSezMMf71YEglI+ZUTgTffn5afw==}
     dev: false
 
-  /rambda/7.1.4:
-    resolution: {integrity: sha512-bPK8sSiVHIC7CqdWga8R+hRi5hfc4hK6S01lZW4KrLwSNryQoKaCOJA9GNiF20J7Nbe1vejRfR37/ASQXFL5EA==}
+  /rambda/7.2.1:
+    resolution: {integrity: sha512-Wswj8ZvzdI3VhaGPkZAxaCTwuMmGtgWt7Zxsgyo4P+iTmVnkojvyWaOep5q3ZjMIecW0wtQa66GWxaKkZ24RAA==}
     dev: false
 
   /react-is/17.0.2:
@@ -4222,6 +4229,11 @@ packages:
 
   /type-fest/2.18.0:
     resolution: {integrity: sha512-pRS+/yrW5TjPPHNOvxhbNZexr2bS63WjrMU8a+VzEBhUi9Tz1pZeD+vQz3ut0svZ46P+SRqMEPnJmk2XnvNzTw==}
+    engines: {node: '>=12.20'}
+    dev: false
+
+  /type-fest/2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
     dev: false
 

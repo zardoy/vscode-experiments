@@ -46,6 +46,8 @@ import expandTag from './features/expandTag'
 import tabsWithNumbers from './features/tabsWithNumbers'
 import { initGitApi } from './git-api'
 import gitNextChange from './features/gitNextChange'
+import copyOutlineItemName from './features/copyOutlineItemName'
+import selectOutlineItem from './features/selectOutlineItem'
 
 export const activate = () => {
     initGitApi()
@@ -94,6 +96,8 @@ export const activate = () => {
     expandTag()
     tabsWithNumbers()
     gitNextChange()
+    copyOutlineItemName()
+    selectOutlineItem()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
