@@ -205,6 +205,10 @@
                 "title": "Select outline item"
             },
             {
+                "command": "turnCommentIntoJsdoc",
+                "title": "Turn Comment Into Jsdoc"
+            },
+            {
                 "command": "copyOutlineItemName",
                 "title": "Copy outline item name"
             }

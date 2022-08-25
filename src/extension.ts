@@ -48,6 +48,7 @@ import { initGitApi } from './git-api'
 import gitNextChange from './features/gitNextChange'
 import copyOutlineItemName from './features/copyOutlineItemName'
 import selectOutlineItem from './features/selectOutlineItem'
+import turnCommentIntoJsdoc from './features/turnCommentIntoJsdoc'
 
 export const activate = () => {
     initGitApi()
@@ -98,6 +99,7 @@ export const activate = () => {
     gitNextChange()
     copyOutlineItemName()
     selectOutlineItem()
+    turnCommentIntoJsdoc()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
