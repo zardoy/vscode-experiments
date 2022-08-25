@@ -79,12 +79,13 @@ export default () => {
         }
 
         if (!typeString || typeString === '{' || ignoreValues.includes(typeString)) return
+        const STRING_LENGTH_LIMIT = 60
         textEditor.setDecorations(decoration, [
             {
                 range: new vscode.Range(pos.translate(0, -1), pos),
                 renderOptions: {
                     after: {
-                        contentText: typeString,
+                        contentText: typeString.slice(0, STRING_LENGTH_LIMIT),
                     },
                 },
             },
