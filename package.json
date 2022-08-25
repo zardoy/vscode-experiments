@@ -287,6 +287,11 @@
                         "type": "boolean",
                         "default": true
                     },
+                    "features.collapseNodeModules": {
+                        "description": "Automatically collapse node_modules when last file from it was closed",
+                        "type": "boolean",
+                        "default": false
+                    },
                     "typeDecorations.enable": {
                         "type": "boolean",
                         "default": true
