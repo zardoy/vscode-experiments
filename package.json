@@ -374,6 +374,10 @@
                         "type": "boolean",
                         "description": "Display numbers on tabs in reversed mode. Doesn't affect fromLeft mode",
                         "default": false
+                    },
+                    "createdCodeTransformers": {
+                        "type": "object",
+                        "description": "Will be moved to code actions (transformers) creator"
                     }
                 }
             }
