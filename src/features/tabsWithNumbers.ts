@@ -117,9 +117,14 @@ export default () => {
                 if (!textEditor || textEditor.viewColumn === undefined) return
                 const { uri } = textEditor.document
                 const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === uri.toString())
-                if (elemIndex === -1) {
+                if (elemIndex === -1 && recentFileStack.length < 9) {
                     recentFileStack.unshift(uri)
                     return
+                }
+
+                if (elemIndex === -1 && mode === 'recentlyOpened') {
+                    recentFileStack.pop()
+                    recentFileStack.unshift(uri)
                 }
 
                 if (mode === 'recentlyFocused') {
