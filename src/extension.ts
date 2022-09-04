@@ -50,6 +50,7 @@ import copyOutlineItemName from './features/copyOutlineItemName'
 import selectOutlineItem from './features/selectOutlineItem'
 import turnCommentIntoJsdoc from './features/turnCommentIntoJsdoc'
 import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformers'
+import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
 
 export const activate = () => {
     initGitApi()
@@ -102,6 +103,7 @@ export const activate = () => {
     selectOutlineItem()
     turnCommentIntoJsdoc()
     applyCreatedCodeTransformers()
+    newTerminalWithSameCwd()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {

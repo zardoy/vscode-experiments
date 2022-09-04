@@ -25,6 +25,7 @@ specifiers:
   minimatch: ^5.0.1
   open: ^8.4.0
   path-browserify: ^1.0.1
+  pid-cwd: ^1.2.0
   pluralize: github:plurals/pluralize
   rambda: ^6.9.0
   typescript: ^4.6.2
@@ -48,6 +49,7 @@ dependencies:
   minimatch: 5.0.1
   open: 8.4.0
   path-browserify: 1.0.1
+  pid-cwd: 1.2.0
   pluralize: github.com/plurals/pluralize/36f03cd2d573fa6d23e12e1529fa4627e2af74b4
   rambda: 6.9.0
   valtio: 1.6.4
@@ -3516,6 +3518,10 @@ packages:
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  /pid-cwd/1.2.0:
+    resolution: {integrity: sha512-8QQzIdBmy4bd2l1NKWON1X8flO5TQQRzU2uRDua/XaxSC0iJ+rgbDrlX76t0W3DaJ7OevTYpftyvQ6oMe3hclQ==}
+    dev: false
 
   /pify/2.3.0:
     resolution: {integrity: sha1-7RQaasBDqEnqWISY59yosVMw6Qw=}

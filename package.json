@@ -215,6 +215,10 @@
             {
                 "command": "applyCreatedCodeTransformers",
                 "title": "Apply Created Code Transformers"
+            },
+            {
+                "command": "newTerminalWithSameCwd",
+                "title": "New Terminal with Same Cwd"
             }
         ],
         "configuration": [
@@ -494,6 +498,7 @@
         "minimatch": "^5.0.1",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",
+        "pid-cwd": "^1.2.0",
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
         "valtio": "^1.6.4",
