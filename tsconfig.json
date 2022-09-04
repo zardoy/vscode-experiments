@@ -1,6 +1,10 @@
 {
     "extends": "@zardoy/tsconfig/node",
-    "compilerOptions": {},
+    "compilerOptions": {
+        "lib": [
+            "ESNext"
+        ]
+    },
     "include": [
         "src"
     ],
