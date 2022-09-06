@@ -51,6 +51,7 @@ import selectOutlineItem from './features/selectOutlineItem'
 import turnCommentIntoJsdoc from './features/turnCommentIntoJsdoc'
 import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformers'
 import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
+import vscodeDevCompletions from './features/vscodeDevCompletions'
 
 export const activate = () => {
     initGitApi()
@@ -153,6 +154,8 @@ export const activate = () => {
             },
         ])
     })
+
+    vscodeDevCompletions()
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
 }
