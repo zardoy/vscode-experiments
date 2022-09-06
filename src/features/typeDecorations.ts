@@ -35,7 +35,10 @@ export default () => {
         return false
     }
 
-    const checkDecorations = async ({ textEditor: editor }: { textEditor?: vscode.TextEditor } = {}): Promise<void> => {
+    // try to use native solution instead of vscode (custom)
+    const inFlightOperations: AbortController[] = []
+    // eslint-disable-next-line complexity
+    const checkDecorations = async ({ textEditor: editor }: Partial<vscode.TextEditorSelectionChangeEvent> = {}): Promise<void> => {
         const textEditor = vscode.window.activeTextEditor
         if (
             !textEditor ||
@@ -44,6 +47,8 @@ export default () => {
             !vscode.languages.match(enableLanguages, textEditor.document)
         )
             return
+        for (const inFlightOperation of inFlightOperations) inFlightOperation.abort()
+        inFlightOperations.splice(0, inFlightOperations.length)
         textEditor.setDecorations(decoration, [])
         const {
             selections: [selection],
@@ -60,11 +65,17 @@ export default () => {
         const endingMatch = /^\s*(}|]|;|,|$)/
         if (!match || isInBannedPosition || !endingMatch.test(textAfter)) return
         const offset = match[0]!.length
+
+        const controller = new AbortController()
+        inFlightOperations.push(controller)
+        // TODO: core support token!
         const isInStyles = await checkIfInStyles(document, pos)
+        if (controller.signal.aborted) return
         if (isInStyles && !getExtensionSetting('typeDecorations.enableInStyles')) return
         const hoverData: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', document.uri, pos.translate(0, -offset))
-        let typeString: string | undefined
+        if (controller.signal.aborted) return
 
+        let typeString: string | undefined
         for (const hover of hoverData) {
             const hoverString = hover.contents
                 .map(content => {
