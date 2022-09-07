@@ -1,7 +1,11 @@
+/* eslint-disable curly */
 import * as vscode from 'vscode'
 import { defaultJsSupersetLangs } from '@zardoy/vscode-utils/build/langs'
+import { getJsonCompletingInfo, jsonPathEquals, jsonValuesToCompletions } from '@zardoy/vscode-utils/build/jsonCompletions'
+import { getLocation, findNodeAtLocation, parseTree, getNodeValue } from 'jsonc-parser'
 
 export default () => {
+    // vscode.commands.executeCommand
     vscode.languages.registerCompletionItemProvider(
         defaultJsSupersetLangs,
         {
@@ -25,7 +29,42 @@ export default () => {
         '"',
         '.',
     )
+
+    // package.json keybindings commands
+    vscode.languages.registerCompletionItemProvider(
+        { language: 'json', pattern: '**/package.json' },
+        {
+            async provideCompletionItems(document, position, token, context) {
+                const location = getLocation(document.getText(), document.offsetAt(position))
+                const root = parseTree(document.getText())!
+                const { path } = location
+                const completingInfo = getJsonCompletingInfo(location, document, position)
+                if (!completingInfo) return
+                const { insideStringRange } = completingInfo ?? {}
+                if (insideStringRange) {
+                    // eslint-disable-next-line unicorn/no-lonely-if
+                    if (jsonPathEquals(path, ['contributes', 'keybindings', '*', 'command']))
+                        return jsonValuesToCompletions(await vscode.commands.getCommands(true), insideStringRange)
+                    // TODO key completions
+                }
+
+                if (jsonPathEquals(path, ['contributes', 'configuration', 'properties', '*', 'default'])) {
+                    const config = findNodeAtLocation(root, path.slice(0, -1))!
+                    const { type, enum: enumStrings } = getNodeValue(config)
+                    if (type === 'boolean') return jsonValuesToCompletions(['true', 'false'], undefined, true)
+                    if (type === 'string' && enumStrings)
+                        return jsonValuesToCompletions(insideStringRange ? enumStrings : enumStrings.map(str => `"${str}"`), insideStringRange, true)
+                    return
+                }
+
+                return undefined
+            },
+        },
+        '"',
+    )
 }
+
+const getConfigurationDefaultCompletions = (document: vscode.TextDocument) => {}
 
 // as 1.71.0
 const siteCommands: Array<[string, string]> = [
