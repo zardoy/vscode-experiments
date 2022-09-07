@@ -7,8 +7,7 @@ export const registerSignatureCompletions = () => {
     if (!getExtensionSetting('features.signatureCompletions')) return
     const triggerParameterHintsOnSignatureCompletions = getExtensionSetting('features.triggerParameterHintsOnSignatureCompletions')
     vscode.languages.registerCompletionItemProvider(getExtensionSetting('signatureCompletions.enableLanguages'), {
-        async provideCompletionItems(document, position, token, { triggerKind }) {
-            if (triggerKind !== vscode.CompletionTriggerKind.Invoke) return
+        async provideCompletionItems(document, position) {
             const surroundingText = document.getText(new vscode.Range(position.translate(0, -1), position.translate(0, 1)))
             // TODO also provide other detections
             if (!(surroundingText.startsWith('(') || surroundingText.endsWith(')'))) return
@@ -21,6 +20,7 @@ export const registerSignatureCompletions = () => {
             if (triggerParameterHintsOnSignatureCompletions) void vscode.commands.executeCommand('editor.action.triggerParameterHints')
             const args = signature.parameters.map(({ label }) => (typeof label === 'string' ? label : signature.label.slice(...label)))
             const completions = [] as vscode.CompletionItem[]
+            const usePlaceholder = getExtensionSetting('signatureCompletions.usePlaceholder')
 
             const start = result.activeParameter
             for (const i of range(start, args.length)) {
@@ -33,7 +33,9 @@ export const registerSignatureCompletions = () => {
                 completion.sortText = '!100'
                 const snippet = new vscode.SnippetString()
                 for (const [i, argName] of argNamesToInsert.entries()) {
-                    snippet.appendPlaceholder(argName)
+                    if (usePlaceholder) snippet.appendPlaceholder(argName)
+                    else snippet.appendText(argName)
+
                     if (i !== argNamesToInsert.length - 1) snippet.appendText(', ')
                 }
 
@@ -48,7 +50,6 @@ export const registerSignatureCompletions = () => {
 
 const argLabelToName = (label: string) => {
     const useTypeOnValue = getExtensionSetting('signatureCompletions.useTypeOnValue')
-    console.log('Quired')
     return label
         .replace(/(.+?):(.+)/, (_match, arg, type) => {
             // assumed all types starting with uppercase

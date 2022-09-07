@@ -274,6 +274,11 @@
                         "type": "string",
                         "default": "value, item"
                     },
+                    "signatureCompletions.usePlaceholder": {
+                        "type": "boolean",
+                        "description": "Use snippet with placeholders instead of just text",
+                        "default": false
+                    },
                     "signatureCompletions.enableLanguages": {
                         "type": "array",
                         "items": {
