@@ -219,6 +219,10 @@
             {
                 "command": "newTerminalWithSameCwd",
                 "title": "New Terminal with Same Cwd"
+            },
+            {
+                "command": "toggleExtHostOutput",
+                "title": "Toggle Extension Host Output"
             }
         ],
         "configuration": [
