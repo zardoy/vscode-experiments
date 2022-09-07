@@ -6,7 +6,7 @@ export default () => {
         defaultJsSupersetLangs,
         {
             async provideCompletionItems(document, position, token, context) {
-                const commandRange = document.getWordRangeAtPosition(position, /commands.executeCommand\((['"].*['"]?|)\)/)
+                const commandRange = document.getWordRangeAtPosition(position, /commands.executeCommand(<.+>)?\((['"].*['"]?|)\)/)
                 const stringRange = document.getWordRangeAtPosition(position, /['"].*['"]/)
                 const innerStringRange = stringRange?.with(stringRange.start.translate(0, 1), stringRange.end.translate(0, -1))
                 if (!commandRange || !innerStringRange?.contains(position)) return
