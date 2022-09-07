@@ -223,6 +223,10 @@
             {
                 "command": "toggleExtHostOutput",
                 "title": "Toggle Extension Host Output"
+            },
+            {
+                "command": "openCompletionKindPlayground",
+                "title": "Open Completion Kind Playground"
             }
         ],
         "configuration": [

@@ -53,6 +53,7 @@ import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformer
 import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
 import vscodeDevCompletions from './features/vscodeDevCompletions'
 import toggleExtHostOutput from './features/toggleExtHostOutput'
+import completionsKindPlayground from './features/completionsKindPlayground'
 
 export const activate = () => {
     initGitApi()
@@ -108,6 +109,7 @@ export const activate = () => {
     newTerminalWithSameCwd()
     vscodeDevCompletions()
     toggleExtHostOutput()
+    completionsKindPlayground()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
