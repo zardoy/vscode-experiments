@@ -394,6 +394,10 @@
                 "createdCodeTransformers": {
                     "type": "object",
                     "description": "Will be moved to code actions (transformers) creator"
+                },
+                "autoEscapeQuoteJson": {
+                    "type": "boolean",
+                    "default": true
                 }
             }
         },

@@ -54,6 +54,7 @@ import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
 import vscodeDevCompletions from './features/vscodeDevCompletions'
 import toggleExtHostOutput from './features/toggleExtHostOutput'
 import completionsKindPlayground from './features/completionsKindPlayground'
+import autoEscapeJson from './features/autoEscapeJson'
 
 export const activate = () => {
     initGitApi()
@@ -110,6 +111,7 @@ export const activate = () => {
     vscodeDevCompletions()
     toggleExtHostOutput()
     completionsKindPlayground()
+    autoEscapeJson()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
