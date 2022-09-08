@@ -99,13 +99,22 @@ export default () => {
         disposables.push(vscode.window.registerFileDecorationProvider(new FileDecorationProvider()))
         if (!recentByMode) {
             disposables.push(
-                vscode.window.tabGroups.onDidChangeTabs(() => {
+                vscode.window.tabGroups.onDidChangeTabs(({ opened, changed, closed }) => {
+                    const previewTabs: vscode.Uri[] = []
+                    for (const { isPreview, input } of [...closed, ...opened, ...changed])
+                        if (isPreview && input instanceof vscode.TabInputText) previewTabs.push(input.uri)
+
                     const updating = compact(
                         vscode.window.tabGroups.activeTabGroup.tabs.map(({ input }) => {
                             if (!(input instanceof vscode.TabInputText)) return
                             return input.uri
                         }),
                     )
+                    if (previewTabs.length > 0) {
+                        updateDecorations([...previewTabs, ...updating])
+                        return
+                    }
+
                     updateDecorations(updating)
                 }),
             )
