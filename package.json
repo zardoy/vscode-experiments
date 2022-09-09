@@ -227,6 +227,18 @@
             {
                 "command": "openCompletionKindPlayground",
                 "title": "Open Completion Kind Playground"
+            },
+            {
+                "command": "gitStageFiles",
+                "title": "Git Stage Files..."
+            },
+            {
+                "command": "gitUnstageFiles",
+                "title": "Git Unstage Files..."
+            },
+            {
+                "command": "gitRevertFiles",
+                "title": "Git Revert Files..."
             }
         ],
         "configuration": {

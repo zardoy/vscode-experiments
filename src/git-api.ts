@@ -92,7 +92,7 @@ const enum Status {
     BOTH_MODIFIED,
 }
 
-interface Change {
+export interface GitChange {
     /**
      * Returns either `originalUri` or `renameUri`, depending
      * on whether this change is a rename change. When
@@ -111,9 +111,9 @@ interface RepositoryState {
     readonly submodules: Submodule[]
     readonly rebaseCommit: Commit | undefined
 
-    readonly mergeChanges: Change[]
-    readonly indexChanges: Change[]
-    readonly workingTreeChanges: Change[]
+    readonly mergeChanges: GitChange[]
+    readonly indexChanges: GitChange[]
+    readonly workingTreeChanges: GitChange[]
 
     readonly onDidChange: Event<void>
 }
@@ -183,16 +183,16 @@ export interface GitRepository {
 
     apply(patch: string, reverse?: boolean): Promise<void>
     diff(cached?: boolean): Promise<string>
-    diffWithHEAD(): Promise<Change[]>
+    diffWithHEAD(): Promise<GitChange[]>
     diffWithHEAD(path: string): Promise<string>
-    diffWith(ref: string): Promise<Change[]>
+    diffWith(ref: string): Promise<GitChange[]>
     diffWith(ref: string, path: string): Promise<string>
-    diffIndexWithHEAD(): Promise<Change[]>
+    diffIndexWithHEAD(): Promise<GitChange[]>
     diffIndexWithHEAD(path: string): Promise<string>
-    diffIndexWith(ref: string): Promise<Change[]>
+    diffIndexWith(ref: string): Promise<GitChange[]>
     diffIndexWith(ref: string, path: string): Promise<string>
     diffBlobs(object1: string, object2: string): Promise<string>
-    diffBetween(ref1: string, ref2: string): Promise<Change[]>
+    diffBetween(ref1: string, ref2: string): Promise<GitChange[]>
     diffBetween(ref1: string, ref2: string, path: string): Promise<string>
 
     hashObject(data: string): Promise<string>
