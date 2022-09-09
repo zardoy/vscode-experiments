@@ -1,4 +1,3 @@
-/* eslint-disable curly */
 import * as vscode from 'vscode'
 import { defaultJsSupersetLangs } from '@zardoy/vscode-utils/build/langs'
 import { getJsonCompletingInfo, jsonPathEquals, jsonValuesToCompletions } from '@zardoy/vscode-utils/build/jsonCompletions'
@@ -42,9 +41,24 @@ export default () => {
                 if (!completingInfo) return
                 const { insideStringRange } = completingInfo ?? {}
                 if (insideStringRange) {
-                    // eslint-disable-next-line unicorn/no-lonely-if
+                    const value: string = getNodeValue(findNodeAtLocation(root, path)!)!
+                    const commands = await vscode.commands.getCommands(true)
                     if (jsonPathEquals(path, ['contributes', 'keybindings', '*', 'command']))
-                        return jsonValuesToCompletions(await vscode.commands.getCommands(true), insideStringRange)
+                        return jsonValuesToCompletions(
+                            commands.map(cmd => (value.startsWith('-') ? `-${cmd}` : cmd)),
+                            insideStringRange,
+                        )
+                    if (jsonPathEquals(path, ['contributes', 'keybindings', '*', 'mac'])) {
+                        const { key } = getNodeValue(findNodeAtLocation(root, path.slice(0, -1))!) as { key?: string }
+                        if (!key) return
+                        return jsonValuesToCompletions([key.replaceAll('ctrl', 'cmd')], insideStringRange)
+                    }
+
+                    if (jsonPathEquals(path, ['contributes', 'keybindings', '*', 'key'])) {
+                        const { key } = getNodeValue(findNodeAtLocation(root, path.slice(0, -1))!) as { key?: string }
+                        if (!key) return
+                        return jsonValuesToCompletions([key.replaceAll('cmd', 'ctrl')], insideStringRange)
+                    }
                     // TODO key completions
                 }
 
