@@ -352,21 +352,22 @@ export const gitApi = {
     api: undefined as API | undefined | null,
 }
 
-export const initGitApi = () => {
+export const initGitApi = async () => {
     const gitExtension = vscode.extensions.getExtension('vscode.git')
     if (!gitExtension) {
         gitApi.api = null
         return
     }
-    gitExtension.activate().then(async (api: GitExtension) => {
-        const git = api.getAPI(1)
-        if (!git) return
-        git.onDidChangeState(api => {
-            if (api === 'initialized') {
-                gitApi.api = git
-            }
-        })
-    })
+    await gitExtension.activate()
+    const git = (gitExtension.exports as GitExtension).getAPI(1)
+    if (!git) return
+    const setApiIfReady = (apiState: APIState) => {
+        if (apiState === 'initialized') {
+            gitApi.api = git
+        }
+    }
+    setApiIfReady(git.state)
+    git.onDidChangeState(setApiIfReady)
 }
 
 export const getGitApiOrThrow = () => {

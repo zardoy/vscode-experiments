@@ -57,7 +57,7 @@ import completionsKindPlayground from './features/completionsKindPlayground'
 import autoEscapeJson from './features/autoEscapeJson'
 
 export const activate = () => {
-    initGitApi()
+    void initGitApi()
 
     // preserve camelcase identifiers (only vars for now)
     // preserveCamelCase()
