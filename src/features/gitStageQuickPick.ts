@@ -46,7 +46,7 @@ export default () => {
     registerExtensionCommand(
         'gitRevertFiles',
         gitFilesCommand(
-            repo => repo.indexChanges,
+            repo => repo.workingTreeChanges,
             async (repo, paths) => repo.clean(paths),
         ),
     )
