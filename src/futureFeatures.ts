@@ -148,7 +148,7 @@ const unusedCommands = () => {
                         },
                     )
 
-                lastCharPos[uriKey] = undefined
+                delete lastCharPos[uriKey]
                 return
             }
 
@@ -167,6 +167,21 @@ const unusedCommands = () => {
             lastCharPos[uriKey] = {
                 char: match[2]!,
                 pos,
+            }
+        })
+    })
+    registerNoop('Instant TypeScript load check', () => {
+        vscode.window.onDidChangeActiveTextEditor(async textEditor => {
+            if (textEditor?.document.languageId !== 'typescript') return
+            console.log('requested')
+            try {
+                const result = await vscode.commands.executeCommand('typescript.tsserverRequest', 'semanticDiagnosticsSync', {
+                    _: '%%%',
+                    file: textEditor.document.uri.fsPath,
+                })
+                console.log('received')
+            } catch (error) {
+                console.log('error', error.message)
             }
         })
     })

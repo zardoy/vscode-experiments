@@ -12,7 +12,7 @@ specifiers:
   '@types/vscode': ^1.66.0
   '@zardoy/tsconfig': ^1.4.0
   '@zardoy/utils': ^0.0.9
-  '@zardoy/vscode-utils': ^0.0.19
+  '@zardoy/vscode-utils': ^0.0.26
   change-case: ^4.1.2
   escape-string-regexp: ^5.0.0
   eslint: ^8.11.0
@@ -20,6 +20,7 @@ specifiers:
   execa: ^6.1.0
   hosted-git-info: ^4.1.0
   ini: ^2.0.0
+  jsonc-parser: ^3.2.0
   lower-case-first: ^2.0.2
   markdown-to-txt: ^2.0.1
   minimatch: ^5.0.1
@@ -38,12 +39,13 @@ dependencies:
   '@types/minimatch': 3.0.5
   '@types/pluralize': 0.0.29
   '@zardoy/utils': 0.0.9
-  '@zardoy/vscode-utils': 0.0.19_unawbvmxtbzqonmqpdnuuihcuq
+  '@zardoy/vscode-utils': 0.0.26_navnkmtphazjx5hrlz4hplvpca
   change-case: 4.1.2
   escape-string-regexp: 5.0.0
   execa: 6.1.0
   hosted-git-info: 4.1.0
   ini: 2.0.0
+  jsonc-parser: 3.2.0
   lower-case-first: 2.0.2
   markdown-to-txt: 2.0.1
   minimatch: 5.0.1
@@ -702,14 +704,20 @@ packages:
       type-fest: 2.18.0
     dev: false
 
-  /@zardoy/vscode-utils/0.0.19_unawbvmxtbzqonmqpdnuuihcuq:
-    resolution: {integrity: sha512-yeL65+tsgIwPKRz0yV7bC8MQgNmxrn95YO6FfQLcTS5E17ma5zcPDh4bUTuBgdDAX2uygLr39DISkN632XYxLg==}
+  /@zardoy/vscode-utils/0.0.26_navnkmtphazjx5hrlz4hplvpca:
+    resolution: {integrity: sha512-xuOdobhv4XRINdcWiaCI9KhYwYHWoVsqIFU+Cc6LsxzYOQ5ZS9saNBnffmPA0Vm+DMlEtUUEaZMdimn0DZtA1A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     peerDependencies:
       '@types/vscode': ^1.65.0
+      esbuild: '*'
+      jsonc-parser: ^3.2.0
       vscode-framework: ^0.0.18
     peerDependenciesMeta:
+      esbuild:
+        optional: true
+      jsonc-parser:
+        optional: true
       vscode-framework:
         optional: true
     dependencies:
@@ -718,7 +726,11 @@ packages:
       chokidar: 3.5.3
       commander: 9.4.0
       execa: 5.1.1
+      fs-extra: 10.1.0
+      jsonc-parser: 3.2.0
+      lodash.throttle: 4.1.1
       rambda: 7.2.1
+      typed-jsonfile: 0.2.1
       untildify: 4.0.0
       vscode-framework: 0.0.18_i5w5uxrvzwrv6la6qaiybxnb7e
       vscode-manifest: 0.0.8
@@ -2297,6 +2309,15 @@ packages:
       universalify: 2.0.0
     dev: false
 
+  /fs-extra/10.1.0:
+    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
+
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
 
@@ -2887,8 +2908,8 @@ packages:
     hasBin: true
     dev: true
 
-  /jsonc-parser/3.0.0:
-    resolution: {integrity: sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==}
+  /jsonc-parser/3.2.0:
+    resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: false
 
   /jsonfile/6.1.0:
@@ -3041,6 +3062,10 @@ packages:
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
+
+  /lodash.throttle/4.1.1:
+    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
+    dev: false
 
   /lodash.unescape/4.0.1:
     resolution: {integrity: sha512-DhhGRshNS1aX6s5YdBE3njCCouPgnG29ebyHvImlZzXZf2SHgt+J08DHgytTPnpywNbO1Y8mNUFyQuIDBq2JZg==}
@@ -4260,9 +4285,9 @@ packages:
     resolution: {integrity: sha512-8G2jqDOjg2reeq0Af3LYb1hY9bbmDYdnleAPQ6o74IPBJ5OxTjbG89TNoXGVGhy1+M16oFHmLIFfMEthQo3lYA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
-      jsonc-parser: 3.0.0
+      jsonc-parser: 3.2.0
       jsonfile: 6.1.0
-      type-fest: 2.12.0
+      type-fest: 2.19.0
     dev: false
 
   /typed-vscode/0.0.5_i5w5uxrvzwrv6la6qaiybxnb7e:

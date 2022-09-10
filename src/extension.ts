@@ -51,9 +51,14 @@ import selectOutlineItem from './features/selectOutlineItem'
 import turnCommentIntoJsdoc from './features/turnCommentIntoJsdoc'
 import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformers'
 import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
+import vscodeDevCompletions from './features/vscodeDevCompletions'
+import toggleExtHostOutput from './features/toggleExtHostOutput'
+import completionsKindPlayground from './features/completionsKindPlayground'
+import autoEscapeJson from './features/autoEscapeJson'
+import gitStageQuickPick from './features/gitStageQuickPick'
 
 export const activate = () => {
-    initGitApi()
+    void initGitApi()
 
     // preserve camelcase identifiers (only vars for now)
     // preserveCamelCase()
@@ -104,6 +109,11 @@ export const activate = () => {
     turnCommentIntoJsdoc()
     applyCreatedCodeTransformers()
     newTerminalWithSameCwd()
+    vscodeDevCompletions()
+    toggleExtHostOutput()
+    completionsKindPlayground()
+    autoEscapeJson()
+    gitStageQuickPick()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
