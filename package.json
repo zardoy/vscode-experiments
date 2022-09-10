@@ -145,6 +145,38 @@
                 "title": "Cut Line Contents and Preserve Line"
             },
             {
+                "command": "renameVariableParts",
+                "title": "Rename Variable Parts"
+            },
+            {
+                "command": "renameVariablePartsAccept",
+                "title": "Rename Variable Parts Accept Renaming"
+            },
+            {
+                "command": "renameVariablePartsAcceptReplace",
+                "title": "Rename Variable Parts Accept Without Using Rename Provider"
+            },
+            {
+                "command": "renameVariablePartsDeletePart",
+                "title": "Rename Variable Parts Delete Part"
+            },
+            {
+                "command": "renameVariablePartsExtractPart",
+                "title": "Rename Variable Parts Extract Part"
+            },
+            {
+                "command": "renameVariablePartsLowercasePart",
+                "title": "Rename Variable Parts Lowercase Part"
+            },
+            {
+                "command": "renameVariablePartsPartMoveDown",
+                "title": "Rename Variable Parts Part Move Down"
+            },
+            {
+                "command": "renameVariablePartsPartMoveUp",
+                "title": "Rename Variable Parts Part Move Up"
+            },
+            {
                 "command": "printActiveDocumrntUri",
                 "title": "Print Active Documrnt URI"
             },
@@ -155,161 +187,318 @@
             {
                 "command": "executeVscodeScript",
                 "title": "Execute Vscode Script"
+                "command": "focusTabByNumber",
+                "title": "Focus Tab by Number"
+            },
+            {
+                "command": "generateKeybindingsForTabsWithNumbers",
+                "title": "Generate Keybindings for Tabs with Numbers"
+            },
+            {
+                "command": "gitNextChange",
+                "title": "Git Next Change"
+            },
+            {
+                "command": "gitPreviousChange",
+                "title": "Git Previous Change"
+            },
+            {
+                "command": "selectOutlineItem",
+                "title": "Select Outline Item"
+            },
+            {
+                "command": "turnCommentIntoJsdoc",
+                "title": "Turn Comment Into Jsdoc"
+            },
+            {
+                "command": "copyOutlineItemName",
+                "title": "Copy Outline Item Name"
+            },
+            {
+                "command": "applyCreatedCodeTransformers",
+                "title": "Apply Created Code Transformers"
+            },
+            {
+                "command": "newTerminalWithSameCwd",
+                "title": "New Terminal with Same Cwd"
+            },
+            {
+                "command": "toggleExtHostOutput",
+                "title": "Toggle Extension Host Output"
+            },
+            {
+                "command": "openCompletionKindPlayground",
+                "title": "Open Completion Kind Playground"
+            },
+            {
+                "command": "gitStageFiles",
+                "title": "Git Stage Files..."
+            },
+            {
+                "command": "gitUnstageFiles",
+                "title": "Git Unstage Files..."
+            },
+            {
+                "command": "gitRevertFiles",
+                "title": "Git Revert Files..."
             }
         ],
-        "configuration": [
-            {
-                "properties": {
-                    "enableDebug": {
-                        "type": "boolean",
-                        "default": false
+        "configuration": {
+            "properties": {
+                "enableDebug": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "features.preserveCamelCase": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.tsCodeActions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.regexCodeActions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.missingVscodeImportCodeAction": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.statusBarDiagnostic": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "color",
+                        "bgColor"
+                    ],
+                    "default": "color"
+                },
+                "features.autoAlignImport": {
+                    "type": "boolean",
+                    "description": "Add newline after last import statement in JS/ST",
+                    "default": true
+                },
+                "features.onTypeTsFormatter": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.signatureCompletions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.suggestImportName": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "signatureCompletions.useTypeOnValue": {
+                    "type": "string",
+                    "default": "value, item"
+                },
+                "signatureCompletions.usePlaceholder": {
+                    "type": "boolean",
+                    "description": "Use snippet with placeholders instead of just text",
+                    "default": false
+                },
+                "signatureCompletions.enableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     },
-                    "features.preserveCamelCase": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.tsCodeActions": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.regexCodeActions": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.missingVscodeImportCodeAction": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.statusBarDiagnostic": {
-                        "type": "string",
-                        "enum": [
-                            "disabled",
-                            "color",
-                            "bgColor"
-                        ],
-                        "default": "color"
-                    },
-                    "features.autoAlignImport": {
-                        "type": "boolean",
-                        "description": "Add newline after last import statement in JS/ST",
-                        "default": true
-                    },
-                    "features.onTypeTsFormatter": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.signatureCompletions": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.suggestImportName": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "signatureCompletions.useTypeOnValue": {
-                        "type": "string",
-                        "default": "value, item"
-                    },
-                    "signatureCompletions.enableLanguages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "default": [
-                            "typescript",
-                            "javascript",
-                            "typescriptreact",
-                            "javascriptreact",
-                            "vue"
-                        ]
-                    },
-                    "features.triggerParameterHintsOnSignatureCompletions": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.jsxAutoCloseTag": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "typeDecorations.enable": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "typeDecorations.ignoreValues": {
-                        "type": "array",
-                        "uniqueItems": true,
-                        "markdownDescription": "Ignore specific resolved values from type decorations. In future it can be regex if starts & ends with `/`. Examples can be: `any`, `unknown`",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "typeDecorations.enableInStyles": {
-                        "type": "boolean",
-                        "default": false
-                    },
-                    "autoRemoveSemicolon.enable": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "typeDecorations.languages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "default": [
-                            "*"
-                        ]
-                    },
-                    "goToNextProblemInFile.triggerCodeAction": {
-                        "type": "string",
-                        "enum": [
-                            "disabled",
-                            "ifAppliable",
-                            "always"
-                        ],
-                        "default": "ifAppliable"
-                    },
-                    "tweakTsSuggestions.enabled": {
-                        "type": "boolean",
-                        "default": false
-                    },
-                    "tweakTsSuggestions.arrayItemTabstop": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "tweakTsSuggestions.expandMethodBeforeCurly": {
-                        "description": "Whether to expand method with function before existing curly. You can safely enable it as you can still select wether to use patched version or original one",
-                        "type": "boolean",
-                        "default": false
-                    },
-                    "ensureGitUser": {
-                        "type": "object",
-                        "additionalItems": {
-                            "type": "string"
-                        },
-                        "description": "Map folder glob - expected user in format: 'name <email>'"
-                    },
-                    "dontLeaveEmptyLines": {
-                        "type": "boolean",
-                        "default": true,
-                        "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
-                    },
-                    "features.autoExpandTag": {
-                        "type": "boolean",
-                        "markdownDescription": "Type space after `/` in `<div />` to expand the tag. Doesn't support React for now",
-                        "default": true
+                    "default": [
+                        "typescript",
+                        "javascript",
+                        "typescriptreact",
+                        "javascriptreact",
+                        "vue"
+                    ]
+                },
+                "features.triggerParameterHintsOnSignatureCompletions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.jsxAutoCloseTag": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "typeDecorations.enable": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "typeDecorations.ignoreValues": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "markdownDescription": "Ignore specific resolved values from type decorations. In future it can be regex if starts & ends with `/`. Examples can be: `any`, `unknown`",
+                    "items": {
+                        "type": "string"
                     }
+                },
+                "typeDecorations.enableInStyles": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "autoRemoveSemicolon.enable": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "typeDecorations.languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "*"
+                    ]
+                },
+                "goToNextProblemInFile.triggerCodeAction": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "ifAppliable",
+                        "always"
+                    ],
+                    "default": "ifAppliable"
+                },
+                "tweakTsSuggestions.enabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "tweakTsSuggestions.arrayItemTabstop": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "tweakTsSuggestions.expandMethodBeforeCurly": {
+                    "description": "Whether to expand method with function before existing curly. You can safely enable it as you can still select wether to use patched version or original one",
+                    "type": "boolean",
+                    "default": false
+                },
+                "ensureGitUser": {
+                    "type": "object",
+                    "additionalItems": {
+                        "type": "string"
+                    },
+                    "description": "Map folder glob - expected user in format: 'name <email>'"
+                },
+                "dontLeaveEmptyLines": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
+                },
+                "features.autoExpandTag": {
+                    "type": "boolean",
+                    "markdownDescription": "Type space after `/` in `<div />` to expand the tag. Doesn't support React for now",
+                    "default": true
+                },
+                "features.showTabNumbers": {
+                    "type": "string",
+                    "markdownDescription": "For `focusTabByNumber` command",
+                    "enum": [
+                        "disabled",
+                        "fromLeft",
+                        "recentlyFocused",
+                        "recentlyOpened"
+                    ],
+                    "default": "disabled"
+                },
+                "showTabNumbers.reversedMode": {
+                    "type": "boolean",
+                    "description": "Display numbers on tabs in reversed mode. Doesn't affect fromLeft mode",
+                    "default": false
+                },
+                "createdCodeTransformers": {
+                    "type": "object",
+                    "description": "Will be moved to code actions (transformers) creator"
+                },
+                "autoEscapeQuoteJson": {
+                    "type": "boolean",
+                    "default": true
                 }
             }
-        ],
+        },
         "menus": {
             "commandPalette": [
                 {
                     "command": "applyCodeaction",
                     "when": "false"
+                },
+                {
+                    "command": "focusTabByNumber",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsAccept",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsAcceptReplace",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsDeletePart",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsExtractPart",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsLowercasePart",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsPartMoveUp",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsPartMoveDown",
+                    "when": "false"
                 }
             ]
-        }
+        },
+        "keybindings": [
+            {
+                "command": "zardoyExperiments.renameVariablePartsAccept",
+                "key": "ctrl+o",
+                "mac": "cmd+o",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsAcceptReplace",
+                "key": "ctrl+p",
+                "mac": "cmd+p",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsDeletePart",
+                "key": "ctrl+d",
+                "mac": "cmd+d",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsExtractPart",
+                "key": "ctrl+e",
+                "mac": "cmd+e",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsLowercasePart",
+                "key": "ctrl+l",
+                "mac": "cmd+l",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsPartMoveUp",
+                "key": "ctrl+alt+i",
+                "mac": "cmd+shift+i",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsPartMoveDown",
+                "key": "ctrl+alt+k",
+                "mac": "cmd+shift+k",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            }
+        ]
     },
     "scripts": {
         "start": "vscode-framework start",
@@ -326,20 +515,23 @@
         "@types/ini": "^1.3.31",
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
-        "@zardoy/utils": "^0.0.4",
-        "@zardoy/vscode-utils": "^0.0.16",
+        "@zardoy/utils": "^0.0.9",
+        "@zardoy/vscode-utils": "^0.0.26",
         "change-case": "^4.1.2",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
         "ini": "^2.0.0",
+        "jsonc-parser": "^3.2.0",
         "lower-case-first": "^2.0.2",
         "markdown-to-txt": "^2.0.1",
         "minimatch": "^5.0.1",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",
+        "pid-cwd": "^1.2.0",
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
+        "valtio": "^1.6.4",
         "vscode-framework": "^0.0.18"
     },
     "devDependencies": {
@@ -347,7 +539,7 @@
         "@types/vscode": "^1.66.0",
         "@zardoy/tsconfig": "^1.4.0",
         "eslint": "^8.11.0",
-        "eslint-config-zardoy": "^0.2.10",
+        "eslint-config-zardoy": "^0.2.11",
         "typescript": "^4.6.2"
     },
     "prettier": {

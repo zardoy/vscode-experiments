@@ -52,7 +52,7 @@ export const registerTweakTsSuggestions = () => {
                     ? false
                     : document.getText(new vscode.Range(position.translate(undefined, 1), position)) === '('
 
-                if (!beforeExistingMethod) {
+                if (!beforeExistingMethod && itemLists.sourceItems.some(({ label }) => label === 'toExponential')) {
                     tweakCompletionItem(itemLists, 'toString', vscode.CompletionItemKind.Method, item => {
                         item.additionalSnippetInsert = `()`
                         item.sortText = '105'
@@ -148,14 +148,16 @@ const tweakCompletionItem = (
         if (itemToReplace.sortText === undefined || itemToReplace.sortText === searchItem.sortText)
             itemToReplace.sortText = Number.isFinite(+itemToReplace.sortText!) ? (+itemToReplace.sortText! - 1).toString() : `${label.slice(0, -1)}1`
 
-        if (itemToReplace.additionalSnippetInsert)
+        if (itemToReplace.additionalSnippetInsert) {
+            let oldInsertText = typeof itemToReplace.insertText === 'string' ? itemToReplace.insertText : itemToReplace.insertText?.value
+            oldInsertText = oldInsertText?.replace(/\(.+\)$/, '')
             itemToReplace.insertText = new vscode.SnippetString(
                 `${
                     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                    (typeof itemToReplace.insertText === 'string' ? itemToReplace.insertText : itemToReplace.insertText?.value) ||
-                    getItemLabel(itemToReplace.label)
+                    oldInsertText || getItemLabel(itemToReplace.label)
                 }${itemToReplace.additionalSnippetInsert}`,
             )
+        }
 
         if (typeof itemToReplace.label !== 'object')
             itemToReplace.label = {
@@ -163,14 +165,14 @@ const tweakCompletionItem = (
                 description: 'PATCHED',
             }
 
-        const { documentation } = itemToReplace
-        if (itemToReplace.replaceDocumentation && documentation) {
-            const newDoc = itemToReplace.replaceDocumentation(typeof documentation === 'object' ? documentation.value : documentation)
+        const { documentation, replaceDocumentation, textEdit } = itemToReplace
+        if (replaceDocumentation && documentation) {
+            const newDoc = replaceDocumentation(typeof documentation === 'object' ? documentation.value : documentation)
             if (newDoc) itemToReplace.documentation = typeof documentation === 'object' ? new vscode.MarkdownString(newDoc) : newDoc
         }
 
         // remove obsolete
-        if (itemToReplace.textEdit) itemToReplace.textEdit = undefined
+        if (textEdit) itemToReplace.textEdit = undefined
 
         itemLists.targetItems.push(itemToReplace)
     }
