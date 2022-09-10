@@ -99,23 +99,18 @@ export default () => {
         disposables.push(vscode.window.registerFileDecorationProvider(new FileDecorationProvider()))
         if (!recentByMode) {
             disposables.push(
-                vscode.window.tabGroups.onDidChangeTabs(({ opened, changed, closed }) => {
-                    const previewTabs: vscode.Uri[] = []
-                    for (const { isPreview, input } of [...closed, ...opened, ...changed])
-                        if (isPreview && input instanceof vscode.TabInputText) previewTabs.push(input.uri)
+                vscode.window.tabGroups.onDidChangeTabs(({ closed }) => {
+                    const tabsToUri = (tabs: readonly vscode.Tab[]) =>
+                        compact(
+                            tabs.map(({ input }) => {
+                                if (!(input instanceof vscode.TabInputText)) return
+                                return input.uri
+                            }),
+                        )
+                    const allCurrentTabsUris = tabsToUri(vscode.window.tabGroups.activeTabGroup.tabs)
+                    const closedTabsUris = tabsToUri(closed)
 
-                    const updating = compact(
-                        vscode.window.tabGroups.activeTabGroup.tabs.map(({ input }) => {
-                            if (!(input instanceof vscode.TabInputText)) return
-                            return input.uri
-                        }),
-                    )
-                    if (previewTabs.length > 0) {
-                        updateDecorations([...previewTabs, ...updating])
-                        return
-                    }
-
-                    updateDecorations(updating)
+                    updateDecorations([...allCurrentTabsUris, ...closedTabsUris])
                 }),
             )
             return
