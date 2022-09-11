@@ -71,11 +71,12 @@ export default () => {
             provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
                 if (!recentByMode) {
                     const { tabs } = vscode.window.tabGroups.activeTabGroup
-                    const tabIndex = tabs.findIndex(tab => {
-                        if (!(tab.input instanceof vscode.TabInputText)) return
-                        const { uri: tabUri } = tab.input
-                        return tabUri?.toString() === uri.toString()
-                    })
+                    const tabIndex = tabs
+                        .filter(tab => tab.input instanceof vscode.TabInputText)
+                        .findIndex(({ input }) => {
+                            const { uri: tabUri } = input as vscode.TabInputText
+                            return tabUri?.toString() === uri.toString()
+                        })
                     if (tabIndex === -1) return
                     const tabNumber = tabIndex + 1
                     return {
@@ -84,9 +85,9 @@ export default () => {
                     }
                 }
 
-                const tabIndex = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack).findIndex(
-                    elemUri => elemUri.toString() === uri.toString(),
-                )
+                const tabIndex = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack)
+                    .filter(({ scheme }) => scheme !== 'search-editor')
+                    .findIndex(elemUri => elemUri.toString() === uri.toString())
                 if (tabIndex === -1) return
                 const tabNumber = tabIndex + 1
                 return {
