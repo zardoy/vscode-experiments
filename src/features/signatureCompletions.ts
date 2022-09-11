@@ -21,11 +21,14 @@ export const registerSignatureCompletions = () => {
             const args = signature.parameters.map(({ label }) => (typeof label === 'string' ? label : signature.label.slice(...label)))
             const completions = [] as vscode.CompletionItem[]
             const usePlaceholder = getExtensionSetting('signatureCompletions.usePlaceholder')
+            const currentWordRange = document.getWordRangeAtPosition(position)
+            const currentWord = currentWordRange && document.getText(currentWordRange)
 
             const start = result.activeParameter
             for (const i of range(start, args.length)) {
                 const currentArgs = args.slice(start, i + 1)
                 const argNamesToInsert = currentArgs.map(label => argLabelToName(label))
+                if (currentArgs.length === 1 && argNamesToInsert[0] === currentWord) continue
                 const completion = new vscode.CompletionItem({ label: argNamesToInsert.join(', '), description: 'SIGNATURE' }, vscode.CompletionItemKind.Field)
                 const md = new vscode.MarkdownString()
                 md.appendCodeblock(currentArgs.join('\n'), 'ts')
