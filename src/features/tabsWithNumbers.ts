@@ -86,7 +86,7 @@ export default () => {
                 }
 
                 const tabIndex = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack)
-                    .filter(({ scheme }) => scheme !== 'search-editor')
+                    .filter(({ scheme }) => scheme === 'file')
                     .findIndex(elemUri => elemUri.toString() === uri.toString())
                 if (tabIndex === -1) return
                 const tabNumber = tabIndex + 1
