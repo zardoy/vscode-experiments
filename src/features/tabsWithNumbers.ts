@@ -7,10 +7,10 @@ import { range } from 'rambda'
 
 export default () => {
     const focusTabFromLeft = async (index: number) => {
-        const input = vscode.window.tabGroups.activeTabGroup.tabs[index]?.input
-        if (!(input instanceof vscode.TabInputText)) return
-        const { uri } = input
-        if (!uri) return
+        const input = vscode.window.tabGroups.activeTabGroup.tabs.filter(({ input }) => input instanceof vscode.TabInputText)[index]?.input
+
+        if (!input) return
+        const { uri } = input as vscode.TabInputText
         await vscode.window.showTextDocument(uri)
     }
 
@@ -71,11 +71,12 @@ export default () => {
             provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
                 if (!recentByMode) {
                     const { tabs } = vscode.window.tabGroups.activeTabGroup
-                    const tabIndex = tabs.findIndex(tab => {
-                        if (!(tab.input instanceof vscode.TabInputText)) return
-                        const { uri: tabUri } = tab.input
-                        return tabUri?.toString() === uri.toString()
-                    })
+                    const tabIndex = tabs
+                        .filter(tab => tab.input instanceof vscode.TabInputText)
+                        .findIndex(({ input }) => {
+                            const { uri: tabUri } = input as vscode.TabInputText
+                            return tabUri?.toString() === uri.toString()
+                        })
                     if (tabIndex === -1) return
                     const tabNumber = tabIndex + 1
                     return {
@@ -120,6 +121,8 @@ export default () => {
             vscode.window.onDidChangeActiveTextEditor(textEditor => {
                 if (!textEditor || textEditor.viewColumn === undefined) return
                 const { uri } = textEditor.document
+                if (uri.scheme === 'search-editor') return
+
                 const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === uri.toString())
                 if (elemIndex === -1 && recentFileStack.length < 9) {
                     recentFileStack.unshift(uri)
