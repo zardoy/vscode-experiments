@@ -85,9 +85,9 @@ export default () => {
                     }
                 }
 
-                const tabIndex = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack)
-                    .filter(({ scheme }) => scheme === 'file')
-                    .findIndex(elemUri => elemUri.toString() === uri.toString())
+                const tabIndex = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack).findIndex(
+                    elemUri => elemUri.toString() === uri.toString(),
+                )
                 if (tabIndex === -1) return
                 const tabNumber = tabIndex + 1
                 return {
@@ -121,6 +121,8 @@ export default () => {
             vscode.window.onDidChangeActiveTextEditor(textEditor => {
                 if (!textEditor || textEditor.viewColumn === undefined) return
                 const { uri } = textEditor.document
+                if (uri.scheme === 'search-editor') return
+
                 const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === uri.toString())
                 if (elemIndex === -1 && recentFileStack.length < 9) {
                     recentFileStack.unshift(uri)
