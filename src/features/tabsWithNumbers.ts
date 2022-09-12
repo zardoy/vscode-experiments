@@ -7,10 +7,10 @@ import { range } from 'rambda'
 
 export default () => {
     const focusTabFromLeft = async (index: number) => {
-        const input = vscode.window.tabGroups.activeTabGroup.tabs[index]?.input
-        if (!(input instanceof vscode.TabInputText)) return
-        const { uri } = input
-        if (!uri) return
+        const input = vscode.window.tabGroups.activeTabGroup.tabs.filter(({ input }) => input instanceof vscode.TabInputText)[index]?.input
+
+        if (!input) return
+        const { uri } = input as vscode.TabInputText
         await vscode.window.showTextDocument(uri)
     }
 
