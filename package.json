@@ -130,7 +130,7 @@
             },
             {
                 "command": "copyProductIconName",
-                "title": "Copy Product Icon Name"
+                "title": "Copy Product Icon Name (Codicons)"
             },
             {
                 "command": "selectLineContents",
