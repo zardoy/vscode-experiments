@@ -1,12 +1,16 @@
 import * as vscode from 'vscode'
-import { registerExtensionCommand, showQuickPick } from 'vscode-framework'
+import { CommandHandler, getExtensionCommandId, registerExtensionCommand, showQuickPick } from 'vscode-framework'
 import { MaybePromise } from 'vscode-framework/build/util'
+import { noCase } from 'change-case'
 import { getGitActiveRepoOrThrow, GitChange, GitRepository } from '../git-api'
 
 export default () => {
     const gitFilesCommand =
-        (repoPickChanges: (repoState: GitRepository['state']) => GitChange[], apllyPaths: (repo: GitRepository, paths: string[]) => MaybePromise<void>) =>
-        async () => {
+        (
+            repoPickChanges: (repoState: GitRepository['state']) => GitChange[],
+            apllyPaths: (repo: GitRepository, paths: string[]) => MaybePromise<void>,
+        ): CommandHandler =>
+        async ({ command }) => {
             const repo = getGitActiveRepoOrThrow()
             if (!repo) return
             const changes = repoPickChanges(repo.state)
@@ -20,6 +24,7 @@ export default () => {
                 }),
                 {
                     canPickMany: true,
+                    title: noCase(command),
                 },
             )
             if (!selectedUris) return
