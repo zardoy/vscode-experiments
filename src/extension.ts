@@ -56,6 +56,7 @@ import toggleExtHostOutput from './features/toggleExtHostOutput'
 import completionsKindPlayground from './features/completionsKindPlayground'
 import autoEscapeJson from './features/autoEscapeJson'
 import gitStageQuickPick from './features/gitStageQuickPick'
+import githubEnvTerminal from './features/githubEnvTerminal'
 
 export const activate = () => {
     void initGitApi()
@@ -114,6 +115,7 @@ export const activate = () => {
     completionsKindPlayground()
     autoEscapeJson()
     gitStageQuickPick()
+    githubEnvTerminal()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
