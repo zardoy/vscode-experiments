@@ -414,6 +414,15 @@
                 "autoEscapeQuoteJson": {
                     "type": "boolean",
                     "default": true
+                },
+                "autoIndentEmptyLine": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "mouse-only",
+                        "always"
+                    ],
+                    "default": "disabled"
                 }
             }
         },

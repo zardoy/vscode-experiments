@@ -57,6 +57,7 @@ import completionsKindPlayground from './features/completionsKindPlayground'
 import autoEscapeJson from './features/autoEscapeJson'
 import gitStageQuickPick from './features/gitStageQuickPick'
 import githubEnvTerminal from './features/githubEnvTerminal'
+import indentEmptyLineOnClick from './features/indentEmptyLineOnClick'
 
 export const activate = () => {
     void initGitApi()
@@ -116,6 +117,7 @@ export const activate = () => {
     autoEscapeJson()
     gitStageQuickPick()
     githubEnvTerminal()
+    indentEmptyLineOnClick()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
