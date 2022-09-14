@@ -423,6 +423,11 @@
                         "always"
                     ],
                     "default": "disabled"
+                },
+                "autoIndentEmptyLineIfNotDirty": {
+                    "type": "boolean",
+                    "description": "Experimental, might be removed. This is can be useful to not spam with unsaved files in your editor tabs",
+                    "default": false
                 }
             }
         },
