@@ -58,6 +58,7 @@ import autoEscapeJson from './features/autoEscapeJson'
 import gitStageQuickPick from './features/gitStageQuickPick'
 import githubEnvTerminal from './features/githubEnvTerminal'
 import indentEmptyLineOnClick from './features/indentEmptyLineOnClick'
+import openOutlineItemInNewEditor from './features/openOutlineItemInNewEditor'
 
 export const activate = () => {
     void initGitApi()
@@ -118,6 +119,7 @@ export const activate = () => {
     gitStageQuickPick()
     githubEnvTerminal()
     indentEmptyLineOnClick()
+    openOutlineItemInNewEditor()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
