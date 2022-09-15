@@ -1,8 +1,6 @@
 import * as vscode from 'vscode'
 import { findCurrentEditorOutlineItem } from '@zardoy/vscode-utils/build/outline'
-import { getExtensionContributionsPrefix, registerExtensionCommand } from 'vscode-framework'
-
-// const SCHEME = `${getExtensionContributionsPrefix()}outlineItemPreview`
+import { registerExtensionCommand } from 'vscode-framework'
 
 export default () => {
     registerExtensionCommand('openOutlineItemInNewEditor', async () => {

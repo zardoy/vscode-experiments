@@ -243,6 +243,10 @@
             {
                 "command": "openGithubEnvTerminal",
                 "title": "Open GitHub Env Terminal"
+            },
+            {
+                "command": "openOutlineItemInNewEditor",
+                "title": "Open Outline Item in New Editor"
             }
         ],
         "configuration": {
