@@ -247,6 +247,10 @@
             {
                 "command": "openOutlineItemInNewEditor",
                 "title": "Open Outline Item in New Editor"
+            },
+            {
+                "command": "insertFileName",
+                "title": "Insert File Name"
             }
         ],
         "configuration": {
@@ -552,7 +556,8 @@
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
         "valtio": "^1.6.4",
-        "vscode-framework": "^0.0.18"
+        "vscode-framework": "^0.0.18",
+        "vscode-uri": "^3.0.6"
     },
     "devDependencies": {
         "@types/node": "^16.11.26",

@@ -59,6 +59,7 @@ import gitStageQuickPick from './features/gitStageQuickPick'
 import githubEnvTerminal from './features/githubEnvTerminal'
 import indentEmptyLineOnClick from './features/indentEmptyLineOnClick'
 import openOutlineItemInNewEditor from './features/openOutlineItemInNewEditor'
+import insertFileName from './features/insertFileName'
 
 export const activate = () => {
     void initGitApi()
@@ -120,6 +121,7 @@ export const activate = () => {
     githubEnvTerminal()
     indentEmptyLineOnClick()
     openOutlineItemInNewEditor()
+    insertFileName()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
