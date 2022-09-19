@@ -8,6 +8,7 @@ export const registerSignatureCompletions = () => {
     const triggerParameterHintsOnSignatureCompletions = getExtensionSetting('features.triggerParameterHintsOnSignatureCompletions')
     vscode.languages.registerCompletionItemProvider(getExtensionSetting('signatureCompletions.enableLanguages'), {
         async provideCompletionItems(document, position) {
+            if (!position.character) return
             const surroundingText = document.getText(new vscode.Range(position.translate(0, -1), position.translate(0, 1)))
             // TODO also provide other detections
             if (!(surroundingText.startsWith('(') || surroundingText.endsWith(')'))) return
