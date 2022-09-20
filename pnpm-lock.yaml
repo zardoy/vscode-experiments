@@ -12,7 +12,7 @@ specifiers:
   '@types/vscode': ^1.66.0
   '@zardoy/tsconfig': ^1.4.0
   '@zardoy/utils': ^0.0.9
-  '@zardoy/vscode-utils': ^0.0.29
+  '@zardoy/vscode-utils': ^0.0.33
   change-case: ^4.1.2
   escape-string-regexp: ^5.0.0
   eslint: ^8.11.0
@@ -40,7 +40,7 @@ dependencies:
   '@types/minimatch': 3.0.5
   '@types/pluralize': 0.0.29
   '@zardoy/utils': 0.0.9
-  '@zardoy/vscode-utils': 0.0.29_navnkmtphazjx5hrlz4hplvpca
+  '@zardoy/vscode-utils': 0.0.33_navnkmtphazjx5hrlz4hplvpca
   change-case: 4.1.2
   escape-string-regexp: 5.0.0
   execa: 6.1.0
@@ -706,17 +706,20 @@ packages:
       type-fest: 2.18.0
     dev: false
 
-  /@zardoy/vscode-utils/0.0.29_navnkmtphazjx5hrlz4hplvpca:
-    resolution: {integrity: sha512-A7K3R66Wtl4biNdFdoRZWAXsV4EpjCip049dSy+MD6pBACBGp5OYOnPR81mrjLl0M5JpUzYLSwCoBp34Lulq/g==}
+  /@zardoy/vscode-utils/0.0.33_navnkmtphazjx5hrlz4hplvpca:
+    resolution: {integrity: sha512-nsUZ8jMaXl9GlxgCADcSRJtMz/DPWGceSoc9tw0TDwZt5hgxyYgoBhlDC8zQopbj/VC0qpOyEppy2haYYRCP0g==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     peerDependencies:
       '@types/vscode': ^1.65.0
       esbuild: '*'
+      jest: ^29.0.3
       jsonc-parser: ^3.2.0
       vscode-framework: ^0.0.18
     peerDependenciesMeta:
       esbuild:
+        optional: true
+      jest:
         optional: true
       jsonc-parser:
         optional: true
@@ -732,6 +735,7 @@ packages:
       jsonc-parser: 3.2.0
       lodash.throttle: 4.1.1
       rambda: 7.2.1
+      type-fest: 2.19.0
       typed-jsonfile: 0.2.1
       untildify: 4.0.0
       vscode-framework: 0.0.18_i5w5uxrvzwrv6la6qaiybxnb7e

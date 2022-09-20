@@ -61,6 +61,8 @@ import indentEmptyLineOnClick from './features/indentEmptyLineOnClick'
 import openOutlineItemInNewEditor from './features/openOutlineItemInNewEditor'
 import insertFileName from './features/insertFileName'
 import tsPluginIntegrations from './features/tsPluginIntegrations'
+import goToHighlightedLocations from './features/goToHighlightedLocations'
+import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
 
 export const activate = () => {
     void initGitApi()
@@ -124,6 +126,8 @@ export const activate = () => {
     openOutlineItemInNewEditor()
     insertFileName()
     tsPluginIntegrations()
+    goToHighlightedLocations()
+    tsHighlightedKeywordsReferences()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {

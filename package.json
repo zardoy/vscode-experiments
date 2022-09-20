@@ -251,6 +251,10 @@
             {
                 "command": "insertFileName",
                 "title": "Insert File Name"
+            },
+            {
+                "command": "goToHighlightedLocations",
+                "title": "Go to Highlighted Locations"
             }
         ],
         "configuration": {
@@ -441,6 +445,11 @@
                     "type": "boolean",
                     "description": "Wether to enable experimental integrations with `ts-essential-plugins`",
                     "default": false
+                },
+                "typescriptHighlightedKeywordReferences": {
+                    "type": "boolean",
+                    "description": "Wether to references on highlighted JS keywords in vue/javascript/typescript/html",
+                    "default": true
                 }
             }
         },
@@ -545,7 +554,7 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.9",
-        "@zardoy/vscode-utils": "^0.0.29",
+        "@zardoy/vscode-utils": "^0.0.33",
         "change-case": "^4.1.2",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
