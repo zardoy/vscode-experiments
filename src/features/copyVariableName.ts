@@ -7,7 +7,10 @@ export const registerCopyVariableName = () => {
         if (!activeEditor || activeEditor.viewColumn === undefined) return
         // also would make sense to support mutliple selections/cursors
         const lineText = activeEditor.document.lineAt(activeEditor.selection.end).text
-        const regexps = [/\s*(?:const(?: {)?|let(?: {)?|type|interface|import(?: {)?) ([\w\d]+)/, /\s*(?:\.|(?:.*(?:class|className)=["']))([\w\d-]+?)\s*[{"']/]
+        const regexps = [
+            /\s*(?:const(?: {)?|let(?: {)?|type|interface|import(?: {)?|function) ([\w\d]+)/,
+            /\s*(?:\.|(?:.*(?:class|className)=["']))([\w\d-]+?)\s*[{"']/,
+        ]
         let varName: string | undefined
         for (const regexp of regexps) {
             varName = regexp.exec(lineText)?.[1]
@@ -24,3 +27,5 @@ export const registerCopyVariableName = () => {
         await vscode.env.clipboard.writeText(varName)
     })
 }
+
+export const ate = () => {}
