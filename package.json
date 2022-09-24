@@ -427,6 +427,11 @@
                     "type": "boolean",
                     "default": true
                 },
+                "autoRenameJsxTag": {
+                    "type": "boolean",
+                    "description": "Modern alternative to auto rename tag that uses native linked editing. Benefit: you cancel auto-renaming with esc at any time",
+                    "default": false
+                },
                 "autoIndentEmptyLine": {
                     "type": "string",
                     "enum": [
