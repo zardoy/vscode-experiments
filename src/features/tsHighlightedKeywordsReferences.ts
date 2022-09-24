@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { defaultJsSupersetLangsWithVue } from '@zardoy/vscode-utils/build/langs'
-import { getExtensionCommandId, getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
+import { getExtensionSetting } from 'vscode-framework'
 
 export default () => {
     if (!getExtensionSetting('typescriptHighlightedKeywordReferences')) return
