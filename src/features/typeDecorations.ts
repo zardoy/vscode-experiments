@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { getExtensionSetting } from 'vscode-framework'
+import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
 import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
 import { markdownToTxt } from 'markdown-to-txt'
 
@@ -35,6 +35,16 @@ export default () => {
         return false
     }
 
+    let _decorationToInsert = ''
+    const setDecorationToInsert = (newText: string) => {
+        _decorationToInsert = newText
+        void vscode.commands.executeCommand('setContext', 'zardoyExperiments.typeDecoration', !!newText)
+    }
+
+    registerExtensionCommand('insertTypeDecoration', async () => {
+        await vscode.commands.executeCommand('type', { text: _decorationToInsert })
+    })
+
     // try to use native solution instead of vscode (custom)
     const inFlightOperations: AbortController[] = []
     // eslint-disable-next-line complexity
@@ -50,6 +60,7 @@ export default () => {
         for (const inFlightOperation of inFlightOperations) inFlightOperation.abort()
         inFlightOperations.splice(0, inFlightOperations.length)
         textEditor.setDecorations(decoration, [])
+        setDecorationToInsert('')
         const {
             selections: [selection],
         } = textEditor
@@ -59,13 +70,14 @@ export default () => {
         const lineText = document.lineAt(pos).text
         const textBefore = lineText.slice(0, pos.character)
         const textAfter = lineText.slice(pos.character)
-        const match = /(:| =) $/.exec(textBefore)
         const isInBannedPosition = /(const|let) (\w|\d)+ = $/i.test(textBefore)
+        if (isInBannedPosition) return
+        const match = /(:| =) $/.exec(textBefore)
+        const alwaysMatch = / [!=]== $/.exec(textBefore)
         // if in destructure or object literal
         const endingMatch = /^\s*(}|]|;|,|$)/
-        if (!match || isInBannedPosition || !endingMatch.test(textAfter)) return
-        const offset = match[0]!.length
-
+        if (!alwaysMatch && (!match || !endingMatch.test(textAfter))) return
+        const offset = (match ?? alwaysMatch)![0]!.length
         const controller = new AbortController()
         inFlightOperations.push(controller)
         // TODO: core support token!
@@ -91,12 +103,14 @@ export default () => {
 
         if (!typeString || typeString === '{' || ignoreValues.includes(typeString)) return
         const STRING_LENGTH_LIMIT = 60
+        const decorationText = typeString.slice(0, STRING_LENGTH_LIMIT)
+        setDecorationToInsert(decorationText)
         textEditor.setDecorations(decoration, [
             {
                 range: new vscode.Range(pos.translate(0, -1), pos),
                 renderOptions: {
                     after: {
-                        contentText: typeString.slice(0, STRING_LENGTH_LIMIT),
+                        contentText: decorationText,
                     },
                 },
             },

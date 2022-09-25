@@ -255,6 +255,10 @@
             {
                 "command": "goToHighlightedLocations",
                 "title": "Go to Highlighted Locations"
+            },
+            {
+                "command": "insertTypeDecoration",
+                "title": "Insert Type Decoration"
             }
         ],
         "configuration": {
