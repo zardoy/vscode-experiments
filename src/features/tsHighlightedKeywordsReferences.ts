@@ -10,7 +10,7 @@ export default () => {
             if (!wordRange) return
             const word = document.getText(wordRange)
             // already works with `this`
-            const allowList = 'return async await if else for while break continue try catch finally'.split(' ')
+            const allowList = 'return async await if else for while break continue try catch finally switch case export'.split(' ')
             if (!allowList.includes(word)) return
             const highlights: vscode.DocumentHighlight[] | undefined =
                 (await vscode.commands.executeCommand('vscode.executeDocumentHighlights', document.uri, position)) ?? []
