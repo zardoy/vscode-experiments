@@ -23,6 +23,7 @@ experiment-*
 src/generated.ts
 
 .vscode-test
+.vscode-test-web
 .eslintcache
 Thumbs.db
 .idea/
