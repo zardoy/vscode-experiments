@@ -65,6 +65,7 @@ import goToHighlightedLocations from './features/goToHighlightedLocations'
 import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
 import autoRenameJsx from './features/autoRenameJsx'
 import openReferencesInView from './features/openReferencesInView'
+import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 
 export const activate = () => {
     void initGitApi()
@@ -132,6 +133,7 @@ export const activate = () => {
     tsHighlightedKeywordsReferences()
     autoRenameJsx()
     openReferencesInView()
+    statusbarOccurrencesCount()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {

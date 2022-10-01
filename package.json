@@ -462,7 +462,7 @@
                 },
                 "statusbarOccurrencesCount": {
                     "type": "boolean",
-                    "description": "Wether to display statusbar with all occurences count (including selected) in the following format: A (all occurences) E (all occurences, but matching casing & whole word) H (highlighted locations)",
+                    "description": "Wether to display statusbar with all occurences count (including selected) in the following format: E (case matching occurences)",
                     "default": false
                 }
             }
