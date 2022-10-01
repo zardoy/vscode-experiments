@@ -259,6 +259,10 @@
             {
                 "command": "insertTypeDecoration",
                 "title": "Insert Type Decoration"
+            },
+            {
+                "command": "openReferencesInView",
+                "title": "Open References in View"
             }
         ],
         "configuration": {
