@@ -185,4 +185,28 @@ const unusedCommands = () => {
             }
         })
     })
+    registerNoop('Auto rename on type', () => {
+        vscode.languages.registerLinkedEditingRangeProvider('*', {
+            async provideLinkedEditingRanges(document, position, token) {
+                if (document.uri.scheme === 'output') return
+                const highlights: vscode.DocumentHighlight[] | undefined =
+                    (await vscode.commands.executeCommand('vscode.executeDocumentHighlights', document.uri, position)) ?? []
+                const definitions: vscode.Location[] | vscode.LocationLink[] | undefined =
+                    (await vscode.commands.executeCommand('vscode.executeDefinitionProvider', document.uri, position)) ?? []
+                if (!definitions) return
+                const thisDefinitions = definitions
+                    .map(item => (item instanceof vscode.Location ? [item.uri, item.range] : [item.targetUri, item.targetRange]))
+                    .filter(res => {
+                        const [uri, range] = res as [vscode.Uri, vscode.Range]
+                        return uri.toString() === document.uri.toString() && range.contains(position)
+                    })
+                if (thisDefinitions.length > 0)
+                    return {
+                        ranges: highlights.map(({ range }) => range),
+                        wordPattern: undefined,
+                    }
+                return undefined
+            },
+        })
+    })
 }
