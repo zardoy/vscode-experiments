@@ -459,6 +459,11 @@
                     "type": "boolean",
                     "description": "Wether to references on highlighted JS keywords in vue/javascript/typescript/html",
                     "default": true
+                },
+                "statusbarOccurrencesCount": {
+                    "type": "boolean",
+                    "description": "Wether to display statusbar with all occurences count (including selected) in the following format: A (all occurences) E (all occurences, but matching casing & whole word) H (highlighted locations)",
+                    "default": false
                 }
             }
         },
