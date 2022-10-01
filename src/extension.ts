@@ -64,6 +64,7 @@ import tsPluginIntegrations from './features/tsPluginIntegrations'
 import goToHighlightedLocations from './features/goToHighlightedLocations'
 import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
 import autoRenameJsx from './features/autoRenameJsx'
+import openReferencesInView from './features/openReferencesInView'
 
 export const activate = () => {
     void initGitApi()
@@ -130,6 +131,7 @@ export const activate = () => {
     goToHighlightedLocations()
     tsHighlightedKeywordsReferences()
     autoRenameJsx()
+    openReferencesInView()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {
