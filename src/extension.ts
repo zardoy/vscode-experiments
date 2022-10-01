@@ -57,13 +57,15 @@ import completionsKindPlayground from './features/completionsKindPlayground'
 import autoEscapeJson from './features/autoEscapeJson'
 import gitStageQuickPick from './features/gitStageQuickPick'
 import githubEnvTerminal from './features/githubEnvTerminal'
-import indentEmptyLineOnClick from './features/indentEmptyLineOnClick'
+import indentEmptyLineOnClick from './features/autoIndentEmptyLine'
 import openOutlineItemInNewEditor from './features/openOutlineItemInNewEditor'
 import insertFileName from './features/insertFileName'
 import tsPluginIntegrations from './features/tsPluginIntegrations'
 import goToHighlightedLocations from './features/goToHighlightedLocations'
 import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
 import autoRenameJsx from './features/autoRenameJsx'
+import openReferencesInView from './features/openReferencesInView'
+import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 
 export const activate = () => {
     void initGitApi()
@@ -130,6 +132,8 @@ export const activate = () => {
     goToHighlightedLocations()
     tsHighlightedKeywordsReferences()
     autoRenameJsx()
+    openReferencesInView()
+    statusbarOccurrencesCount()
 
     // vscode.languages.registerSelectionRangeProvider('*', {
     //     provideSelectionRanges(document, positions, token) {

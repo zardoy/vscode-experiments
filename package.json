@@ -259,6 +259,10 @@
             {
                 "command": "insertTypeDecoration",
                 "title": "Insert Type Decoration"
+            },
+            {
+                "command": "openReferencesInView",
+                "title": "Open References in View"
             }
         ],
         "configuration": {
@@ -459,6 +463,11 @@
                     "type": "boolean",
                     "description": "Wether to references on highlighted JS keywords in vue/javascript/typescript/html",
                     "default": true
+                },
+                "statusbarOccurrencesCount": {
+                    "type": "boolean",
+                    "description": "Wether to display statusbar with all occurences count (including selected) in the following format: E (case matching occurences)",
+                    "default": false
                 }
             }
         },
