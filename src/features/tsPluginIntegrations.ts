@@ -37,7 +37,7 @@ export default () => {
                 builder.insert(posBefore, '\\')
             })
         })
-        const { text: newText, endPos } = await getNormalizedNodeAtPosition(offset + 1)
+        const { text: newText } = await getNormalizedNodeAtPosition(offset + 1)
         // unterminated string, let's fix it
         if (kindName === 'StringLiteral' && !newText.endsWith("'")) {
             await new Promise<void>(resolve => {
@@ -50,7 +50,7 @@ export default () => {
                 })
                 void editor.edit(
                     builder => {
-                        builder.insert(endPos, "'")
+                        builder.insert(editor.selection.active, "'")
                     },
                     { undoStopBefore: false, undoStopAfter: true },
                 )
