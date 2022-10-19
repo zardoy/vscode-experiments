@@ -1,9 +1,32 @@
 import { posix } from 'path'
 import * as vscode from 'vscode'
-import { registerExtensionCommand, registerNoop } from 'vscode-framework'
+import { extensionCtx, registerNoop } from 'vscode-framework'
 import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
 
 const unusedCommands = () => {
+    registerNoop('Better Rename', () => {
+        const decoration = vscode.window.createTextEditorDecorationType({
+            dark: {
+                before: {
+                    contentIconPath: extensionCtx.asAbsolutePath('resources/editDark.svg'),
+                },
+            },
+            light: {
+                before: {
+                    contentIconPath: extensionCtx.asAbsolutePath('resources/edit.svg'),
+                },
+            },
+            // rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+        })
+        if (!vscode.window.activeTextEditor) throw new Error('no activeTextEditor')
+        const pos = vscode.window.activeTextEditor.selection.active
+        vscode.window.activeTextEditor.setDecorations(decoration, [
+            {
+                range: new vscode.Range(pos, pos.translate(0, 1)),
+            },
+        ])
+    })
+
     registerNoop('goToRelativePath', async () => {
         const currentUri = vscode.window.activeTextEditor?.document.uri
         if (!currentUri) {

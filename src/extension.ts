@@ -1,9 +1,6 @@
 import * as vscode from 'vscode'
-import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
+import { extensionCtx, getExtensionSetting, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
-import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
-import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
-import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
@@ -135,16 +132,6 @@ export const activate = () => {
     openReferencesInView()
     statusbarOccurrencesCount()
 
-    // vscode.languages.registerSelectionRangeProvider('*', {
-    //     provideSelectionRanges(document, positions, token) {
-
-    //     }
-    // })
-
-    // vscode.languages.registerDocumentSemanticTokensProvider('typescript', {
-
-    // }, {})
-
     registerExtensionCommand('openUrl', async (_, url: string) => {
         // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -159,29 +146,6 @@ export const activate = () => {
         await vscode.commands.executeCommand('workbench.action.terminal.scrollUpPage')
         // eslint-disable-next-line no-await-in-loop
         for (const i of range(0, 3)) await vscode.commands.executeCommand('workbench.action.terminal.scrollDown')
-    })
-
-    registerNoop('Better Rename', () => {
-        const decoration = vscode.window.createTextEditorDecorationType({
-            dark: {
-                before: {
-                    contentIconPath: extensionCtx.asAbsolutePath('resources/editDark.svg'),
-                },
-            },
-            light: {
-                before: {
-                    contentIconPath: extensionCtx.asAbsolutePath('resources/edit.svg'),
-                },
-            },
-            // rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
-        })
-        if (!vscode.window.activeTextEditor) throw new Error('no activeTextEditor')
-        const pos = vscode.window.activeTextEditor.selection.active
-        vscode.window.activeTextEditor.setDecorations(decoration, [
-            {
-                range: new vscode.Range(pos, pos.translate(0, 1)),
-            },
-        ])
     })
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
