@@ -263,6 +263,10 @@
             {
                 "command": "openReferencesInView",
                 "title": "Open References in View"
+            },
+            {
+                "command": "generateGitlabPush",
+                "title": "Generate push with gitlab options"
             }
         ],
         "configuration": {
@@ -468,6 +472,69 @@
                     "type": "boolean",
                     "description": "Wether to display statusbar with all occurences count (including selected) in the following format: E (case matching occurences)",
                     "default": false
+                },
+                "generateGitlabPush": {
+                    "type": "object",
+                    "description": "Generate `git push` with gitlab specific options",
+                    "properties": {
+                        "dynamicPushOptions": {
+                            "type": "object",
+                            "properties": {
+                                "merge_request.target": {
+                                    "type": "string"
+                                },
+                                "merge_request.title": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.description": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.milestone": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.label": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.unlabel": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.assign": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.unassign": {
+                                    "type": "string",
+                                    "default": ""
+                                }
+                            }
+                        },
+                        "staticPushOptions": {
+                            "type": "object",
+                            "properties": {
+                                "merge_request.create": {
+                                    "type": "boolean",
+                                    "default": false
+                                },
+                                "merge_request.merge_when_pipeline_succeeds":{
+                                    "type": "boolean",
+                                    "default": false
+                                },
+                                "merge_request.remove_source_branch": {
+                                    "type": "boolean",
+                                    "default": false
+                                },
+                                "merge_request.draft": {
+                                    "type": "boolean",
+                                    "default": false
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
