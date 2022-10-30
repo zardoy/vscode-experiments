@@ -16,12 +16,20 @@ export default () => {
             dynamicPushOptions,
             staticPushOptions,
         }
+        const normallizeStaticOptions = staticOptions =>
+            Object.keys(staticOptions)
+                .map(key => ` -o ${key}`)
+                .join('')
+        const normallizeDynamicOptions = dynamicOption =>
+            Object.entries(dynamicOption)
+                .filter(([, value]) => value)
+                .map(([key, value]) => ` -o ${key}=${value}`)
+                .join('')
+
         const getOptionsNames = () => [...Object.keys(pushOptions.dynamicPushOptions), ...Object.keys(pushOptions.staticPushOptions)]
 
         const updateMainTitle = () => {
-            quickPick.title = `git push ${normallizeDynamicOptions(pushOptions.dynamicPushOptions)} -o ${normallizeStaticOptions(
-                pushOptions.staticPushOptions,
-            )}`
+            quickPick.title = `git push${normallizeDynamicOptions(pushOptions.dynamicPushOptions)}${normallizeStaticOptions(pushOptions.staticPushOptions)}`
         }
 
         const setActiveItem = (existingIndex: number) => {
@@ -32,18 +40,13 @@ export default () => {
         }
 
         const resetItems = () => {
-            quickPick.items = [...Object.keys(pushOptions.dynamicPushOptions), ...Object.keys(pushOptions.staticPushOptions)].map(option => ({ label: option }))
+            // Currently remove static options from quick pick as managing them looks tricky
+            // quickPick.items = [...Object.keys(pushOptions.dynamicPushOptions), ...Object.keys(pushOptions.staticPushOptions)].map(option => ({ label: option }))
+            quickPick.items = Object.keys(pushOptions.dynamicPushOptions).map(option => ({ label: option }))
             if (editingIndex !== undefined) setActiveItem(editingIndex)
             updateMainTitle()
             editingIndex = undefined
         }
-
-        const normallizeStaticOptions = staticOptions => Object.keys(staticOptions).join(' -o ')
-        const normallizeDynamicOptions = dynamicOption =>
-            Object.entries(dynamicOption)
-                .filter(([, value]) => value)
-                .map(([key, value]) => `-o ${key}=${value}`)
-                .join(' ')
 
         const updatePushOption = (option: string, value: string) => {
             if (option in pushOptions.dynamicPushOptions) pushOptions.dynamicPushOptions[option] = value
