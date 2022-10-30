@@ -49,7 +49,10 @@ export default () => {
         }
 
         const updatePushOption = (option: string, value: string) => {
-            if (option in pushOptions.dynamicPushOptions) pushOptions.dynamicPushOptions[option] = value
+            if (option in pushOptions.dynamicPushOptions) {
+                if (!(value.startsWith('"') && value.endsWith('"'))) value = `"${value}"`
+                pushOptions.dynamicPushOptions[option] = value
+            }
         }
 
         const registerCommand = (command: keyof RegularCommands, handler: () => void) =>
