@@ -63,6 +63,7 @@ import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsRef
 import autoRenameJsx from './features/autoRenameJsx'
 import openReferencesInView from './features/openReferencesInView'
 import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
+import generateGitlabPush from './features/generateGitlabPush'
 
 export const activate = () => {
     void initGitApi()
@@ -131,6 +132,7 @@ export const activate = () => {
     autoRenameJsx()
     openReferencesInView()
     statusbarOccurrencesCount()
+    generateGitlabPush()
 
     registerExtensionCommand('openUrl', async (_, url: string) => {
         // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
