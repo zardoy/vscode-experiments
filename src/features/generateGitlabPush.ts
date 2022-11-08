@@ -6,30 +6,24 @@ export default () => {
         // https://docs.gitlab.com/ee/user/project/push_options.html
 
         const quickPick = vscode.window.createQuickPick()
-
-        const dynamicPushOptions = getExtensionSetting('generateGitlabPush.dynamicPushOptions') as Record<string, string>
-        const staticPushOptions = getExtensionSetting('generateGitlabPush.staticPushOptions') as Record<string, boolean>
+        const { dynamicPushOptions = {}, staticPushOptions = {} } = getExtensionSetting('generateGitlabPush')
 
         let editingIndex: number | undefined
 
-        const pushOptions = {
-            dynamicPushOptions,
-            staticPushOptions,
-        }
-        const normallizeStaticOptions = staticOptions =>
-            Object.keys(staticOptions)
+        const normallizeStaticOptions = () =>
+            Object.keys(staticPushOptions)
                 .map(key => ` -o ${key}`)
                 .join('')
-        const normallizeDynamicOptions = dynamicOption =>
-            Object.entries(dynamicOption)
+        const normallizeDynamicOptions = () =>
+            Object.entries(dynamicPushOptions)
                 .filter(([, value]) => value)
-                .map(([key, value]) => ` -o ${key}=${value}`)
+                .map(([key, value]) => ` -o ${key}=${value!}`)
                 .join('')
 
-        const getOptionsNames = () => [...Object.keys(pushOptions.dynamicPushOptions), ...Object.keys(pushOptions.staticPushOptions)]
+        const getOptionsNames = () => [...Object.keys(dynamicPushOptions), ...Object.keys(staticPushOptions)]
 
         const updateMainTitle = () => {
-            quickPick.title = `git push${normallizeDynamicOptions(pushOptions.dynamicPushOptions)}${normallizeStaticOptions(pushOptions.staticPushOptions)}`
+            quickPick.title = `git push${normallizeDynamicOptions()}${normallizeStaticOptions()}`
         }
 
         const setActiveItem = (existingIndex: number) => {
@@ -41,17 +35,17 @@ export default () => {
 
         const resetItems = () => {
             // Currently remove static options from quick pick as managing them looks tricky
-            // quickPick.items = [...Object.keys(pushOptions.dynamicPushOptions), ...Object.keys(pushOptions.staticPushOptions)].map(option => ({ label: option }))
-            quickPick.items = Object.keys(pushOptions.dynamicPushOptions).map(option => ({ label: option }))
+            // quickPick.items = [...Object.keys(dynamicPushOptions), ...Object.keys(staticPushOptions)].map(option => ({ label: option }))
+            quickPick.items = Object.keys(dynamicPushOptions).map(option => ({ label: option }))
             if (editingIndex !== undefined) setActiveItem(editingIndex)
             updateMainTitle()
             editingIndex = undefined
         }
 
         const updatePushOption = (option: string, value: string) => {
-            if (option in pushOptions.dynamicPushOptions) {
+            if (option in dynamicPushOptions) {
                 if (!(value.startsWith('"') && value.endsWith('"'))) value = `"${value}"`
-                pushOptions.dynamicPushOptions[option] = value
+                dynamicPushOptions[option] = value
             }
         }
 
@@ -82,12 +76,12 @@ export default () => {
                 if (!activeItem) return
                 editingIndex = quickPick.items.indexOf(activeItem)
                 const { label } = activeItem
-                const editingOption = [...Object.entries(pushOptions.dynamicPushOptions), ...Object.entries(pushOptions.dynamicPushOptions)].find(
+                const editingOption = [...Object.entries(dynamicPushOptions), ...Object.entries(dynamicPushOptions)].find(
                     ([option, value]) => option === label,
                 )!
                 quickPick.items = []
                 quickPick.title = `Changing option: ${label}`
-                quickPick.value = editingOption[1]
+                quickPick.value = editingOption[1]!
                 return
             }
 
