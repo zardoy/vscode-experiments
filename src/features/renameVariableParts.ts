@@ -21,6 +21,7 @@ export const registerRenameVariableParts = () => {
         }
 
         const parts = proxy([] as string[])
+        let isDisposeEnabled = true
         /** expected: dash or underscore */
         let seperatorChar = ''
         // init parts
@@ -39,16 +40,14 @@ export const registerRenameVariableParts = () => {
         if (isCamelCase) seperatorChar = ''
         let isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
 
-        let editingIndex: number | undefined
-
         const getResultingName = () => parts.join(seperatorChar)
-        const getQuickPickTitle = () => {
+        const updateTitle = (state: 'input' | 'quickPick') => {
             const partsTemp = [...parts]
-            const mainIndex = editingIndex === undefined ? getActiveItemIndex() ?? -1 : editingIndex
+            const mainIndex = getActiveItemIndex() ?? -1
             const mainPart = partsTemp[mainIndex]
             // handle -1 case
             if (!mainPart) return ''
-            partsTemp[mainIndex] = editingIndex === undefined ? `|${mainPart}` : `[${mainPart}]`
+            partsTemp[mainIndex] = state === 'input' ? `[${mainPart}]` : `|${mainPart}`
             return partsTemp.join(seperatorChar)
         }
 
@@ -67,15 +66,11 @@ export const registerRenameVariableParts = () => {
 
         const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
 
-        const updateMainTitle = () => {
-            quickPick.title = `Rename variable parts: ${getQuickPickTitle()}`
-        }
+        const updateMainTitle = (state: 'input' | 'quickPick') => `Rename variable parts: ${updateTitle(state)}`
 
-        const resetItems = () => {
+        const updateQuickPick = () => {
             quickPick.items = parts.map(part => ({ label: part }))
-            if (editingIndex !== undefined) setActiveItem(editingIndex)
-            updateMainTitle()
-            editingIndex = undefined
+            quickPick.title = updateMainTitle('quickPick')
         }
 
         // watch parts
@@ -99,18 +94,16 @@ export const registerRenameVariableParts = () => {
                 }
             }
 
-            if (editingIndex === undefined) resetItems()
+            updateQuickPick()
         }
 
         updateParts()
-        resetItems()
+        updateQuickPick()
         subscribe(parts, updateParts)
 
         quickPick.onDidChangeActive(() => {
-            if (editingIndex !== undefined) return
-            updateMainTitle()
+            quickPick.title = updateMainTitle('quickPick')
         })
-
         const moveVariableParts = (direction: 'up' | 'down') => {
             const currentActiveItemIndex = getActiveItemIndex() ?? -1
             const currentPart = parts[currentActiveItemIndex]
@@ -133,20 +126,20 @@ export const registerRenameVariableParts = () => {
             quickPick,
             registerCommand('renameVariablePartsDeletePart', () => {
                 if (parts.length === 0) return
-                parts.splice(editingIndex ?? getActiveItemIndex()!, 1)
-                resetItems()
+                parts.splice(getActiveItemIndex()!, 1)
+                updateQuickPick()
             }),
             registerCommand('renameVariablePartsExtractPart', () => {
                 if (parts.length === 0) return
-                const onlyPart = parts[editingIndex ?? getActiveItemIndex()!]!
+                const onlyPart = parts[getActiveItemIndex()!]!
                 parts.splice(0, parts.length)
                 parts.push(onlyPart)
-                resetItems()
+                updateQuickPick()
             }),
             registerCommand('renameVariablePartsLowercasePart', () => {
                 if (parts.length === 0) return
-                const index = editingIndex ?? getActiveItemIndex()!
-                const content = editingIndex ? quickPick.value : parts[index]!
+                const index = getActiveItemIndex()!
+                const content = parts[index]!
 
                 if (index === 0) {
                     isPascalCase = false
@@ -157,8 +150,7 @@ export const registerRenameVariableParts = () => {
                 const prevIndex = index - 1
                 parts.splice(index, 1)
                 parts[prevIndex] = `${parts[prevIndex]!}${content.toLowerCase()}`
-                if (editingIndex) quickPick.value = ''
-                resetItems()
+                updateQuickPick()
             }),
             registerCommand('renameVariablePartsPartMoveUp', () => {
                 moveVariableParts('up')
@@ -167,7 +159,6 @@ export const registerRenameVariableParts = () => {
                 moveVariableParts('down')
             }),
             registerCommand('renameVariablePartsAccept', async () => {
-                quickPick.hide()
                 const edit: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
                     'vscode.executeDocumentRenameProvider',
                     document.uri,
@@ -175,12 +166,13 @@ export const registerRenameVariableParts = () => {
                     getResultingName(),
                 )
                 await vscode.workspace.applyEdit(edit)
+                mainDisposable.dispose()
             }),
             registerCommand('renameVariablePartsAcceptReplace', () => {
                 void activeEditor.edit(builder => {
                     builder.replace(editRange, getResultingName())
                 })
-                quickPick.hide()
+                mainDisposable.dispose()
             }),
             {
                 dispose() {
@@ -188,26 +180,32 @@ export const registerRenameVariableParts = () => {
                 },
             },
         )
-        quickPick.onDidAccept(() => {
+        quickPick.onDidAccept(async () => {
             const activeItem = quickPick.activeItems[0]!
-            if (editingIndex === undefined) {
-                if (!activeItem) return
-                editingIndex = quickPick.items.indexOf(activeItem)
-                const { label } = activeItem
-                quickPick.items = []
-                quickPick.title = `Editing part: ${getQuickPickTitle()}`
-                quickPick.value = label
-                return
+            if (!activeItem) return
+            const updatingPartIndex = quickPick.items.indexOf(activeItem)
+            const { label } = activeItem
+            isDisposeEnabled = false
+            const renamedPart = await vscode.window.showInputBox({ value: label, title: updateMainTitle('input') })
+
+            if (renamedPart) {
+                parts.splice(updatingPartIndex, 1, renamedPart)
+                updateQuickPick()
+                setActiveItem(updatingPartIndex)
             }
 
-            parts.splice(editingIndex, 1, quickPick.value)
-            resetItems()
-            quickPick.value = ''
-        })
-        quickPick.onDidHide(() => {
-            mainDisposable.dispose()
+            if (renamedPart === '') await vscode.commands.executeCommand('zardoyExperiments.renameVariablePartsDeletePart')
+
+            updateQuickPick()
+
+            quickPick.show()
+            isDisposeEnabled = true
         })
         await vscode.commands.executeCommand('setContext', 'zardoyExperiments.renameVariablePartsOpened', true)
+
         quickPick.show()
+        quickPick.onDidHide(() => {
+            if (isDisposeEnabled) mainDisposable.dispose()
+        })
     })
 }
