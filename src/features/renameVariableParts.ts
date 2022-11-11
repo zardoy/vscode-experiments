@@ -20,14 +20,32 @@ export const registerRenameVariableParts = () => {
             return
         }
 
+        const cursorPosOffset = document.offsetAt(selection.active)
+        const wordStartOffset = document.offsetAt(editRange?.start)
+        const selectedWordCursorOffset = Math.abs(cursorPosOffset - wordStartOffset)
+
         const parts = proxy([] as string[])
         let isDisposeEnabled = true
         /** expected: dash or underscore */
         let seperatorChar = ''
+        let preselectedPartIndex = -1
+
+        const getPartByOffset = (splittedParts: string[], offset: number) => {
+            let accumulatedLength = 0
+            for (const [i, part] of splittedParts.entries()) {
+                accumulatedLength += part.length
+                if (offset <= accumulatedLength) {
+                    preselectedPartIndex = i
+                    break
+                }
+            }
+        }
+
         // init parts
         const inputText = document.getText(editRange)
         noCase(inputText, {
-            transform(part, index) {
+            transform(part, index, wordParts) {
+                if (preselectedPartIndex === -1) getPartByOffset(wordParts, selectedWordCursorOffset)
                 if (index === 1) seperatorChar = inputText[parts[0]!.length]!
                 parts.push(part)
                 return ''
@@ -99,6 +117,7 @@ export const registerRenameVariableParts = () => {
 
         updateParts()
         updateQuickPick()
+        setActiveItem(preselectedPartIndex)
         subscribe(parts, updateParts)
 
         quickPick.onDidChangeActive(() => {
