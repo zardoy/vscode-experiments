@@ -34,6 +34,7 @@ import { registerProductIconReference } from './features/productIconReference'
 import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
+import { registerRenameFileParts } from './features/renameFileParts'
 import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
@@ -133,6 +134,7 @@ export const activate = () => {
     openReferencesInView()
     statusbarOccurrencesCount()
     generateGitlabPush()
+    registerRenameFileParts()
 
     registerExtensionCommand('openUrl', async (_, url: string) => {
         // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
