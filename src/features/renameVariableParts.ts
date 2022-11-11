@@ -27,7 +27,7 @@ export const registerRenameVariableParts = () => {
         const parts = proxy([] as string[])
         let isDisposeEnabled = true
         /** expected: dash or underscore */
-        let seperatorChar = ''
+        let separatorChar = ''
         let preselectedPartIndex = -1
 
         const getPartByOffset = (splittedParts: string[], offset: number) => {
@@ -46,7 +46,7 @@ export const registerRenameVariableParts = () => {
         noCase(inputText, {
             transform(part, index, wordParts) {
                 if (preselectedPartIndex === -1) getPartByOffset(wordParts, selectedWordCursorOffset)
-                if (index === 1) seperatorChar = inputText[parts[0]!.length]!
+                if (index === 1) separatorChar = inputText[parts[0]!.length]!
                 parts.push(part)
                 return ''
             },
@@ -55,10 +55,10 @@ export const registerRenameVariableParts = () => {
         // if transformation results no differences - we're already in camel case
         // we don't support mixed casing e.g. SomeVariable_meta
         const isCamelCase = [inputText, lowerCaseFirst(inputText)].includes(camelCase(inputText))
-        if (isCamelCase) seperatorChar = ''
+        if (isCamelCase) separatorChar = ''
         let isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
 
-        const getResultingName = () => parts.join(seperatorChar)
+        const getResultingName = () => parts.join(separatorChar)
         const updateTitle = (state: 'input' | 'quickPick') => {
             const partsTemp = [...parts]
             const mainIndex = getActiveItemIndex() ?? -1
@@ -66,7 +66,7 @@ export const registerRenameVariableParts = () => {
             // handle -1 case
             if (!mainPart) return ''
             partsTemp[mainIndex] = state === 'input' ? `[${mainPart}]` : `|${mainPart}`
-            return partsTemp.join(seperatorChar)
+            return partsTemp.join(separatorChar)
         }
 
         const getActiveItemIndex = () => {
