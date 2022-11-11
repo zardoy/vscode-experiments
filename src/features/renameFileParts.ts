@@ -8,7 +8,6 @@ import { lowerCaseFirst } from 'lower-case-first'
 import { Utils as UriUtils } from 'vscode-uri'
 
 export const registerRenameFileParts = () => {
-    // small task: add back button when editingIndex (like in GitLens menus)
     registerExtensionCommand('renameFileParts', async () => {
         const activeEditor = getActiveRegularEditor()
         if (!activeEditor) return
@@ -26,7 +25,6 @@ export const registerRenameFileParts = () => {
             fullExt = `${ext}${fullExt}`
         }
 
-        let newFileName: string
         const quickPick = vscode.window.createQuickPick()
 
         const parts = proxy([] as string[])
@@ -36,7 +34,7 @@ export const registerRenameFileParts = () => {
 
         // init parts
         noCase(fileName, {
-            transform(part, index, wordParts) {
+            transform(part, index) {
                 if (index === 1) separatorChar = fileName[parts[0]!.length]!
                 parts.push(part)
                 return ''
@@ -44,7 +42,7 @@ export const registerRenameFileParts = () => {
         })
 
         // if transformation results no differences - we're already in camel case
-        // we don't support mixed casing e.g. SomeVariable_meta
+        // we don't support mixed casing e.g. SomeFilename_meta
         const isCamelCase = [fileName, lowerCaseFirst(fileName)].includes(camelCase(fileName))
         if (isCamelCase) separatorChar = ''
         let isPascalCase = parts[0]![0]!.toUpperCase() === parts[0]![0]
@@ -75,7 +73,7 @@ export const registerRenameFileParts = () => {
 
         const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
 
-        const updateMainTitle = (state: 'input' | 'quickPick') => `Rename variable parts: ${updateTitle(state)}`
+        const updateMainTitle = (state: 'input' | 'quickPick') => `Rename file parts: ${updateTitle(state)}`
 
         const updateQuickPick = () => {
             quickPick.items = parts.map(part => ({ label: part }))
