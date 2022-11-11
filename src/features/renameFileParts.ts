@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { extname } from 'path'
+import { extname } from 'path-browserify'
 import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { noCase, camelCase } from 'change-case'
 import { getExtensionContributionsPrefix, registerExtensionCommand, RegularCommands } from 'vscode-framework'
