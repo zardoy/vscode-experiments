@@ -4,6 +4,6 @@ import { registerExtensionCommand } from 'vscode-framework'
 
 export const registerRenameFileParts = () => {
     registerExtensionCommand('renameFileParts', async () => {
-        void vscode.commands.executeCommand('zardoyExperiments.renameVariableParts', 'filename')
+        void vscode.commands.executeCommand('zardoyExperiments.renameVariableParts', 'fileName')
     })
 }

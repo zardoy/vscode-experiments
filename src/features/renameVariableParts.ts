@@ -10,12 +10,13 @@ import { extname } from 'path-browserify'
 // doesn't support multicursor
 export const registerRenameVariableParts = () => {
     // small task: add back button when editingIndex (like in GitLens menus)
-    registerExtensionCommand('renameVariableParts', async (data, renamingEntity: 'filename' | 'variable' = 'variable') => {
+    registerExtensionCommand('renameVariableParts', async (data, renamingEntity: 'fileName' | 'variable' = 'variable') => {
         const activeEditor = getActiveRegularEditor()
         if (!activeEditor) return
 
         const quickPick = vscode.window.createQuickPick()
         const { document, selection } = activeEditor
+        const { uri } = document
 
         const editRange = selection.isEmpty ? document.getWordRangeAtPosition(selection.end) : selection
         if (renamingEntity === 'variable' && (!editRange || editRange.isEmpty)) {
@@ -23,27 +24,41 @@ export const registerRenameVariableParts = () => {
             return
         }
 
-        const { uri: sourceUri } = document
-        const fullFileName = UriUtils.basename(sourceUri)
-        let fileName = fullFileName
-        let fullExt = ''
-        // cut extension twice e.g. file.test.ts -> file & .test.ts
-        for (const _i of Array.from({ length: 2 })) {
-            const ext = extname(fileName)
-            if (ext.length === 0) continue
-
-            fileName = fileName.slice(0, -ext.length)
-            fullExt = `${ext}${fullExt}`
-        }
-
-        const parts = proxy([] as string[])
         let isDisposeEnabled = true
         /** expected: dash or underscore */
         let separatorChar = ''
 
         let preselectedPartIndex = -1
 
-        const getPartByOffset = (splittedParts: string[]) => {
+        const parts = proxy([] as string[])
+
+        const getFilenameAndExtension = () => {
+            const fullFileName = UriUtils.basename(uri)
+            let fileName = fullFileName
+            let fullExt = ''
+            // cut extension twice e.g. file.test.ts -> file & .test.ts
+            for (const _i of Array.from({ length: 2 })) {
+                const ext = extname(fileName)
+                if (ext.length === 0) continue
+
+                fileName = fileName.slice(0, -ext.length)
+                fullExt = `${ext}${fullExt}`
+            }
+
+            return {
+                fileName,
+                fullExt,
+            }
+        }
+
+        const setActiveItem = (existingIndex: number) => {
+            // do it in next loop after items update (most probably)
+            setTimeout(() => {
+                quickPick.activeItems = [quickPick.items[existingIndex]!]
+            })
+        }
+
+        const preselectItemUnderCursor = (splittedParts: string[]) => {
             const cursorPosOffset = document.offsetAt(selection.active)
             const wordStartOffset = document.offsetAt(editRange!.start)
             const selectedWordCursorOffset = Math.abs(cursorPosOffset - wordStartOffset)
@@ -53,16 +68,19 @@ export const registerRenameVariableParts = () => {
                 accumulatedLength += part.length
                 if (selectedWordCursorOffset <= accumulatedLength) {
                     preselectedPartIndex = i
+                    setActiveItem(preselectedPartIndex)
                     break
                 }
             }
         }
 
+        const { fileName, fullExt } = getFilenameAndExtension()
+
         // init parts
         const inputText = renamingEntity === 'variable' ? document.getText(editRange) : fileName
         noCase(inputText, {
             transform(part, index, wordParts) {
-                if (preselectedPartIndex === -1 && renamingEntity === 'variable') getPartByOffset(wordParts)
+                if (preselectedPartIndex === -1 && renamingEntity === 'variable') preselectItemUnderCursor(wordParts)
                 if (index === 1) separatorChar = inputText[parts[0]!.length]!
                 parts.push(part)
                 return ''
@@ -90,13 +108,6 @@ export const registerRenameVariableParts = () => {
             const [activeItem] = quickPick.activeItems
             if (!activeItem) return
             return quickPick.items.indexOf(activeItem)
-        }
-
-        const setActiveItem = (existingIndex: number) => {
-            // do it in next loop after items update (most probably)
-            setTimeout(() => {
-                quickPick.activeItems = [quickPick.items[existingIndex]!]
-            })
         }
 
         const upperCaseFirstLetter = (part: string) => `${part[0]!.toUpperCase()}${part.slice(1)}`
@@ -135,7 +146,6 @@ export const registerRenameVariableParts = () => {
 
         updateParts()
         updateQuickPick()
-        setActiveItem(preselectedPartIndex)
         subscribe(parts, updateParts)
 
         quickPick.onDidChangeActive(() => {
@@ -196,13 +206,12 @@ export const registerRenameVariableParts = () => {
                 moveVariableParts('down')
             }),
             registerCommand('renameVariablePartsAccept', async () => {
-                const edit: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
-                    'vscode.executeDocumentRenameProvider',
-                    sourceUri,
-                    selection.end,
-                    getResultingName(),
-                )
-                if (renamingEntity === 'filename') edit.renameFile(sourceUri, UriUtils.joinPath(sourceUri, '..', `${getResultingName()}${fullExt}`))
+                let edit = new vscode.WorkspaceEdit()
+
+                if (renamingEntity === 'fileName') edit.renameFile(uri, UriUtils.joinPath(uri, '..', `${getResultingName()}${fullExt}`))
+
+                if (renamingEntity === 'variable')
+                    edit = await vscode.commands.executeCommand('vscode.executeDocumentRenameProvider', uri, selection.end, getResultingName())
 
                 await vscode.workspace.applyEdit(edit)
                 mainDisposable.dispose()
@@ -212,7 +221,8 @@ export const registerRenameVariableParts = () => {
                     void activeEditor.edit(builder => {
                         builder.replace(editRange!, getResultingName())
                     })
-                else void vscode.commands.executeCommand('zardoyExperiments.renameVariablePartsAccept')
+
+                if (renamingEntity === 'variable') void vscode.commands.executeCommand('zardoyExperiments.renameVariablePartsAccept')
 
                 mainDisposable.dispose()
             }),
