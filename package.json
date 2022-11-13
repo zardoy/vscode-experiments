@@ -275,34 +275,6 @@
             {
                 "command": "renameFileParts",
                 "title": "Rename File Parts"
-            },
-            {
-                "command": "renameFilePartsAccept",
-                "title": "Rename Variable Parts Accept Renaming"
-            },
-            {
-                "command": "renameFilePartsAcceptReplace",
-                "title": "Rename Variable Parts Accept Without Using Rename Provider"
-            },
-            {
-                "command": "renameFilePartsDeletePart",
-                "title": "Rename Variable Parts Delete Part"
-            },
-            {
-                "command": "renameFilePartsExtractPart",
-                "title": "Rename Variable Parts Extract Part"
-            },
-            {
-                "command": "renameFilePartsLowercasePart",
-                "title": "Rename Variable Parts Lowercase Part"
-            },
-            {
-                "command": "renameFilePartsPartMoveDown",
-                "title": "Rename Variable Parts Part Move Down"
-            },
-            {
-                "command": "renameFilePartsPartMoveUp",
-                "title": "Rename Variable Parts Part Move Up"
             }
         ],
         "configuration": {
@@ -615,34 +587,6 @@
                 {
                     "command": "generateGitlabPushAccept",
                     "when": "false"
-                },
-                {
-                    "command": "zardoyExperiments.renameFilePartsAccept",
-                    "when": "false"
-                },
-                {
-                    "command": "zardoyExperiments.renameFilePartsAcceptReplace",
-                    "when": "false"
-                },
-                {
-                    "command": "zardoyExperiments.renameFilePartsDeletePart",
-                    "when": "false"
-                },
-                {
-                    "command": "zardoyExperiments.renameFilePartsExtractPart",
-                    "when": "false"
-                },
-                {
-                    "command": "zardoyExperiments.renameFilePartsLowercasePart",
-                    "when": "false"
-                },
-                {
-                    "command": "zardoyExperiments.renameFilePartsPartMoveDown",
-                    "when": "false"
-                },
-                {
-                    "command": "zardoyExperiments.renameFilePartsPartMoveUp",
-                    "when": "false"
                 }
             ]
         },
@@ -694,42 +638,6 @@
                 "key": "ctrl+o",
                 "mac": "cmd+o",
                 "when": "zardoyExperiments.generateGitlabPushOpened"
-            },
-            {
-                "command": "zardoyExperiments.renameFilePartsAccept",
-                "key": "ctrl+o",
-                "mac": "cmd+o",
-                "when": "zardoyExperiments.renameFilePartsOpened"
-            },
-            {
-                "command": "zardoyExperiments.renameFilePartsDeletePart",
-                "key": "ctrl+d",
-                "mac": "cmd+d",
-                "when": "zardoyExperiments.renameFilePartsOpened"
-            },
-            {
-                "command": "zardoyExperiments.renameFilePartsExtractPart",
-                "key": "ctrl+e",
-                "mac": "cmd+e",
-                "when": "zardoyExperiments.renameFilePartsOpened"
-            },
-            {
-                "command": "zardoyExperiments.renameFilePartsLowercasePart",
-                "key": "ctrl+l",
-                "mac": "cmd+l",
-                "when": "zardoyExperiments.renameFilePartsOpened"
-            },
-            {
-                "command": "zardoyExperiments.renameFilePartsPartMoveDown",
-                "key": "ctrl+alt+k",
-                "mac": "cmd+shift+k",
-                "when": "zardoyExperiments.renameFilePartsOpened"
-            },
-            {
-                "command": "zardoyExperiments.renameFilePartsPartMoveUp",
-                "key": "ctrl+alt+i",
-                "mac": "cmd+shift+i",
-                "when": "zardoyExperiments.renameFilePartsOpened"
             }
         ]
     },
