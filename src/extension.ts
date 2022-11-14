@@ -68,7 +68,6 @@ import generateGitlabPush from './features/generateGitlabPush'
 export const activate = () => {
     void initGitApi()
 
-    // preserve camelcase identifiers (only vars for now)
     // preserveCamelCase()
     registerTsCodeactions()
     registerRegexCodeActions()
@@ -80,7 +79,6 @@ export const activate = () => {
     registerPickProblemsBySource()
     registerAutoAlignImport()
     registerStatusBarProblems()
-    // registerOnTypeFormatter()
     registerNextLetterSwapCase()
     registerFixCss()
     registerInsertCompletions()
@@ -133,12 +131,6 @@ export const activate = () => {
     openReferencesInView()
     statusbarOccurrencesCount()
     generateGitlabPush()
-
-    registerExtensionCommand('openUrl', async (_, url: string) => {
-        // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        await vscode.env.openExternal(url as any)
-    })
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')

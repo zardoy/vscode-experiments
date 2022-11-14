@@ -32,10 +32,11 @@ export const registerRegexCodeActions = () => {
                     }
 
                     // const url = `https://regex101.com/?regex=${encodeURIComponent('.+:.+;')}?&flags=gi`
+                    // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
                     return [
                         {
                             title: 'Test with regex101.com',
-                            command: getExtensionCommandId('openUrl'),
+                            command: 'vscode.open',
                             isPreferred: true,
                             arguments: [`https://regex101.com/?regex=${encodeURIComponent(match[0]!.slice(1, -1))}&flags=gi`],
                         },
