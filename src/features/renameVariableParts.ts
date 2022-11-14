@@ -219,15 +219,20 @@ export const registerRenameVariableParts = () => {
                 moveVariableParts('down')
             }),
             registerCommand('renameVariablePartsAccept', async () => {
-                let edit = new vscode.WorkspaceEdit()
-
-                if (renamingEntity === 'fileName') edit.renameFile(uri, UriUtils.joinPath(uri, '..', `${getResultingName()}${fullExt}`))
-
-                if (renamingEntity === 'variable')
-                    edit = await vscode.commands.executeCommand('vscode.executeDocumentRenameProvider', uri, selection.end, getResultingName())
-
-                await vscode.workspace.applyEdit(edit)
                 mainDisposable.dispose()
+                await vscode.window.withProgress(
+                    { location: vscode.ProgressLocation.Notification, title: `Renaming ${renamingEntity === 'fileName' ? 'file' : 'variable'}` },
+                    async () => {
+                        let edit = new vscode.WorkspaceEdit()
+
+                        if (renamingEntity === 'fileName') edit.renameFile(uri, UriUtils.joinPath(uri, '..', `${getResultingName()}${fullExt}`))
+
+                        if (renamingEntity === 'variable')
+                            edit = await vscode.commands.executeCommand('vscode.executeDocumentRenameProvider', uri, selection.end, getResultingName())
+
+                        await vscode.workspace.applyEdit(edit)
+                    },
+                )
             }),
             registerCommand('renameVariablePartsAcceptReplace', () => {
                 if (renamingEntity === 'variable')
