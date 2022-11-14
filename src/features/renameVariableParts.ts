@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { noCase, camelCase } from 'change-case'
-import { getExtensionContributionsPrefix, registerExtensionCommand, RegularCommands } from 'vscode-framework'
+import { getExtensionCommandId, getExtensionContributionsPrefix, registerExtensionCommand, RegularCommands } from 'vscode-framework'
 import { proxy, subscribe } from 'valtio/vanilla'
 import { lowerCaseFirst } from 'lower-case-first'
 import { Utils as UriUtils } from 'vscode-uri'
@@ -222,7 +222,7 @@ export const registerRenameVariableParts = () => {
                         builder.replace(editRange!, getResultingName())
                     })
 
-                if (renamingEntity === 'variable') void vscode.commands.executeCommand('zardoyExperiments.renameVariablePartsAccept')
+                if (renamingEntity === 'variable') void vscode.commands.executeCommand(getExtensionCommandId('renameVariablePartsAccept'))
 
                 mainDisposable.dispose()
             }),
@@ -246,7 +246,7 @@ export const registerRenameVariableParts = () => {
                 setActiveItem(updatingPartIndex)
             }
 
-            if (renamedPart === '') await vscode.commands.executeCommand('zardoyExperiments.renameVariablePartsDeletePart')
+            if (renamedPart === '') await vscode.commands.executeCommand(getExtensionCommandId('renameVariablePartsDeletePart'))
 
             updateQuickPick()
 
