@@ -10,7 +10,7 @@ import { extname } from 'path-browserify'
 // doesn't support multicursor
 export const registerRenameVariableParts = () => {
     // small task: add back button when editingIndex (like in GitLens menus)
-    registerExtensionCommand('renameVariableParts', async (data, renamingEntity: 'fileName' | 'variable' = 'variable') => {
+    registerExtensionCommand('renameVariableParts', async (_data, renamingEntity: 'fileName' | 'variable' = 'variable') => {
         const activeEditor = getActiveRegularEditor()
         if (!activeEditor) return
 
@@ -18,10 +18,23 @@ export const registerRenameVariableParts = () => {
         const { document, selection } = activeEditor
         const { uri } = document
 
-        const editRange = selection.isEmpty ? document.getWordRangeAtPosition(selection.end) : selection
-        if (renamingEntity === 'variable' && (!editRange || editRange.isEmpty)) {
-            await vscode.window.showWarningMessage('No word range at position')
-            return
+        let editRange = selection.isEmpty ? document.getWordRangeAtPosition(selection.end) : selection
+        let inputTextOverride: string | undefined
+        if (renamingEntity === 'variable') {
+            try {
+                type PrepareRenameResult = {
+                    range: vscode.Range
+                    placeholder: string
+                }
+                const { placeholder, range } = await vscode.commands.executeCommand<PrepareRenameResult>('vscode.prepareRename', uri, selection.end)
+                editRange = range
+                inputTextOverride = placeholder
+            } catch {}
+
+            if (!editRange || editRange.isEmpty) {
+                void vscode.window.showWarningMessage('You cannot rename this element')
+                return
+            }
         }
 
         let isDisposeEnabled = true
@@ -77,7 +90,7 @@ export const registerRenameVariableParts = () => {
         const { fileName, fullExt } = getFilenameAndExtension()
 
         // init parts
-        const inputText = renamingEntity === 'variable' ? document.getText(editRange) : fileName
+        const inputText = inputTextOverride ?? renamingEntity === 'variable' ? document.getText(editRange) : fileName
         noCase(inputText, {
             transform(part, index, wordParts) {
                 if (preselectedPartIndex === -1 && renamingEntity === 'variable') preselectItemUnderCursor(wordParts)
