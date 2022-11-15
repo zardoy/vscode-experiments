@@ -18,7 +18,7 @@ export const registerRenameVariableParts = () => {
         const { document, selection } = activeEditor
         const { uri } = document
 
-        let editRange = selection.isEmpty ? document.getWordRangeAtPosition(selection.end) : selection
+        let editRange = /*  selection.isEmpty ? */ document.getWordRangeAtPosition(selection.end) /* : selection */
         let inputTextOverride: string | undefined
         if (renamingEntity === 'variable') {
             try {
