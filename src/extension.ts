@@ -34,6 +34,7 @@ import { registerProductIconReference } from './features/productIconReference'
 import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
+import { registerRenameFileParts } from './features/renameFileParts'
 import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
@@ -131,6 +132,7 @@ export const activate = () => {
     openReferencesInView()
     statusbarOccurrencesCount()
     generateGitlabPush()
+    registerRenameFileParts()
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')
