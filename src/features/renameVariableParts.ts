@@ -257,18 +257,16 @@ export const registerRenameVariableParts = () => {
             const { label } = activeItem
             isDisposeEnabled = false
             const renamedPart = await vscode.window.showInputBox({ value: label, title: updateMainTitle('input') })
-            
+
             if (renamedPart === '') {
                 await vscode.commands.executeCommand(getExtensionCommandId('renameVariablePartsDeletePart'))
-            } 
-            else {
+            } else {
                 if (renamedPart) parts.splice(updatingPartIndex, 1, renamedPart)
                 setActiveItem(updatingPartIndex)
             }
-            
 
             updateQuickPick()
-            
+
             quickPick.show()
             isDisposeEnabled = true
         })
