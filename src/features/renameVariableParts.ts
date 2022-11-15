@@ -262,12 +262,8 @@ export const registerRenameVariableParts = () => {
                 await vscode.commands.executeCommand(getExtensionCommandId('renameVariablePartsDeletePart'))
             } 
             else {
-                if (renamedPart) {
-                    parts.splice(updatingPartIndex, 1, renamedPart)
-                    updateQuickPick()
-                }
-
-                 setActiveItem(updatingPartIndex)
+                if (renamedPart) parts.splice(updatingPartIndex, 1, renamedPart)
+                setActiveItem(updatingPartIndex)
             }
             
 
