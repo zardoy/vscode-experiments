@@ -19,6 +19,7 @@ export const registerRenameVariableParts = () => {
         const { uri } = document
 
         let editRange = document.getWordRangeAtPosition(selection.end)
+        let prepareRenameResult = false
         let inputTextOverride: string | undefined
         if (renamingEntity === 'variable') {
             try {
@@ -29,6 +30,7 @@ export const registerRenameVariableParts = () => {
                 const { placeholder, range } = await vscode.commands.executeCommand<PrepareRenameResult>('vscode.prepareRename', uri, selection.end)
                 editRange = range
                 inputTextOverride = placeholder
+                prepareRenameResult = true
             } catch {}
 
             if (!editRange || editRange.isEmpty) {
@@ -219,6 +221,11 @@ export const registerRenameVariableParts = () => {
                 moveVariableParts('down')
             }),
             registerCommand('renameVariablePartsAccept', async () => {
+                if (renamingEntity === 'variable' && !prepareRenameResult) {
+                    void vscode.window.showWarningMessage("Renaming current element isn't supported. You can only replace text.")
+                    return
+                }
+
                 mainDisposable.dispose()
                 await vscode.window.withProgress(
                     { location: vscode.ProgressLocation.Notification, title: `Renaming ${renamingEntity === 'fileName' ? 'file' : 'variable'}` },
