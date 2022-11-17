@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { getExtensionContributionsPrefix, getExtensionSetting, registerExtensionCommand, RegularCommands } from 'vscode-framework'
+import { getExtensionContributionsPrefix, getExtensionSetting, registerExtensionCommand, getExtensionCommandId, RegularCommands } from 'vscode-framework'
 
 export default () => {
     registerExtensionCommand('generateGitlabPush', async () => {
@@ -8,7 +8,7 @@ export default () => {
         const quickPick = vscode.window.createQuickPick()
         const { dynamicPushOptions = {}, staticPushOptions = {} } = getExtensionSetting('generateGitlabPush')
 
-        let editingIndex: number | undefined
+        let isDisposeEnabled = false
 
         const normallizeStaticOptions = () =>
             Object.keys(staticPushOptions)
@@ -33,13 +33,11 @@ export default () => {
             })
         }
 
-        const resetItems = () => {
+        const updateQuickPick = () => {
             // Currently remove static options from quick pick as managing them looks tricky
             // quickPick.items = [...Object.keys(dynamicPushOptions), ...Object.keys(staticPushOptions)].map(option => ({ label: option }))
             quickPick.items = Object.keys(dynamicPushOptions).map(option => ({ label: option }))
-            if (editingIndex !== undefined) setActiveItem(editingIndex)
             updateMainTitle()
-            editingIndex = undefined
         }
 
         const updatePushOption = (option: string, value: string) => {
@@ -65,37 +63,34 @@ export default () => {
             }),
             {
                 dispose() {
-                    void vscode.commands.executeCommand('setContext', 'zardoyExperiments.generateGitlabPushOpened', false)
+                    void vscode.commands.executeCommand('setContext', getExtensionCommandId('generateGitlabPushOpened'), false)
                 },
             },
         )
 
-        quickPick.onDidAccept(() => {
+        quickPick.onDidAccept(async () => {
             const activeItem = quickPick.activeItems[0]!
-            if (editingIndex === undefined) {
-                if (!activeItem) return
-                editingIndex = quickPick.items.indexOf(activeItem)
-                const { label } = activeItem
-                const editingOption = [...Object.entries(dynamicPushOptions), ...Object.entries(dynamicPushOptions)].find(
-                    ([option, value]) => option === label,
-                )!
-                quickPick.items = []
-                quickPick.title = `Changing option: ${label}`
-                quickPick.value = editingOption[1]!
-                return
-            }
+            if (!activeItem) return
+            isDisposeEnabled = false
 
-            const changingOption = getOptionsNames()[editingIndex]!
-            updatePushOption(changingOption, quickPick.value)
-            resetItems()
-            quickPick.value = ''
+            const updatingPartIndex = quickPick.items.indexOf(activeItem)
+            const { label } = activeItem
+            const editingOption = [...Object.entries(dynamicPushOptions), ...Object.entries(dynamicPushOptions)].find(([option, value]) => option === label)!
+            const renamedPart = await vscode.window.showInputBox({ value: editingOption[1], title: `Updating ${label}` })
+
+            if (renamedPart) updatePushOption(label, renamedPart)
+            setActiveItem(updatingPartIndex)
+
+            updateQuickPick()
+            quickPick.show()
+            isDisposeEnabled = true
         })
 
-        quickPick.onDidHide(() => {
-            mainDisposable.dispose()
-        })
-        await vscode.commands.executeCommand('setContext', 'zardoyExperiments.generateGitlabPushOpened', true)
-        resetItems()
+        await vscode.commands.executeCommand('setContext', getExtensionCommandId('generateGitlabPushOpened'), true)
+        updateQuickPick()
         quickPick.show()
+        quickPick.onDidHide(() => {
+            if (isDisposeEnabled) mainDisposable.dispose()
+        })
     })
 }
