@@ -65,6 +65,7 @@ import autoRenameJsx from './features/autoRenameJsx'
 import openReferencesInView from './features/openReferencesInView'
 import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 import generateGitlabPush from './features/generateGitlabPush'
+import copyCurrentOutlinePath from './features/copyCurrentOutlinePath'
 
 export const activate = () => {
     void initGitApi()
@@ -133,6 +134,7 @@ export const activate = () => {
     statusbarOccurrencesCount()
     generateGitlabPush()
     registerRenameFileParts()
+    copyCurrentOutlinePath()
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')

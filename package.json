@@ -205,12 +205,16 @@
                 "title": "Select Outline Item"
             },
             {
-                "command": "turnCommentIntoJsdoc",
-                "title": "Turn Comment Into Jsdoc"
-            },
-            {
                 "command": "copyOutlineItemName",
                 "title": "Copy Outline Item Name"
+            },
+            {
+                "command": "copyCurrentOutlinePath",
+                "title": "Copy Current Outline Path"
+            },
+            {
+                "command": "turnCommentIntoJsdoc",
+                "title": "Turn Comment Into Jsdoc"
             },
             {
                 "command": "applyCreatedCodeTransformers",
@@ -528,7 +532,7 @@
                                     "type": "boolean",
                                     "default": false
                                 },
-                                "merge_request.merge_when_pipeline_succeeds":{
+                                "merge_request.merge_when_pipeline_succeeds": {
                                     "type": "boolean",
                                     "default": false
                                 },
