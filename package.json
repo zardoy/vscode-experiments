@@ -201,18 +201,6 @@
                 "title": "Git Previous Change"
             },
             {
-                "command": "selectOutlineItem",
-                "title": "Select Outline Item"
-            },
-            {
-                "command": "copyOutlineItemName",
-                "title": "Copy Outline Item Name"
-            },
-            {
-                "command": "copyCurrentOutlinePath",
-                "title": "Copy Current Outline Path"
-            },
-            {
                 "command": "turnCommentIntoJsdoc",
                 "title": "Turn Comment Into Jsdoc"
             },
@@ -247,10 +235,6 @@
             {
                 "command": "openGithubEnvTerminal",
                 "title": "Open GitHub Env Terminal"
-            },
-            {
-                "command": "openOutlineItemInNewEditor",
-                "title": "Open Outline Item in New Editor"
             },
             {
                 "command": "insertFileName",

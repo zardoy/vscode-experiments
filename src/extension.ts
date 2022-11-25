@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { extensionCtx, getExtensionSetting, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
+import { getExtensionSetting, registerExtensionCommand, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
@@ -44,8 +44,6 @@ import expandTag from './features/expandTag'
 import tabsWithNumbers from './features/tabsWithNumbers'
 import { initGitApi } from './git-api'
 import gitNextChange from './features/gitNextChange'
-import copyOutlineItemName from './features/copyOutlineItemName'
-import selectOutlineItem from './features/selectOutlineItem'
 import turnCommentIntoJsdoc from './features/turnCommentIntoJsdoc'
 import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformers'
 import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
@@ -56,7 +54,6 @@ import autoEscapeJson from './features/autoEscapeJson'
 import gitStageQuickPick from './features/gitStageQuickPick'
 import githubEnvTerminal from './features/githubEnvTerminal'
 import indentEmptyLineOnClick from './features/autoIndentEmptyLine'
-import openOutlineItemInNewEditor from './features/openOutlineItemInNewEditor'
 import insertFileName from './features/insertFileName'
 import tsPluginIntegrations from './features/tsPluginIntegrations'
 import goToHighlightedLocations from './features/goToHighlightedLocations'
@@ -65,7 +62,7 @@ import autoRenameJsx from './features/autoRenameJsx'
 import openReferencesInView from './features/openReferencesInView'
 import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 import generateGitlabPush from './features/generateGitlabPush'
-import copyCurrentOutlinePath from './features/copyCurrentOutlinePath'
+import removedCommands from './removedCommands'
 
 export const activate = () => {
     void initGitApi()
@@ -112,8 +109,6 @@ export const activate = () => {
     expandTag()
     tabsWithNumbers()
     gitNextChange()
-    copyOutlineItemName()
-    selectOutlineItem()
     turnCommentIntoJsdoc()
     applyCreatedCodeTransformers()
     newTerminalWithSameCwd()
@@ -124,7 +119,6 @@ export const activate = () => {
     gitStageQuickPick()
     githubEnvTerminal()
     indentEmptyLineOnClick()
-    openOutlineItemInNewEditor()
     insertFileName()
     tsPluginIntegrations()
     goToHighlightedLocations()
@@ -134,7 +128,7 @@ export const activate = () => {
     statusbarOccurrencesCount()
     generateGitlabPush()
     registerRenameFileParts()
-    copyCurrentOutlinePath()
+    removedCommands()
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')
