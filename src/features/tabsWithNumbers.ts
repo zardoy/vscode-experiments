@@ -29,7 +29,6 @@ export default () => {
                 }
 
                 const index = number - 1
-                console.log('focus', number)
                 if (mode === 'fromLeft') await focusTabFromLeft(index)
                 // eslint-disable-next-line sonarjs/no-duplicate-string
                 const tabUriToFocus = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack)[index]
@@ -143,6 +142,7 @@ export default () => {
                 const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === document.uri.toString())
                 if (elemIndex === -1) return
                 recentFileStack.splice(elemIndex, 1)
+                updateDecorations([document.uri])
             }),
         )
     }
