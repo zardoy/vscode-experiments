@@ -52,8 +52,7 @@ export default () => {
 
             constructor() {
                 subscribe(recentFileStack, ops => {
-                    const deletedUris = compact(ops.map(([operation, _affectedIndexes, uri]) => (operation === 'delete' ? (uri as vscode.Uri) : undefined)))
-                    for (const listener of this.listeners) listener([...recentFileStack, ...deletedUris])
+                    for (const listener of this.listeners) listener(recentFileStack)
                 })
                 updateDecorations = uris => {
                     for (const listener of this.listeners) listener(uris ?? recentFileStack)
