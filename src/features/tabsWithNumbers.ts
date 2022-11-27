@@ -48,21 +48,15 @@ export default () => {
         const humanReadableMode = noCase(mode)
 
         class FileDecorationProvider implements vscode.FileDecorationProvider {
-            listeners: Array<(e: vscode.Uri | vscode.Uri[] | undefined) => any> = []
+            eventEmitter = new vscode.EventEmitter<vscode.Uri | vscode.Uri[] | undefined>()
+            onDidChangeFileDecorations = this.eventEmitter.event
 
             constructor() {
                 subscribe(recentFileStack, ops => {
-                    for (const listener of this.listeners) listener(recentFileStack)
+                    this.eventEmitter.fire(recentFileStack)
                 })
                 updateDecorations = uris => {
-                    for (const listener of this.listeners) listener(uris ?? recentFileStack)
-                }
-            }
-
-            onDidChangeFileDecorations: vscode.Event<vscode.Uri | vscode.Uri[] | undefined> | undefined = listener => {
-                this.listeners.push(listener)
-                return {
-                    dispose() {},
+                    this.eventEmitter.fire(uris ?? recentFileStack)
                 }
             }
 
