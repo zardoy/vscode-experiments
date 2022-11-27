@@ -29,7 +29,6 @@ export default () => {
                 }
 
                 const index = number - 1
-                console.log('focus', number)
                 if (mode === 'fromLeft') await focusTabFromLeft(index)
                 // eslint-disable-next-line sonarjs/no-duplicate-string
                 const tabUriToFocus = (getExtensionSetting('showTabNumbers.reversedMode') ? [...recentFileStack].reverse() : recentFileStack)[index]
@@ -49,22 +48,15 @@ export default () => {
         const humanReadableMode = noCase(mode)
 
         class FileDecorationProvider implements vscode.FileDecorationProvider {
-            listeners: Array<(e: vscode.Uri | vscode.Uri[] | undefined) => any> = []
+            eventEmitter = new vscode.EventEmitter<vscode.Uri | vscode.Uri[] | undefined>()
+            onDidChangeFileDecorations = this.eventEmitter.event
 
             constructor() {
                 subscribe(recentFileStack, ops => {
-                    const deletedUris = compact(ops.map(([operation, _affectedIndexes, uri]) => (operation === 'delete' ? (uri as vscode.Uri) : undefined)))
-                    for (const listener of this.listeners) listener([...recentFileStack, ...deletedUris])
+                    this.eventEmitter.fire(recentFileStack)
                 })
                 updateDecorations = uris => {
-                    for (const listener of this.listeners) listener(uris ?? recentFileStack)
-                }
-            }
-
-            onDidChangeFileDecorations: vscode.Event<vscode.Uri | vscode.Uri[] | undefined> | undefined = listener => {
-                this.listeners.push(listener)
-                return {
-                    dispose() {},
+                    this.eventEmitter.fire(uris ?? recentFileStack)
                 }
             }
 
@@ -143,6 +135,7 @@ export default () => {
                 const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === document.uri.toString())
                 if (elemIndex === -1) return
                 recentFileStack.splice(elemIndex, 1)
+                updateDecorations([document.uri])
             }),
         )
     }
