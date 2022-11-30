@@ -261,6 +261,14 @@
                 "title": "Accept created push sequence"
             },
             {
+                "command": "inspectCompletionsDetails",
+                "title": "Inspect Completions Details"
+            },
+            {
+                "command": "inspectCompletionsDetailsRaw",
+                "title": "Inspect Completions Details in Raw Editor"
+            },
+            {
                 "command": "renameFileParts",
                 "title": "Rename File Parts"
             }
@@ -469,6 +477,27 @@
                     "description": "Wether to display statusbar with all occurences count (including selected) in the following format: E (case matching occurences)",
                     "default": false
                 },
+                "inspectCompletionsDetails.resolveItems": {
+                    "type": "number",
+                    "description": "Number of completions to resolve (too large numbers slow down completions)",
+                    "default": 1000
+                },
+                "inspectCompletionsDetails.includeCompletionData": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true,
+                    "default": []
+                },
+                "inspectCompletionsDetails.openLocation": {
+                    "type": "string",
+                    "enum": [
+                        "toSide",
+                        "newTab"
+                    ],
+                    "default": "toSide"
+                },
                 "generateGitlabPush": {
                     "type": "object",
                     "description": "Generate `git push` with gitlab specific options",
@@ -645,13 +674,14 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.9",
-        "@zardoy/vscode-utils": "^0.0.33",
+        "@zardoy/vscode-utils": "^0.0.47",
         "change-case": "^4.1.2",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
         "ini": "^2.0.0",
         "jsonc-parser": "^3.2.0",
+        "lodash": "^4.17.21",
         "lower-case-first": "^2.0.2",
         "markdown-to-txt": "^2.0.1",
         "minimatch": "^5.0.1",
@@ -660,11 +690,14 @@
         "pid-cwd": "^1.2.0",
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
+        "remark": "^14.0.2",
+        "string-dedent": "^3.0.1",
         "valtio": "^1.6.4",
         "vscode-framework": "^0.0.18",
         "vscode-uri": "^3.0.6"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.190",
         "@types/node": "^16.11.26",
         "@types/vscode": "^1.66.0",
         "@zardoy/tsconfig": "^1.4.0",
