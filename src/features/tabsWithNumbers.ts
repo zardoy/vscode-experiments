@@ -121,15 +121,18 @@ export default () => {
                     return
                 }
 
+                let deletedUri: vscode.Uri | undefined
                 if (elemIndex === -1 && mode === 'recentlyOpened') {
-                    recentFileStack.pop()
+                    deletedUri = recentFileStack.pop()
                     recentFileStack.unshift(uri)
                 }
 
                 if (mode === 'recentlyFocused') {
-                    recentFileStack.splice(elemIndex, 1)
+                    deletedUri = recentFileStack.splice(elemIndex, 1)[0]
                     recentFileStack.unshift(uri)
                 }
+
+                if (deletedUri) updateDecorations([deletedUri])
             }),
             vscode.workspace.onDidCloseTextDocument(document => {
                 const elemIndex = recentFileStack.findIndex(tabUri => tabUri.toString() === document.uri.toString())
