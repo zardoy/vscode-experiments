@@ -18,7 +18,7 @@ export default () => {
     let updateDecorations: (uris?: vscode.Uri[]) => void | undefined
     const register = () => {
         const mode = getExtensionSetting('features.showTabNumbers')
-        const recentByMode = oneOf(mode, 'recentlyOpened', 'recentlyFocused')
+        const isByRecentMode = oneOf(mode, 'recentlyOpened', 'recentlyFocused')
         // for recentByMode
         const recentFileStack: vscode.Uri[] = proxy([])
         disposables.push(
@@ -52,7 +52,7 @@ export default () => {
             onDidChangeFileDecorations = this.eventEmitter.event
 
             constructor() {
-                subscribe(recentFileStack, ops => {
+                subscribe(recentFileStack, () => {
                     this.eventEmitter.fire(recentFileStack)
                 })
                 updateDecorations = uris => {
@@ -60,8 +60,8 @@ export default () => {
                 }
             }
 
-            provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
-                if (!recentByMode) {
+            provideFileDecoration(uri: vscode.Uri): vscode.ProviderResult<vscode.FileDecoration> {
+                if (!isByRecentMode) {
                     const { tabs } = vscode.window.tabGroups.activeTabGroup
                     const tabIndex = tabs
                         .filter(tab => tab.input instanceof vscode.TabInputText)
@@ -90,7 +90,7 @@ export default () => {
             }
         }
         disposables.push(vscode.window.registerFileDecorationProvider(new FileDecorationProvider()))
-        if (!recentByMode) {
+        if (!isByRecentMode) {
             disposables.push(
                 vscode.window.tabGroups.onDidChangeTabs(({ closed }) => {
                     const tabsToUri = (tabs: readonly vscode.Tab[]) =>
