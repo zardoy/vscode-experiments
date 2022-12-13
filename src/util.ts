@@ -13,3 +13,18 @@ export const signInToGithub = async (scopes: string[]) => {
         throw new GracefulCommandError('You need to sign-in with GitHub to perform this operation')
     }
 }
+
+export const controlledPromise = <T>() => {
+    const listeners: Array<(resolved: T) => any> = []
+    let resolved: any
+    return {
+        then(listener: (resolved: T) => any) {
+            if (resolved) listener(resolved)
+            else listeners.push(listener)
+        },
+        resolve(arg: T) {
+            resolved = arg
+            for (const listener of listeners) listener(arg)
+        },
+    }
+}

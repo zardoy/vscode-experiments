@@ -63,7 +63,6 @@ import openReferencesInView from './features/openReferencesInView'
 import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 import generateGitlabPush from './features/generateGitlabPush'
 import removedCommands from './removedCommands'
-import inspectCompletionsDetails from './features/inspectCompletionsDetails'
 
 export const activate = () => {
     void initGitApi()
@@ -130,7 +129,8 @@ export const activate = () => {
     generateGitlabPush()
     registerRenameFileParts()
     removedCommands()
-    inspectCompletionsDetails()
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    if (process.env.PLATFORM === 'node') require('./features/inspectCompletionsDetails')
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')

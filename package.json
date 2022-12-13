@@ -421,7 +421,7 @@
                 },
                 "features.showTabNumbers": {
                     "type": "string",
-                    "markdownDescription": "For `focusTabByNumber` command",
+                    "markdownDescription": "Mode of `tabsWithNumbers` feature! Primarily for `focusTabByNumber` command",
                     "enum": [
                         "disabled",
                         "fromLeft",
