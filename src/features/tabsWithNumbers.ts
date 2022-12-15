@@ -4,8 +4,10 @@ import { getExtensionCommandId, getExtensionSetting, getExtensionSettingId, regi
 import { noCase } from 'change-case'
 import { proxy, subscribe } from 'valtio/vanilla'
 import { range } from 'rambda'
+import { DeepPartial } from 'ts-essentials'
+import { controlledPromise } from '../util'
 
-export default () => {
+const register = () => {
     const focusTabFromLeft = async (index: number) => {
         const input = vscode.window.tabGroups.activeTabGroup.tabs.filter(({ input }) => input instanceof vscode.TabInputText)[index]?.input
 
@@ -171,5 +173,63 @@ export default () => {
         )
         await vscode.commands.executeCommand('workbench.action.openGlobalKeybindingsFile')
         void vscode.window.showInformationMessage('You can now paste just copied keybindings to the end')
+    })
+}
+
+export default register
+
+if (import.meta.vitest) {
+    const { it, expect, vi } = import.meta.vitest
+    vi.mock(
+        'vscode',
+        (): DeepPartial<typeof vscode> => ({
+            commands: {
+                registerCommand: () => undefined as any,
+            },
+            window: {
+                registerFileDecorationProvider(impl) {
+                    return {} as any
+                },
+                tabGroups: {
+                    activeTabGroup: {
+                        tabs: [],
+                    },
+                },
+                onDidChangeActiveTextEditor(event) {
+                    return {} as any
+                },
+            },
+            workspace: {
+                onDidCloseTextDocument: (() => {}) as any,
+                onDidChangeConfiguration: (() => {}) as any,
+            },
+            EventEmitter: class {
+                event
+                fire() {}
+            } as any,
+        }),
+    )
+    vi.mock('vscode-framework', () => ({
+        getExtensionSetting: key => {
+            const settings = {
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                'features.showTabNumbers': 'recentlyFocused',
+            }
+            return settings[key]
+        },
+        registerExtensionCommand: () => ({}),
+        getExtensionCommandId: () => ({}),
+    }))
+    it('test', () => {
+        // let impl = controlledPromise<vscode.FileDecorationProvider>()
+        let impl
+        vi.spyOn(vscode.window, 'registerFileDecorationProvider').mockImplementationOnce(arg => {
+            // impl.resolve(arg)
+            impl = arg
+            return {} as any
+        })
+        vi.spyOn(vscode.window)
+        register()
+        console.log(impl)
     })
 }
