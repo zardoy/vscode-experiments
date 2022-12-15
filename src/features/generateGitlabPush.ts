@@ -17,7 +17,7 @@ export default () => {
         const normallizeDynamicOptions = () =>
             Object.entries(dynamicPushOptions)
                 .filter(([, value]) => value)
-                .map(([key, value]) => ` -o ${key}=${value!}`)
+                .map(([key, value]) => ` -o ${key}=${value}`)
                 .join('')
 
         const getOptionsNames = () => [...Object.keys(dynamicPushOptions), ...Object.keys(staticPushOptions)]
