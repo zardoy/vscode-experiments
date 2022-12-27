@@ -275,6 +275,14 @@
             {
                 "command": "peekTextSearchDefinitions",
                 "title": "Peek TextSearch Definitions"
+            },
+            {
+                "command": "discardAndCloseAllUntitled",
+                "title": "Discard and Close All Untitled"
+            },
+            {
+                "command": "openOriginalFileFromDiff",
+                "title": "Open Original File From Diff"
             }
         ],
         "configuration": {

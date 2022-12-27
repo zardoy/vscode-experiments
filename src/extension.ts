@@ -64,6 +64,8 @@ import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 import generateGitlabPush from './features/generateGitlabPush'
 import removedCommands from './removedCommands'
 import universeDefinitions from './features/textSearchDefinitions'
+import discardAndCloseAllUntitled from './features/discardAndCloseAllUntitled'
+import openOriginalFileFromDiff from './features/openOriginalFileFromDiff'
 
 export const activate = () => {
     void initGitApi()
@@ -131,6 +133,8 @@ export const activate = () => {
     registerRenameFileParts()
     removedCommands()
     universeDefinitions()
+    discardAndCloseAllUntitled()
+    openOriginalFileFromDiff()
 
     if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
