@@ -37,7 +37,7 @@ export default () => {
                     findCustomArray(tabGroup.tabs as vscode.Tab[], tab => {
                         if (!(tab.input instanceof vscode.TabInputText)) return
                         const { uri } = tab.input
-                        return uri?.toString() === tabUriToFocus.toString() && uri
+                        return uri.toString() === tabUriToFocus.toString() && uri
                     }),
                 )
                 if (!tabUri) return
@@ -67,7 +67,7 @@ export default () => {
                         .filter(tab => tab.input instanceof vscode.TabInputText)
                         .findIndex(({ input }) => {
                             const { uri: tabUri } = input as vscode.TabInputText
-                            return tabUri?.toString() === uri.toString()
+                            return tabUri.toString() === uri.toString()
                         })
                     if (tabIndex === -1) return
                     const tabNumber = tabIndex + 1
@@ -150,7 +150,7 @@ export default () => {
             register()
         }
 
-        if (affectsConfiguration(getExtensionSettingId('showTabNumbers.reversedMode'))) updateDecorations?.()
+        if (affectsConfiguration(getExtensionSettingId('showTabNumbers.reversedMode'))) updateDecorations()
     })
 
     registerExtensionCommand('generateKeybindingsForTabsWithNumbers', async () => {

@@ -5,9 +5,9 @@ export default () => {
     registerExtensionCommand('goToHighlightedLocations', async (_, { goToMode } = {}) => {
         const { activeTextEditor } = vscode.window
         if (!activeTextEditor) return
-        const highlights: vscode.DocumentHighlight[] =
+        const highlights: vscode.DocumentHighlight[] | undefined =
             (await vscode.commands.executeCommand('vscode.executeDocumentHighlights', activeTextEditor.document.uri, activeTextEditor.selection.active)) ?? []
-        if (!highlights?.length) return
+        if (highlights.length === 0) return
         const {
             document: { uri },
         } = vscode.window.activeTextEditor!

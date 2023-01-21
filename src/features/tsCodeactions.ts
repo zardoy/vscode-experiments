@@ -61,22 +61,6 @@ export const registerTsCodeactions = () => {
                 })
             }
 
-            const problem = context.diagnostics[0]
-            if (problem) {
-                const module = notFoundModule(problem)
-                if (module) {
-                    const workspaceEdit = new vscode.WorkspaceEdit()
-                    const codeToInsert = `const ${module} = `
-                    // TODO execute hover to check if its a type
-                    workspaceEdit.insert(document.uri, pos.translate(0).with(undefined, 0), `${' '.repeat(firstCharIndex)}${codeToInsert}\n`)
-                    codeActions.push({
-                        title: `Add declaration for ${module} above`,
-                        edit: workspaceEdit,
-                        kind: vscode.CodeActionKind.Refactor,
-                    })
-                }
-            }
-
             return codeActions
         },
     })

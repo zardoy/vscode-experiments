@@ -8,7 +8,7 @@ export default () => {
 
 const runTextSearchDefinitions = async (
     _,
-    { regex = undefined, glob = undefined, excludeDefault = true, maxResults = 120, goToMode = undefined as string | undefined } = {},
+    { regex = undefined, glob = undefined as string | undefined, excludeDefault = true, maxResults = 120, goToMode = undefined as string | undefined } = {},
 ) => {
     const editor = window.activeTextEditor
     if (!editor) return

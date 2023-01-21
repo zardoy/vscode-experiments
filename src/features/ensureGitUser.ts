@@ -13,7 +13,6 @@ export const registerEnsureGitUser = () => {
             const fs = await import('fs')
             const { decode: decodeIni } = await import('ini')
             const workspaceRoot = getCurrentWorkspaceRoot()
-            if (!workspaceRoot) return
             const ensureGitUserSetting = getExtensionSetting('ensureGitUser')
             for (const [pattern, expected] of Object.entries(ensureGitUserSetting))
                 if (minimatch.default(workspaceRoot.uri.fsPath, pattern)) {

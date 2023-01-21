@@ -8,7 +8,7 @@ export const openLocationsInView = async (references?: vscode.Location[]) => {
         document: { uri },
         selection: { active: position },
     } = activeTextEditor
-    const result: vscode.Location[] = references ?? (await vscode.commands.executeCommand('vscode.executeReferenceProvider', uri, position))
+    const result: vscode.Location[] | undefined = references ?? (await vscode.commands.executeCommand('vscode.executeReferenceProvider', uri, position))
     if (!result) return
 
     // chill https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/src/languageFeatures/fileReferences.ts#L69

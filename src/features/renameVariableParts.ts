@@ -258,7 +258,7 @@ export const registerRenameVariableParts = () => {
             },
         )
         quickPick.onDidAccept(async () => {
-            const activeItem = quickPick.activeItems[0]!
+            const activeItem = quickPick.activeItems[0]
             if (!activeItem) return
             const updatingPartIndex = quickPick.items.indexOf(activeItem)
             const { label } = activeItem

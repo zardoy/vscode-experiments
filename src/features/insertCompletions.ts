@@ -105,7 +105,7 @@ export const registerInsertCompletions = () => {
                 }
 
                 const selectedTypes = selectedTypesRaw.map(({ value }) => value)
-                if (!selectedTypes || selectedTypes.length === 0 || !selectedTypes.some(type => typeof type === 'boolean')) return
+                if (selectedTypes.length === 0 || !selectedTypes.some(type => typeof type === 'boolean')) return
                 for (const selectedType of selectedTypes)
                     if (typeof selectedType === 'boolean') optInclude.push(selectedType)
                     else kinds.push(selectedType)
@@ -138,11 +138,11 @@ export const registerInsertCompletions = () => {
                 })
                 updateItems()
                 regexFilterQuickpick.show()
-                await new Promise(resolve => {
-                    regexFilterQuickpick.onDidAccept(resolve)
+                const isEscape = await new Promise<boolean>(resolve => {
+                    regexFilterQuickpick.onDidAccept(() => resolve(false))
+                    regexFilterQuickpick.onDidHide(() => resolve(true))
                 })
-                // esc
-                if (regexFilterQuickpick.value === undefined) return
+                if (isEscape) return
                 const isInDestruct = isInJsx
                     ? false
                     : await showQuickPick(
@@ -176,7 +176,6 @@ export const registerInsertCompletions = () => {
                         { title: 'Select snippet type' },
                     )!
                     if (!selectedSnippetType) return
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     snippetType = selectedSnippetType as any
                 }
             } else {
@@ -196,7 +195,7 @@ export const registerInsertCompletions = () => {
                 if (isInJsx)
                     if (typeof insertText === 'object') {
                         // implementation is blurry and jsx-aware only
-                        const [propStart, propEnding] = textToInsert.split('$1') as [string, string]
+                        const [propStart, propEnding] = textToInsert.split('$1') as [string, string | undefined]
                         if (propEnding === undefined) throw new Error('Ensure you use TS 4.5+ and typescript.preferences.jsxAttributeCompletionStyle != none')
                         snippet.appendText(propStart)
                         snippet.appendTabstop(tabstopNum)

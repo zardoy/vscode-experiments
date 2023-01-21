@@ -71,7 +71,7 @@ export default () => {
         )
 
         quickPick.onDidAccept(() => {
-            const activeItem = quickPick.activeItems[0]!
+            const activeItem = quickPick.activeItems[0]
             if (editingIndex === undefined) {
                 if (!activeItem) return
                 editingIndex = quickPick.items.indexOf(activeItem)

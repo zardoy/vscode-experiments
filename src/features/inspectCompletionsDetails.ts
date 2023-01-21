@@ -98,7 +98,7 @@ export default () => {
                 format === 'markdown' ? `<code>${labelString}</code>` : `## ${labelString}\n\n`,
                 ...includeData.map(prop => {
                     if (!rest[prop]) return ''
-                    const renderMd = true /* format === 'markdown' */
+                    const renderMd = true as boolean /* format === 'markdown' */
 
                     switch (prop) {
                         case 'documentation': {

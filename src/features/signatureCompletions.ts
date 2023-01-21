@@ -12,7 +12,7 @@ export const registerSignatureCompletions = () => {
             const surroundingText = document.getText(new vscode.Range(position.translate(0, -1), position.translate(0, 1)))
             // TODO also provide other detections
             if (!(surroundingText.startsWith('(') || surroundingText.endsWith(')'))) return
-            const result: vscode.SignatureHelp = await vscode.commands.executeCommand('vscode.executeSignatureHelpProvider', document.uri, position)
+            const result: vscode.SignatureHelp | undefined = await vscode.commands.executeCommand('vscode.executeSignatureHelpProvider', document.uri, position)
             if (!result) return []
             // suggestions should be matched against selected signature by user
             const signature = result.signatures[result.activeSignature]!
