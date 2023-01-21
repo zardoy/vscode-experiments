@@ -66,6 +66,9 @@ import removedCommands from './removedCommands'
 import universeDefinitions from './features/textSearchDefinitions'
 import discardAndCloseAllUntitled from './features/discardAndCloseAllUntitled'
 import openOriginalFileFromDiff from './features/openOriginalFileFromDiff'
+import copyWorkspaceName from './features/copyWorkspaceName'
+import goToReferences from './features/goToReferences'
+import jsonGoToFile from './features/jsonGoToFile'
 
 export const activate = () => {
     void initGitApi()
@@ -135,6 +138,9 @@ export const activate = () => {
     universeDefinitions()
     discardAndCloseAllUntitled()
     openOriginalFileFromDiff()
+    copyWorkspaceName()
+    goToReferences()
+    jsonGoToFile()
 
     if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
