@@ -71,7 +71,8 @@ export default () => {
             const prefixLinkRemove = vscode.workspace.workspaceFolders?.[0]?.uri.toString()
             return remark()
                 .use(() => rootNode => {
-                    const processChild = (child: typeof rootNode['children'][number]) => {
+                    // prettier-ignore
+                    const processChild = (child: (typeof rootNode)['children'][number]) => {
                         // link references are not used in documentation
                         if (child.type === 'link' && prefixLinkRemove && child.url.startsWith(prefixLinkRemove))
                             // file:///Users/vitaly/Documents/vscode-fig-unreleased
