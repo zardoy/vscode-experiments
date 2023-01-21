@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import { oneOf } from '@zardoy/utils'
 import { getExtensionCommandId, registerExtensionCommand, showQuickPick } from 'vscode-framework'
 import { normalizeRegex } from '@zardoy/vscode-utils/build/settings'
+import _ from 'lodash'
 import { fromInsertCompletions } from './tweakTsSuggestions'
 
 export const registerInsertCompletions = () => {
@@ -13,7 +14,8 @@ export const registerInsertCompletions = () => {
         'insertAutoCompletions',
         // eslint-disable-next-line complexity
         async (
-            _,
+            // eslint-disable-next-line no-empty-pattern
+            {},
             {
                 snippetType = 'all',
                 kind = 'all',
@@ -37,11 +39,20 @@ export const registerInsertCompletions = () => {
             let isInJsx = jsxPropMode
             if (activePos.line > 0 && /^\s*<\S+$/.test(activeEditor.document.lineAt(activePos.line - 1).text)) isInJsx = true
 
-            const completionsWithLabel = completions.items
-                .map(({ label, kind, insertText }) => ({ label: typeof label === 'string' ? label : label.label, kind, insertText }))
-                .filter(({ kind }) =>
-                    jsxPropMode ? kind === vscode.CompletionItemKind.Property : oneOf(kind, vscode.CompletionItemKind.Field, vscode.CompletionItemKind.Method),
-                )
+            const completionsWithLabel = _.uniqBy(
+                _.sortBy(completions.items, ({ sortText, label }) => sortText ?? (typeof label === 'object' ? label.label : label)).map(
+                    ({ label, kind, insertText }) => ({
+                        label: typeof label === 'string' ? label : label.label,
+                        kind,
+                        insertText,
+                    }),
+                ),
+                'label',
+            ).filter(({ kind }) =>
+                jsxPropMode
+                    ? kind === vscode.CompletionItemKind.Property
+                    : oneOf(kind, vscode.CompletionItemKind.Field, vscode.CompletionItemKind.Property, vscode.CompletionItemKind.Method),
+            )
             const kinds: vscode.CompletionItemKind[] = isInJsx ? [vscode.CompletionItemKind.Property] : []
             if (oneOf(kind, 'all', 'prop')) kinds.push(vscode.CompletionItemKind.Property, vscode.CompletionItemKind.Field)
             if (oneOf(kind, 'all', 'method')) kinds.push(vscode.CompletionItemKind.Method)
@@ -191,8 +202,8 @@ export const registerInsertCompletions = () => {
             const insertNewLine = activeEditor.document.lineAt(activePos).isEmptyOrWhitespace
             for (const [i, { label: completionLabel, kind, insertText }] of completionsFiltered.entries()) {
                 const rawInsert = destruct || isInJsx
-                const textToInsert = typeof insertText === 'object' ? insertText.value : insertText ?? completionLabel
-                if (isInJsx)
+                let textToInsert = typeof insertText === 'object' ? insertText.value : insertText ?? completionLabel
+                if (isInJsx) {
                     if (typeof insertText === 'object') {
                         // implementation is blurry and jsx-aware only
                         const [propStart, propEnding] = textToInsert.split('$1') as [string, string | undefined]
@@ -206,12 +217,19 @@ export const registerInsertCompletions = () => {
                         snippet.appendTabstop(tabstopNum)
                         snippet.appendText('}')
                     }
-                else snippet.appendText(destruct || kind === vscode.CompletionItemKind.Method ? textToInsert : `${textToInsert}: `)
+                } else {
+                    textToInsert = destruct || kind === vscode.CompletionItemKind.Method ? completionLabel : `${textToInsert}: `
+                    if (typeof insertText === 'object') snippet.value += textToInsert
+                    else snippet.appendText(textToInsert)
+                }
 
                 if (!rawInsert) snippet.appendTabstop(tabstopNum)
-                if (!isInJsx) snippet.appendText(',')
 
-                if (i !== completionsFiltered.length - 1) snippet.appendText(insertNewLine ? '\n' : ' ')
+                const isLast = i === completionsFiltered.length - 1
+
+                if (!isInJsx && (!destruct || !isLast)) snippet.appendText(',')
+
+                if (!isLast) snippet.appendText(insertNewLine ? '\n' : ' ')
             }
 
             await activeEditor.insertSnippet(snippet)

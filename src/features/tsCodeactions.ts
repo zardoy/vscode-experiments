@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 import { defaultJsSupersetLangsWithVue } from '@zardoy/vscode-utils/build/langs'
 import { getExtensionSetting } from 'vscode-framework'
-import { notFoundModule } from '../codeActions'
 
 export const registerTsCodeactions = () => {
     if (!getExtensionSetting('features.tsCodeActions')) return

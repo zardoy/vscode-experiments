@@ -8,10 +8,12 @@ export const registerSignatureCompletions = () => {
     const triggerParameterHintsOnSignatureCompletions = getExtensionSetting('features.triggerParameterHintsOnSignatureCompletions')
     vscode.languages.registerCompletionItemProvider(getExtensionSetting('signatureCompletions.enableLanguages'), {
         async provideCompletionItems(document, position) {
-            if (!position.character) return
-            const surroundingText = document.getText(new vscode.Range(position.translate(0, -1), position.translate(0, 1)))
-            // TODO also provide other detections
-            if (!(surroundingText.startsWith('(') || surroundingText.endsWith(')'))) return
+            const { character } = position
+            if (!character) return
+            const lineText = document.lineAt(position.line).text
+            const wordStartPosition = document.getWordRangeAtPosition(position)?.start ?? position
+            if (lineText[character - 1] !== '(' && lineText[character] !== ')') return
+            if (lineText[wordStartPosition.character - 1] === '.') return
             const result: vscode.SignatureHelp | undefined = await vscode.commands.executeCommand('vscode.executeSignatureHelpProvider', document.uri, position)
             if (!result) return []
             // suggestions should be matched against selected signature by user
