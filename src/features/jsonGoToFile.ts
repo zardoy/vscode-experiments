@@ -3,7 +3,6 @@ import { getJsonCompletingInfo } from '@zardoy/vscode-utils/build/jsonCompletion
 import { getLocation } from 'jsonc-parser'
 import { getExtensionSetting } from 'vscode-framework'
 import { URI, Utils } from 'vscode-uri'
-import untildify from 'untildify'
 import { fsExists } from '@zardoy/vscode-utils/build/fs'
 
 export default () => {
@@ -21,7 +20,7 @@ export default () => {
             if (!insideStringRange) return
             const { value } = location.previousNode
             let fileUri: URI | undefined
-            if (value === '/' || value === '\\') fileUri = vscode.Uri.file(untildify(value))
+            if (value === '/' || value === '\\') fileUri = vscode.Uri.file(value)
             else if (value.startsWith('./') || value.startsWith('../')) fileUri = Utils.joinPath(document.uri, '..', value.slice(2))
             if (!fileUri) return
             if (goToFile === 'onlyIfExists' && !(await fsExists(fileUri))) return /* throw new Error('File does not exist') */

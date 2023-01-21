@@ -34,7 +34,6 @@ specifiers:
   remark: ^14.0.2
   string-dedent: ^3.0.1
   typescript: ^4.6.2
-  untildify: ^4.0.0
   valtio: ^1.6.4
   vscode-framework: ^0.0.18
   vscode-uri: ^3.0.6
@@ -63,7 +62,6 @@ dependencies:
   rambda: 6.9.0
   remark: 14.0.2
   string-dedent: 3.0.1
-  untildify: 4.0.0
   valtio: 1.6.4
   vscode-framework: 0.0.18_i5w5uxrvzwrv6la6qaiybxnb7e
   vscode-uri: 3.0.6

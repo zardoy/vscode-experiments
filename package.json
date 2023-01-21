@@ -722,7 +722,6 @@
         "rambda": "^6.9.0",
         "remark": "^14.0.2",
         "string-dedent": "^3.0.1",
-        "untildify": "^4.0.0",
         "valtio": "^1.6.4",
         "vscode-framework": "^0.0.18",
         "vscode-uri": "^3.0.6"
