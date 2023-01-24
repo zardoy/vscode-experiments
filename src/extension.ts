@@ -58,7 +58,7 @@ import insertFileName from './features/insertFileName'
 import tsPluginIntegrations from './features/tsPluginIntegrations'
 import goToHighlightedLocations from './features/goToHighlightedLocations'
 import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
-import autoRenameJsx from './features/autoRenameJsx'
+import autoRenameJsxTag from './features/autoRenameJsxTag'
 import openReferencesInView from './features/openReferencesInView'
 import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 import generateGitlabPush from './features/generateGitlabPush'
@@ -129,7 +129,7 @@ export const activate = () => {
     tsPluginIntegrations()
     goToHighlightedLocations()
     tsHighlightedKeywordsReferences()
-    autoRenameJsx()
+    autoRenameJsxTag()
     openReferencesInView()
     statusbarOccurrencesCount()
     generateGitlabPush()
