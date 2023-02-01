@@ -73,6 +73,8 @@ import jsonGoToFile from './features/jsonGoToFile'
 export const activate = () => {
     void initGitApi()
 
+    registerTweakTsSuggestions()
+
     // preserveCamelCase()
     registerTsCodeactions()
     registerRegexCodeActions()
@@ -98,7 +100,6 @@ export const activate = () => {
     registerGoToNextProblemInFile()
     registerFixedPaste()
     registerOpenRepositoryOfActiveExtension()
-    registerTweakTsSuggestions()
     registerCopyCurrentWorkspacePath()
     registerEnsureGitUser()
     registerInsertComma()
