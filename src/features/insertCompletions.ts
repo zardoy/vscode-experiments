@@ -218,7 +218,7 @@ export const registerInsertCompletions = () => {
                         snippet.appendText('}')
                     }
                 } else {
-                    textToInsert = destruct || kind === vscode.CompletionItemKind.Method ? completionLabel : `${textToInsert}: `
+                    textToInsert = destruct || kind === vscode.CompletionItemKind.Method ? completionLabel.replace(/\?$/, '') : `${textToInsert}: `
                     if (typeof insertText === 'object') snippet.value += textToInsert
                     else snippet.appendText(textToInsert)
                 }
