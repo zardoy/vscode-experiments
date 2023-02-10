@@ -270,7 +270,7 @@
             },
             {
                 "command": "peekTextSearchDefinitions",
-                "title": "Peek TextSearch Definitions"
+                "title": "Peek Text Search Definitions"
             },
             {
                 "command": "discardAndCloseAllUntitled",
@@ -287,6 +287,14 @@
             {
                 "command": "goToReferences",
                 "title": "Go to References"
+            },
+            {
+                "command": "selectTabsToKeepOpen",
+                "title": "Select Tabs to Keep Open (Close Other Saved)..."
+            },
+            {
+                "command": "selectTabsToKeepOpenRevert",
+                "title": "Select Tabs to Keep Open (Revert and Close Other)..."
             }
         ],
         "configuration": {

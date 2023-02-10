@@ -56,7 +56,6 @@ import githubEnvTerminal from './features/githubEnvTerminal'
 import indentEmptyLineOnClick from './features/autoIndentEmptyLine'
 import insertFileName from './features/insertFileName'
 import tsPluginIntegrations from './features/tsPluginIntegrations'
-import goToHighlightedLocations from './features/goToHighlightedLocations'
 import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
 import autoRenameJsxTag from './features/autoRenameJsxTag'
 import openReferencesInView from './features/openReferencesInView'
@@ -69,6 +68,7 @@ import openOriginalFileFromDiff from './features/openOriginalFileFromDiff'
 import copyWorkspaceName from './features/copyWorkspaceName'
 import goToReferences from './features/goToReferences'
 import jsonGoToFile from './features/jsonGoToFile'
+import selectTabsToKeepOpen from './features/selectTabsToKeepOpen'
 
 export const activate = () => {
     void initGitApi()
@@ -128,7 +128,6 @@ export const activate = () => {
     indentEmptyLineOnClick()
     insertFileName()
     tsPluginIntegrations()
-    goToHighlightedLocations()
     tsHighlightedKeywordsReferences()
     autoRenameJsxTag()
     openReferencesInView()
@@ -142,6 +141,7 @@ export const activate = () => {
     copyWorkspaceName()
     goToReferences()
     jsonGoToFile()
+    selectTabsToKeepOpen()
 
     if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
