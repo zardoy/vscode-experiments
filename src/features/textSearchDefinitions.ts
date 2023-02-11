@@ -2,6 +2,7 @@ import { commands, Location, LocationLink, window, workspace } from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 import { Utils } from 'vscode-uri'
 
+/** @deprecated Its too slow and uneffective, don't use it. Use workspaceSymbolDefinition instead */
 export default () => {
     registerExtensionCommand('peekTextSearchDefinitions', runTextSearchDefinitions)
 }
