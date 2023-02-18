@@ -13,10 +13,17 @@ export default () => {
             document: { uri },
             selection: { active: position },
         } = activeTextEditor
-        const result: vscode.Location[] | undefined = await vscode.commands.executeCommand('vscode.executeReferenceProvider', uri, position)
-        if (!result) return
+        let locations: vscode.Location[] | undefined = await vscode.commands.executeCommand('vscode.executeReferenceProvider', uri, position)
+        locations ??= []
 
-        const currentLocation = result.find(location => location.range.contains(position))
-        await vscode.commands.executeCommand('editor.action.showReferences', uri, (currentLocation ?? result[0])?.range.start, result)
+        const hasLocationInPos = locations.some(location => location.range.contains(position))
+        await vscode.commands.executeCommand(
+            'editor.action.goToLocations',
+            uri,
+            hasLocationInPos ? position : locations[0]?.range.start ?? position,
+            locations,
+            vscode.workspace.getConfiguration('editor').get('gotoLocation.multipleReferences') ?? 'peek',
+            'No references',
+        )
     })
 }

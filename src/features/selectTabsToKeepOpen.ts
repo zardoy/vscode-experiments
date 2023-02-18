@@ -9,7 +9,12 @@ export default () => {
         const tabs = window.tabGroups.activeTabGroup.tabs.filter(tab => !tab.isPinned && (revert || !tab.isDirty))
         const getDescriptionForTab = (tab: (typeof tabs)[0]) => {
             let text = ''
-            if (tab.input instanceof TabInputText) text += Utils.basename(tab.input.uri)
+            if (tab.input instanceof TabInputText) {
+                const { uri } = tab.input
+                text += Utils.basename(uri)
+                if (window.activeTextEditor?.document.uri.toString() === uri.toString()) text += ' (active)'
+            }
+
             text += ` (${tab.isDirty ? 'dirty' : 'saved'})`
             return text
         }

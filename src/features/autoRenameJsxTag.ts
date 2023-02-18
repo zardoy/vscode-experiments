@@ -19,7 +19,14 @@ export default () => {
             if (!highlights) return
             const elemName = elemRegex.exec(document.getText(componentRange))![1]!
             // check that all highlighted text matches the element name
-            if (highlights.some(({ range }) => document.getText(range) !== elemName)) return
+            if (
+                highlights.some(({ range }) => document.getText(range) !== elemName) ||
+                highlights.some(h => !document.getWordRangeAtPosition(h.range.start, elemRegex))
+                // eslint-disable-next-line curly
+            ) {
+                return
+            }
+
             return {
                 ranges: highlights.map(({ range }) => range),
                 wordPattern: undefined,
