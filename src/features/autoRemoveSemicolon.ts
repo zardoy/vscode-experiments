@@ -15,7 +15,14 @@ export default () => {
             contentChanges.length === 0
         )
             return
-        const line = document.lineAt(contentChanges[0]!.range.end)
+
+        let line: vscode.TextLine
+        try {
+            line = document.lineAt(contentChanges[0]!.range.end)
+        } catch {
+            return
+        }
+
         if (
             equals(
                 contentChanges.map(({ text }) => text),
