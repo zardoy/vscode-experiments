@@ -8,7 +8,7 @@ import { showQuickPick } from '@zardoy/vscode-utils/build/quickPick'
 export default () => {
     registerExtensionCommand('fixAllDiagnostics', async (_, { severity }: { severity?: keyof typeof vscode.DiagnosticSeverity } = {}) => {
         const editor = getActiveRegularEditor()!
-        if (!editor) return
+        if (!editor as any) return
         const diagnostics = vscode.languages.getDiagnostics(editor.document.uri).filter(diagnostic => {
             if (!severity) return true
             return diagnostic.severity === vscode.DiagnosticSeverity[severity]
@@ -86,7 +86,6 @@ export default () => {
         async function applyCodeAction(diagnostic: vscode.Diagnostic, inputCodeAction: vscode.CodeAction, metadata: Metadata, retryCount = 1) {
             const { needsSelectionIndex, skipSelectionResetting } = metadata
             const newSelectionIndex = editor.selections.length - (codeActionsToSelect.length - (needsSelectionIndex ?? -1))
-            const oldSelections = editor.selections
             const currentSelection = editor.selections[newSelectionIndex]
             // eslint-disable-next-line curly
             if (needsSelectionIndex !== undefined && !skipSelectionResetting && currentSelection) {
@@ -132,7 +131,7 @@ export default () => {
                 new Promise<void>(resolve => {
                     vscode.workspace.onDidChangeTextDocument(
                         ({ document, contentChanges }) => {
-                            if (contentChanges.length === 0 || activeEditor?.document.uri.toString() !== document.uri.toString()) return
+                            if (contentChanges.length === 0 || activeEditor.document.uri.toString() !== document.uri.toString()) return
                             resolve()
                         },
                         undefined,
@@ -141,7 +140,7 @@ export default () => {
                 }),
             ])
             vscode.Disposable.from(...disposables).dispose()
-            editor.selections = oldSelections
+            // editor.selections = oldSelections
 
             // vscode.languages.onDidChangeDiagnostics(({ uris }) => {
             //     if (uris.some((uri) => activeEditor?.document.uri.toString() !== uri.toString())) {
