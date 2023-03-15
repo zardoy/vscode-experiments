@@ -303,6 +303,10 @@
             {
                 "command": "fixHintDiagnostics",
                 "title": "Fix Hint Diagnostics"
+            },
+            {
+                "command": "formatSelectedOnly",
+                "title": "Format Selected Only"
             }
         ],
         "configuration": {
