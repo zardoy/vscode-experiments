@@ -249,6 +249,32 @@ export const registerRenameVariableParts = () => {
 
                 mainDisposable.dispose()
             }),
+            registerCommand('renameVariablePartsAddPartAbove', async () => {
+                if (!isDisposeEnabled) return
+                const activeItem = quickPick.activeItems[0]
+                if (!activeItem) return
+                const focusedPartIndex = quickPick.items.indexOf(activeItem)
+                isDisposeEnabled = false
+                const newPart = await vscode.window.showInputBox({ value: '', title: quickPick.title })
+                if (newPart) parts.splice(focusedPartIndex, 0, newPart)
+
+                setActiveItem(focusedPartIndex)
+                quickPick.show()
+                isDisposeEnabled = true
+            }),
+            registerCommand('renameVariablePartsAddPartBelow', async () => {
+                if (!isDisposeEnabled) return
+                const activeItem = quickPick.activeItems[0]
+                if (!activeItem) return
+                const focusedPartIndex = quickPick.items.indexOf(activeItem)
+                isDisposeEnabled = false
+                const newPart = await vscode.window.showInputBox({ value: '', title: quickPick.title })
+                if (newPart) parts.splice(focusedPartIndex + 1, 0, newPart)
+
+                setActiveItem(focusedPartIndex)
+                quickPick.show()
+                isDisposeEnabled = true
+            }),
             {
                 dispose() {
                     void vscode.commands.executeCommand('setContext', 'zardoyExperiments.renameVariablePartsOpened', false)
