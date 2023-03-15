@@ -70,6 +70,7 @@ import goToReferences from './features/goToReferences'
 import jsonGoToFile from './features/jsonGoToFile'
 import selectTabsToKeepOpen from './features/selectTabsToKeepOpen'
 import fixAllDiagnostics from './features/fixAllDiagnostics'
+import formatSelectedOnly from './features/formatSelectedOnly'
 
 export const activate = () => {
     void initGitApi()
@@ -144,6 +145,7 @@ export const activate = () => {
     jsonGoToFile()
     selectTabsToKeepOpen()
     fixAllDiagnostics()
+    formatSelectedOnly()
 
     if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
