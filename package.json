@@ -295,6 +295,14 @@
             {
                 "command": "selectTabsToKeepOpenRevert",
                 "title": "Select Tabs to Keep Open (Revert and Close Other)..."
+            },
+            {
+                "command": "fixAllDiagnostics",
+                "title": "Fix All Diagnostics"
+            },
+            {
+                "command": "fixHintDiagnostics",
+                "title": "Fix Hint Diagnostics"
             }
         ],
         "configuration": {

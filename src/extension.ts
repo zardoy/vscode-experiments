@@ -69,6 +69,7 @@ import copyWorkspaceName from './features/copyWorkspaceName'
 import goToReferences from './features/goToReferences'
 import jsonGoToFile from './features/jsonGoToFile'
 import selectTabsToKeepOpen from './features/selectTabsToKeepOpen'
+import fixAllDiagnostics from './features/fixAllDiagnostics'
 
 export const activate = () => {
     void initGitApi()
@@ -142,6 +143,7 @@ export const activate = () => {
     goToReferences()
     jsonGoToFile()
     selectTabsToKeepOpen()
+    fixAllDiagnostics()
 
     if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
