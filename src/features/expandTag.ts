@@ -24,8 +24,8 @@ const getTextSafe = (
     return document.getText(new vscode.Range(positionBefore, positionAfter))
 }
 
-const outlineBasedLangs = ['vue', 'svelte']
-const allSupportedLangs = new Set([...outlineBasedLangs, 'typescriptreact', 'javascriptreact'])
+const outlineBasedLangs = ['vue', 'svelte', 'typescriptreact', 'javascriptreact']
+const allSupportedLangs = new Set(outlineBasedLangs)
 
 export default () => {
     registerExtensionCommand('expandTag', async () => {

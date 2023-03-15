@@ -12,17 +12,18 @@ export const registerSuggestDefaultImportName = () => {
             const importPath = matchImport[2]!.slice(1, -1)
             const startLength = 'import '.length
             if (position.character < startLength || position.character > startLength + matchImport[1]!.length) return
-            // TODO investigate parent imports
             const importParts = importPath
                 .split('/')
                 .filter(str => ![...str].every(ch => ch === '.'))
                 .map(str => camelCase(str))
+                .reverse()
             const completions: vscode.CompletionItem[] = []
             for (const [i, _] of importParts.entries())
                 completions.push({
                     label: {
                         label: importParts
                             .slice(0, i + 1)
+                            .reverse()
                             .map((str, i) => (i ? str[0]!.toUpperCase() + str.slice(1) : str))
                             .join(''),
                         description: 'suggest default',

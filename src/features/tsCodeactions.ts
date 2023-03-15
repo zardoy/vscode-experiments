@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 import { defaultJsSupersetLangsWithVue } from '@zardoy/vscode-utils/build/langs'
 import { getExtensionSetting } from 'vscode-framework'
-import { notFoundModule } from '../codeActions'
 
 export const registerTsCodeactions = () => {
     if (!getExtensionSetting('features.tsCodeActions')) return
@@ -59,22 +58,6 @@ export const registerTsCodeactions = () => {
                     edit: workspaceEdit,
                     kind: vscode.CodeActionKind.RefactorRewrite,
                 })
-            }
-
-            const problem = context.diagnostics[0]
-            if (problem) {
-                const module = notFoundModule(problem)
-                if (module) {
-                    const workspaceEdit = new vscode.WorkspaceEdit()
-                    const codeToInsert = `const ${module} = `
-                    // TODO execute hover to check if its a type
-                    workspaceEdit.insert(document.uri, pos.translate(0).with(undefined, 0), `${' '.repeat(firstCharIndex)}${codeToInsert}\n`)
-                    codeActions.push({
-                        title: `Add declaration for ${module} above`,
-                        edit: workspaceEdit,
-                        kind: vscode.CodeActionKind.Refactor,
-                    })
-                }
             }
 
             return codeActions

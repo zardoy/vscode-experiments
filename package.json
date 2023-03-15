@@ -130,7 +130,7 @@
             },
             {
                 "command": "copyProductIconName",
-                "title": "Copy Product Icon Name"
+                "title": "Copy Product Icon Name (Codicons)"
             },
             {
                 "command": "selectLineContents",
@@ -201,187 +201,402 @@
                 "title": "Git Previous Change"
             },
             {
-                "command": "selectOutlineItem",
-                "title": "Select Outline Item"
-            },
-            {
                 "command": "turnCommentIntoJsdoc",
                 "title": "Turn Comment Into Jsdoc"
             },
             {
-                "command": "copyOutlineItemName",
-                "title": "Copy Outline Item Name"
-            },
-            {
                 "command": "applyCreatedCodeTransformers",
                 "title": "Apply Created Code Transformers"
+            },
+            {
+                "command": "newTerminalWithSameCwd",
+                "title": "New Terminal with Same Cwd"
+            },
+            {
+                "command": "toggleExtHostOutput",
+                "title": "Toggle Extension Host Output"
+            },
+            {
+                "command": "openCompletionKindPlayground",
+                "title": "Open Completion Kind Playground"
+            },
+            {
+                "command": "gitStageFiles",
+                "title": "Git Stage Files..."
+            },
+            {
+                "command": "gitUnstageFiles",
+                "title": "Git Unstage Files..."
+            },
+            {
+                "command": "gitRevertFiles",
+                "title": "Git Revert Files..."
+            },
+            {
+                "command": "openGithubEnvTerminal",
+                "title": "Open GitHub Env Terminal"
+            },
+            {
+                "command": "insertFileName",
+                "title": "Insert File Name"
+            },
+            {
+                "command": "insertTypeDecoration",
+                "title": "Insert Type Decoration"
+            },
+            {
+                "command": "openReferencesInView",
+                "title": "Open References in View"
+            },
+            {
+                "command": "generateGitlabPush",
+                "title": "Generate push with gitlab options"
+            },
+            {
+                "command": "generateGitlabPushAccept",
+                "title": "Accept created push sequence"
+            },
+            {
+                "command": "inspectCompletionsDetails",
+                "title": "Inspect Completions Details"
+            },
+            {
+                "command": "inspectCompletionsDetailsRaw",
+                "title": "Inspect Completions Details in Raw Editor"
+            },
+            {
+                "command": "renameFileParts",
+                "title": "Rename File Parts"
+            },
+            {
+                "command": "peekTextSearchDefinitions",
+                "title": "Peek Text Search Definitions"
+            },
+            {
+                "command": "discardAndCloseAllUntitled",
+                "title": "Discard and Close All Untitled"
+            },
+            {
+                "command": "openOriginalFileFromDiff",
+                "title": "Open Original File From Diff"
+            },
+            {
+                "command": "copyWorkspaceName",
+                "title": "Copy Workspace Name"
+            },
+            {
+                "command": "goToReferences",
+                "title": "Go to References"
+            },
+            {
+                "command": "selectTabsToKeepOpen",
+                "title": "Select Tabs to Keep Open (Close Other Saved)..."
+            },
+            {
+                "command": "selectTabsToKeepOpenRevert",
+                "title": "Select Tabs to Keep Open (Revert and Close Other)..."
             }
         ],
-        "configuration": [
-            {
-                "properties": {
-                    "enableDebug": {
-                        "type": "boolean",
-                        "default": false
+        "configuration": {
+            "properties": {
+                "enableDebug": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "features.preserveCamelCase": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.tsCodeActions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.regexCodeActions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.missingVscodeImportCodeAction": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.statusBarDiagnostic": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "color",
+                        "bgColor"
+                    ],
+                    "default": "color"
+                },
+                "features.autoAlignImport": {
+                    "type": "boolean",
+                    "description": "Add newline after last import statement in JS/ST",
+                    "default": true
+                },
+                "features.onTypeTsFormatter": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.signatureCompletions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.suggestImportName": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "signatureCompletions.useTypeOnValue": {
+                    "type": "string",
+                    "default": "value, item"
+                },
+                "signatureCompletions.usePlaceholder": {
+                    "type": "boolean",
+                    "description": "Use snippet with placeholders instead of just text",
+                    "default": false
+                },
+                "signatureCompletions.enableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     },
-                    "features.preserveCamelCase": {
-                        "type": "boolean",
-                        "default": true
+                    "default": [
+                        "typescript",
+                        "javascript",
+                        "typescriptreact",
+                        "javascriptreact",
+                        "vue"
+                    ]
+                },
+                "features.triggerParameterHintsOnSignatureCompletions": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features.jsxAutoCloseTag": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "typeDecorations.enable": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "typeDecorations.ignoreValues": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "markdownDescription": "Ignore specific resolved values from type decorations. In future it can be regex if starts & ends with `/`. Examples can be: `any`, `unknown`",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "typeDecorations.enableInStyles": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "autoRemoveSemicolon.enable": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "typeDecorations.languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     },
-                    "features.tsCodeActions": {
-                        "type": "boolean",
-                        "default": true
+                    "default": [
+                        "*"
+                    ]
+                },
+                "goToNextProblemInFile.triggerCodeAction": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "ifAppliable",
+                        "always"
+                    ],
+                    "default": "ifAppliable"
+                },
+                "tweakTsSuggestions.enabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "tweakTsSuggestions.arrayItemTabstop": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "tweakTsSuggestions.expandMethodBeforeCurly": {
+                    "description": "Whether to expand method with function before existing curly. You can safely enable it as you can still select wether to use patched version or original one",
+                    "type": "boolean",
+                    "default": false
+                },
+                "ensureGitUser": {
+                    "type": "object",
+                    "additionalItems": {
+                        "type": "string"
                     },
-                    "features.regexCodeActions": {
-                        "type": "boolean",
-                        "default": true
+                    "description": "Map folder glob - expected user in format: 'name <email>'"
+                },
+                "dontLeaveEmptyLines": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
+                },
+                "features.autoExpandTag": {
+                    "type": "boolean",
+                    "markdownDescription": "Type space after `/` in `<div />` to expand the tag. Doesn't support React for now",
+                    "default": true
+                },
+                "features.showTabNumbers": {
+                    "type": "string",
+                    "markdownDescription": "Mode of `tabsWithNumbers` feature! Primarily for `focusTabByNumber` command",
+                    "enum": [
+                        "disabled",
+                        "fromLeft",
+                        "recentlyFocused",
+                        "recentlyOpened"
+                    ],
+                    "default": "disabled"
+                },
+                "showTabNumbers.reversedMode": {
+                    "type": "boolean",
+                    "description": "Display numbers on tabs in reversed mode. Doesn't affect fromLeft mode",
+                    "default": false
+                },
+                "createdCodeTransformers": {
+                    "type": "object",
+                    "description": "Will be moved to code actions (transformers) creator"
+                },
+                "autoEscapeQuoteJson": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "goToFileJson": {
+                    "type": "string",
+                    "description": "Wether to enable definition provider for path-like strings in JSON",
+                    "enum": [
+                        "always",
+                        "onlyIfExists",
+                        "never"
+                    ],
+                    "default": "onlyIfExists"
+                },
+                "autoRenameJsxTag": {
+                    "type": "boolean",
+                    "description": "Modern alternative to auto rename tag that uses native linked editing. Benefit: you cancel auto-renaming with esc at any time",
+                    "default": false
+                },
+                "autoIndentEmptyLine": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "mouse-only",
+                        "always"
+                    ],
+                    "default": "disabled"
+                },
+                "autoIndentEmptyLineIfNotDirty": {
+                    "type": "boolean",
+                    "description": "Experimental, might be removed. This is can be useful to not spam with unsaved files in your editor tabs",
+                    "default": false
+                },
+                "enableExperimentalIntegrationsWithTsPlugin": {
+                    "type": "boolean",
+                    "description": "Wether to enable experimental integrations with `ts-essential-plugins`",
+                    "default": false
+                },
+                "typescriptHighlightedKeywordReferences": {
+                    "type": "boolean",
+                    "description": "Wether to references on highlighted JS keywords in vue/javascript/typescript/html",
+                    "default": true
+                },
+                "statusbarOccurrencesCount": {
+                    "type": "boolean",
+                    "description": "Wether to display statusbar with all occurences count (including selected) in the following format: E (case matching occurences)",
+                    "default": false
+                },
+                "inspectCompletionsDetails.resolveItems": {
+                    "type": "number",
+                    "description": "Number of completions to resolve (too large numbers slow down completions)",
+                    "default": 1000
+                },
+                "inspectCompletionsDetails.includeCompletionData": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     },
-                    "features.missingVscodeImportCodeAction": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.statusBarDiagnostic": {
-                        "type": "string",
-                        "enum": [
-                            "disabled",
-                            "color",
-                            "bgColor"
-                        ],
-                        "default": "color"
-                    },
-                    "features.autoAlignImport": {
-                        "type": "boolean",
-                        "description": "Add newline after last import statement in JS/ST",
-                        "default": true
-                    },
-                    "features.onTypeTsFormatter": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.signatureCompletions": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.suggestImportName": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "signatureCompletions.useTypeOnValue": {
-                        "type": "string",
-                        "default": "value, item"
-                    },
-                    "signatureCompletions.enableLanguages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
+                    "uniqueItems": true,
+                    "default": []
+                },
+                "inspectCompletionsDetails.openLocation": {
+                    "type": "string",
+                    "enum": [
+                        "toSide",
+                        "newTab"
+                    ],
+                    "default": "toSide"
+                },
+                "generateGitlabPush": {
+                    "type": "object",
+                    "description": "Generate `git push` with gitlab specific options",
+                    "properties": {
+                        "dynamicPushOptions": {
+                            "type": "object",
+                            "properties": {
+                                "merge_request.target": {
+                                    "type": "string"
+                                },
+                                "merge_request.title": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.description": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.milestone": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.label": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.unlabel": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.assign": {
+                                    "type": "string",
+                                    "default": ""
+                                },
+                                "merge_request.unassign": {
+                                    "type": "string",
+                                    "default": ""
+                                }
+                            }
                         },
-                        "default": [
-                            "typescript",
-                            "javascript",
-                            "typescriptreact",
-                            "javascriptreact",
-                            "vue"
-                        ]
-                    },
-                    "features.triggerParameterHintsOnSignatureCompletions": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "features.jsxAutoCloseTag": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "typeDecorations.enable": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "typeDecorations.ignoreValues": {
-                        "type": "array",
-                        "uniqueItems": true,
-                        "markdownDescription": "Ignore specific resolved values from type decorations. In future it can be regex if starts & ends with `/`. Examples can be: `any`, `unknown`",
-                        "items": {
-                            "type": "string"
+                        "staticPushOptions": {
+                            "type": "object",
+                            "properties": {
+                                "merge_request.create": {
+                                    "type": "boolean",
+                                    "default": false
+                                },
+                                "merge_request.merge_when_pipeline_succeeds": {
+                                    "type": "boolean",
+                                    "default": false
+                                },
+                                "merge_request.remove_source_branch": {
+                                    "type": "boolean",
+                                    "default": false
+                                },
+                                "merge_request.draft": {
+                                    "type": "boolean",
+                                    "default": false
+                                }
+                            }
                         }
-                    },
-                    "typeDecorations.enableInStyles": {
-                        "type": "boolean",
-                        "default": false
-                    },
-                    "autoRemoveSemicolon.enable": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "typeDecorations.languages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "default": [
-                            "*"
-                        ]
-                    },
-                    "goToNextProblemInFile.triggerCodeAction": {
-                        "type": "string",
-                        "enum": [
-                            "disabled",
-                            "ifAppliable",
-                            "always"
-                        ],
-                        "default": "ifAppliable"
-                    },
-                    "tweakTsSuggestions.enabled": {
-                        "type": "boolean",
-                        "default": false
-                    },
-                    "tweakTsSuggestions.arrayItemTabstop": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "tweakTsSuggestions.expandMethodBeforeCurly": {
-                        "description": "Whether to expand method with function before existing curly. You can safely enable it as you can still select wether to use patched version or original one",
-                        "type": "boolean",
-                        "default": false
-                    },
-                    "ensureGitUser": {
-                        "type": "object",
-                        "additionalItems": {
-                            "type": "string"
-                        },
-                        "description": "Map folder glob - expected user in format: 'name <email>'"
-                    },
-                    "dontLeaveEmptyLines": {
-                        "type": "boolean",
-                        "default": true,
-                        "description": "Also remove surrounding empty newlines. For `cutLineContents` command"
-                    },
-                    "features.autoExpandTag": {
-                        "type": "boolean",
-                        "markdownDescription": "Type space after `/` in `<div />` to expand the tag. Doesn't support React for now",
-                        "default": true
-                    },
-                    "features.showTabNumbers": {
-                        "type": "string",
-                        "markdownDescription": "For `focusTabByNumber` command",
-                        "enum": [
-                            "disabled",
-                            "fromLeft",
-                            "recentlyFocused",
-                            "recentlyOpened"
-                        ],
-                        "default": "disabled"
-                    },
-                    "showTabNumbers.reversedMode": {
-                        "type": "boolean",
-                        "description": "Display numbers on tabs in reversed mode. Doesn't affect fromLeft mode",
-                        "default": false
-                    },
-                    "createdCodeTransformers": {
-                        "type": "object",
-                        "description": "Will be moved to code actions (transformers) creator"
                     }
                 }
             }
-        ],
+        },
         "menus": {
             "commandPalette": [
                 {
@@ -418,6 +633,10 @@
                 },
                 {
                     "command": "renameVariablePartsPartMoveDown",
+                    "when": "false"
+                },
+                {
+                    "command": "generateGitlabPushAccept",
                     "when": "false"
                 }
             ]
@@ -464,6 +683,12 @@
                 "key": "ctrl+alt+k",
                 "mac": "cmd+shift+k",
                 "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.generateGitlabPushAccept",
+                "key": "ctrl+o",
+                "mac": "cmd+o",
+                "when": "zardoyExperiments.generateGitlabPushOpened"
             }
         ]
     },
@@ -483,23 +708,30 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.9",
-        "@zardoy/vscode-utils": "^0.0.19",
+        "@zardoy/vscode-utils": "^0.0.47",
         "change-case": "^4.1.2",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
         "ini": "^2.0.0",
+        "jsonc-parser": "^3.2.0",
+        "lodash": "^4.17.21",
         "lower-case-first": "^2.0.2",
         "markdown-to-txt": "^2.0.1",
         "minimatch": "^5.0.1",
         "open": "^8.4.0",
         "path-browserify": "^1.0.1",
+        "pid-cwd": "^1.2.0",
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
+        "remark": "^14.0.2",
+        "string-dedent": "^3.0.1",
         "valtio": "^1.6.4",
-        "vscode-framework": "^0.0.18"
+        "vscode-framework": "^0.0.18",
+        "vscode-uri": "^3.0.6"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.190",
         "@types/node": "^16.11.26",
         "@types/vscode": "^1.66.0",
         "@zardoy/tsconfig": "^1.4.0",

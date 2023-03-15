@@ -8,6 +8,7 @@ export const fromInsertCompletions = {
     value: false,
 }
 
+/** @deprecated Not needed anymore, will be removed */
 export const registerTweakTsSuggestions = () => {
     let fromInner = false
     vscode.languages.registerCompletionItemProvider(
@@ -28,13 +29,12 @@ export const registerTweakTsSuggestions = () => {
                 if (position.character === 0 || document.getText(new vscode.Range(position.translate(undefined, -1), position)) !== '.') return
                 console.time('tweak: fetch completions')
                 fromInner = true
-                const { items: sourceItems }: vscode.CompletionList = await vscode.commands.executeCommand(
-                    'vscode.executeCompletionItemProvider',
-                    document.uri,
-                    position,
-                    '.',
+                const { items: sourceItems } = await (async () =>
+                    vscode.commands.executeCommand<vscode.CompletionList>('vscode.executeCompletionItemProvider', document.uri, position, '.'))().finally(
+                    () => {
+                        console.timeEnd('tweak: fetch completions')
+                    },
                 )
-                console.timeEnd('tweak: fetch completions')
                 const itemsToInclude: vscode.CompletionItem[] = []
                 const itemLists = {
                     sourceItems,

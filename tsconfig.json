@@ -1,6 +1,11 @@
 {
-    "extends": "@zardoy/tsconfig/node",
-    "compilerOptions": {},
+    "extends": "@zardoy/tsconfig/tsconfig.json",
+    "compilerOptions": {
+        "lib": [
+            "ESNext",
+            "WebWorker"
+        ]
+    },
     "include": [
         "src"
     ],

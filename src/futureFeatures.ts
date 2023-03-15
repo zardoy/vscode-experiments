@@ -1,9 +1,32 @@
 import { posix } from 'path'
 import * as vscode from 'vscode'
-import { registerExtensionCommand, registerNoop } from 'vscode-framework'
+import { extensionCtx, registerNoop } from 'vscode-framework'
 import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
 
 const unusedCommands = () => {
+    registerNoop('Better Rename', () => {
+        const decoration = vscode.window.createTextEditorDecorationType({
+            dark: {
+                before: {
+                    contentIconPath: extensionCtx.asAbsolutePath('resources/editDark.svg'),
+                },
+            },
+            light: {
+                before: {
+                    contentIconPath: extensionCtx.asAbsolutePath('resources/edit.svg'),
+                },
+            },
+            // rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+        })
+        if (!vscode.window.activeTextEditor) throw new Error('no activeTextEditor')
+        const pos = vscode.window.activeTextEditor.selection.active
+        vscode.window.activeTextEditor.setDecorations(decoration, [
+            {
+                range: new vscode.Range(pos, pos.translate(0, 1)),
+            },
+        ])
+    })
+
     registerNoop('goToRelativePath', async () => {
         const currentUri = vscode.window.activeTextEditor?.document.uri
         if (!currentUri) {
@@ -148,7 +171,7 @@ const unusedCommands = () => {
                         },
                     )
 
-                lastCharPos[uriKey] = undefined
+                delete lastCharPos[uriKey]
                 return
             }
 
@@ -168,6 +191,45 @@ const unusedCommands = () => {
                 char: match[2]!,
                 pos,
             }
+        })
+    })
+    registerNoop('Instant TypeScript load check', () => {
+        vscode.window.onDidChangeActiveTextEditor(async textEditor => {
+            if (textEditor?.document.languageId !== 'typescript') return
+            console.log('requested')
+            try {
+                const result = await vscode.commands.executeCommand('typescript.tsserverRequest', 'semanticDiagnosticsSync', {
+                    _: '%%%',
+                    file: textEditor.document.uri.fsPath,
+                })
+                console.log('received')
+            } catch (error) {
+                console.log('error', error.message)
+            }
+        })
+    })
+    registerNoop('Auto rename on type', () => {
+        vscode.languages.registerLinkedEditingRangeProvider('*', {
+            async provideLinkedEditingRanges(document, position, token) {
+                if (document.uri.scheme === 'output') return
+                const highlights: vscode.DocumentHighlight[] | undefined =
+                    (await vscode.commands.executeCommand('vscode.executeDocumentHighlights', document.uri, position)) ?? []
+                const definitions: vscode.Location[] | vscode.LocationLink[] | undefined =
+                    (await vscode.commands.executeCommand('vscode.executeDefinitionProvider', document.uri, position)) ?? []
+                if (!definitions) return
+                const thisDefinitions = definitions
+                    .map(item => (item instanceof vscode.Location ? [item.uri, item.range] : [item.targetUri, item.targetRange]))
+                    .filter(res => {
+                        const [uri, range] = res as [vscode.Uri, vscode.Range]
+                        return uri.toString() === document.uri.toString() && range.contains(position)
+                    })
+                if (thisDefinitions.length > 0)
+                    return {
+                        ranges: highlights.map(({ range }) => range),
+                        wordPattern: undefined,
+                    }
+                return undefined
+            },
         })
     })
 }

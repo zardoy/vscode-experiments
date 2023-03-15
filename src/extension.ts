@@ -1,9 +1,6 @@
 import * as vscode from 'vscode'
-import { extensionCtx, getExtensionSetting, registerActiveDevelopmentCommand, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
+import { getExtensionSetting, registerExtensionCommand, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
-import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
-import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
-import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
 import { registerRegexCodeActions } from './features/regexCodeactions'
@@ -37,6 +34,7 @@ import { registerProductIconReference } from './features/productIconReference'
 import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
+import { registerRenameFileParts } from './features/renameFileParts'
 import typeDecorations from './features/typeDecorations'
 import autoRemoveSemicolon from './features/autoRemoveSemicolon'
 import printDocumentUri from './features/printDocumentUri'
@@ -46,15 +44,37 @@ import expandTag from './features/expandTag'
 import tabsWithNumbers from './features/tabsWithNumbers'
 import { initGitApi } from './git-api'
 import gitNextChange from './features/gitNextChange'
-import copyOutlineItemName from './features/copyOutlineItemName'
-import selectOutlineItem from './features/selectOutlineItem'
 import turnCommentIntoJsdoc from './features/turnCommentIntoJsdoc'
 import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformers'
+import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
+import vscodeDevCompletions from './features/vscodeDevCompletions'
+import toggleExtHostOutput from './features/toggleExtHostOutput'
+import completionsKindPlayground from './features/completionsKindPlayground'
+import autoEscapeJson from './features/autoEscapeJson'
+import gitStageQuickPick from './features/gitStageQuickPick'
+import githubEnvTerminal from './features/githubEnvTerminal'
+import indentEmptyLineOnClick from './features/autoIndentEmptyLine'
+import insertFileName from './features/insertFileName'
+import tsPluginIntegrations from './features/tsPluginIntegrations'
+import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
+import autoRenameJsxTag from './features/autoRenameJsxTag'
+import openReferencesInView from './features/openReferencesInView'
+import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
+import generateGitlabPush from './features/generateGitlabPush'
+import removedCommands from './removedCommands'
+import universeDefinitions from './features/textSearchDefinitions'
+import discardAndCloseAllUntitled from './features/discardAndCloseAllUntitled'
+import openOriginalFileFromDiff from './features/openOriginalFileFromDiff'
+import copyWorkspaceName from './features/copyWorkspaceName'
+import goToReferences from './features/goToReferences'
+import jsonGoToFile from './features/jsonGoToFile'
+import selectTabsToKeepOpen from './features/selectTabsToKeepOpen'
 
 export const activate = () => {
-    initGitApi()
+    void initGitApi()
 
-    // preserve camelcase identifiers (only vars for now)
+    registerTweakTsSuggestions()
+
     // preserveCamelCase()
     registerTsCodeactions()
     registerRegexCodeActions()
@@ -66,7 +86,6 @@ export const activate = () => {
     registerPickProblemsBySource()
     registerAutoAlignImport()
     registerStatusBarProblems()
-    // registerOnTypeFormatter()
     registerNextLetterSwapCase()
     registerFixCss()
     registerInsertCompletions()
@@ -81,7 +100,6 @@ export const activate = () => {
     registerGoToNextProblemInFile()
     registerFixedPaste()
     registerOpenRepositoryOfActiveExtension()
-    registerTweakTsSuggestions()
     registerCopyCurrentWorkspacePath()
     registerEnsureGitUser()
     registerInsertComma()
@@ -98,26 +116,34 @@ export const activate = () => {
     expandTag()
     tabsWithNumbers()
     gitNextChange()
-    copyOutlineItemName()
-    selectOutlineItem()
     turnCommentIntoJsdoc()
     applyCreatedCodeTransformers()
+    newTerminalWithSameCwd()
+    vscodeDevCompletions()
+    toggleExtHostOutput()
+    completionsKindPlayground()
+    autoEscapeJson()
+    gitStageQuickPick()
+    githubEnvTerminal()
+    indentEmptyLineOnClick()
+    insertFileName()
+    tsPluginIntegrations()
+    tsHighlightedKeywordsReferences()
+    autoRenameJsxTag()
+    openReferencesInView()
+    statusbarOccurrencesCount()
+    generateGitlabPush()
+    registerRenameFileParts()
+    removedCommands()
+    universeDefinitions()
+    discardAndCloseAllUntitled()
+    openOriginalFileFromDiff()
+    copyWorkspaceName()
+    goToReferences()
+    jsonGoToFile()
+    selectTabsToKeepOpen()
 
-    // vscode.languages.registerSelectionRangeProvider('*', {
-    //     provideSelectionRanges(document, positions, token) {
-
-    //     }
-    // })
-
-    // vscode.languages.registerDocumentSemanticTokensProvider('typescript', {
-
-    // }, {})
-
-    registerExtensionCommand('openUrl', async (_, url: string) => {
-        // to test: https://regex101.com/?regex=.%2B%3A.%2B%3B?&flags=gi
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        await vscode.env.openExternal(url as any)
-    })
+    if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')
@@ -127,29 +153,6 @@ export const activate = () => {
         await vscode.commands.executeCommand('workbench.action.terminal.scrollUpPage')
         // eslint-disable-next-line no-await-in-loop
         for (const i of range(0, 3)) await vscode.commands.executeCommand('workbench.action.terminal.scrollDown')
-    })
-
-    registerNoop('Better Rename', () => {
-        const decoration = vscode.window.createTextEditorDecorationType({
-            dark: {
-                before: {
-                    contentIconPath: extensionCtx.asAbsolutePath('resources/editDark.svg'),
-                },
-            },
-            light: {
-                before: {
-                    contentIconPath: extensionCtx.asAbsolutePath('resources/edit.svg'),
-                },
-            },
-            // rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
-        })
-        if (!vscode.window.activeTextEditor) throw new Error('no activeTextEditor')
-        const pos = vscode.window.activeTextEditor.selection.active
-        vscode.window.activeTextEditor.setDecorations(decoration, [
-            {
-                range: new vscode.Range(pos, pos.translate(0, 1)),
-            },
-        ])
     })
 
     if (getExtensionSetting('enableDebug')) setDebugEnabled(true)
