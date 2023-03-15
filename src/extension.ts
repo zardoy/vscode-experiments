@@ -12,7 +12,6 @@ import { registerPickProblemsBySource } from './features/problemsBySource'
 import { registerAutoAlignImport } from './features/alignImport'
 import { registerStatusBarProblems } from './features/statusbarProblems'
 import { registerNextLetterSwapCase } from './features/nextLetterSwapCase'
-import { registerFixCss } from './features/fixCss'
 import { registerInsertCompletions } from './features/insertCompletions'
 import { registerCopyVariableName } from './features/copyVariableName'
 import { registerSignatureCompletions } from './features/signatureCompletions'
@@ -69,6 +68,8 @@ import copyWorkspaceName from './features/copyWorkspaceName'
 import goToReferences from './features/goToReferences'
 import jsonGoToFile from './features/jsonGoToFile'
 import selectTabsToKeepOpen from './features/selectTabsToKeepOpen'
+import fixAllDiagnostics from './features/fixAllDiagnostics'
+import formatSelectedOnly from './features/formatSelectedOnly'
 
 export const activate = () => {
     void initGitApi()
@@ -87,7 +88,6 @@ export const activate = () => {
     registerAutoAlignImport()
     registerStatusBarProblems()
     registerNextLetterSwapCase()
-    registerFixCss()
     registerInsertCompletions()
     registerCopyVariableName()
     registerSignatureCompletions()
@@ -142,6 +142,8 @@ export const activate = () => {
     goToReferences()
     jsonGoToFile()
     selectTabsToKeepOpen()
+    fixAllDiagnostics()
+    formatSelectedOnly()
 
     if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
