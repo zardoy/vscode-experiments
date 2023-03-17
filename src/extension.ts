@@ -29,7 +29,6 @@ import { registerCopyCurrentWorkspacePath } from './features/copyCurrentWorkspac
 import { registerEnsureGitUser } from './features/ensureGitUser'
 import { registerInsertComma } from './features/insertComma'
 import { registerSuggestDefaultImportName } from './features/suggestDefaultImportName'
-import { registerProductIconReference } from './features/productIconReference'
 import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
@@ -104,7 +103,6 @@ export const activate = () => {
     registerEnsureGitUser()
     registerInsertComma()
     registerSuggestDefaultImportName()
-    registerProductIconReference()
     registerSelectLineContents()
     registerCutLineContents()
     registerCutLineContentsPreserve()

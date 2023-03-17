@@ -10,6 +10,7 @@ export default () => {
         ['copyCurrentOutlinePath', 'outlineUtils.copyCurrentOutlinePath', outlineUtilsId],
         ['openOutlineItemInNewEditor', 'outlineUtils.openOutlineItemInNewEditor', outlineUtilsId],
         ['goToHighlightedLocations', 'highlightUtils.goToHighlightedLocations', 'zardoy.highlight-utils'],
+        ['copyProductIconName', 'commands.suggestCodicons', 'usernamehw.commands'],
     ]
 
     // eslint-disable-next-line curly
