@@ -16,6 +16,7 @@ export default () => {
 
     const disposables: vscode.Disposable[] = []
     let updateDecorations: (uris?: vscode.Uri[]) => void | undefined
+
     const register = () => {
         const mode = getExtensionSetting('features.showTabNumbers')
         const isByRecentMode = oneOf(mode, 'recentlyOpened', 'recentlyFocused')
@@ -61,6 +62,12 @@ export default () => {
             }
 
             provideFileDecoration(uri: vscode.Uri): vscode.ProviderResult<vscode.FileDecoration> {
+                const getBadge = (tabNumber: number) =>
+                    ({
+                        numberOnly: `${tabNumber}`,
+                        numberWithPrefix: `t${tabNumber}`,
+                    }[getExtensionSetting('showTabNumbers.badgeText')])
+
                 if (!isByRecentMode) {
                     const { tabs } = vscode.window.tabGroups.activeTabGroup
                     const tabIndex = tabs
@@ -71,8 +78,9 @@ export default () => {
                         })
                     if (tabIndex === -1) return
                     const tabNumber = tabIndex + 1
+
                     return {
-                        badge: `${tabNumber}`,
+                        badge: getBadge(tabNumber),
                         tooltip: `${tabNumber} ${humanReadableMode}`,
                     }
                 }
@@ -83,7 +91,7 @@ export default () => {
                 if (tabIndex === -1) return
                 const tabNumber = tabIndex + 1
                 return {
-                    badge: `${tabNumber}`,
+                    badge: getBadge(tabNumber),
                     propagate: false,
                     tooltip: `${tabNumber}: by ${humanReadableMode}`,
                 }
@@ -144,6 +152,7 @@ export default () => {
     }
 
     register()
+
     vscode.workspace.onDidChangeConfiguration(({ affectsConfiguration }) => {
         if (affectsConfiguration(getExtensionSettingId('features.showTabNumbers'))) {
             vscode.Disposable.from(...disposables).dispose()
@@ -151,6 +160,7 @@ export default () => {
         }
 
         if (affectsConfiguration(getExtensionSettingId('showTabNumbers.reversedMode'))) updateDecorations()
+        if (affectsConfiguration(getExtensionSettingId('showTabNumbers.badgeText'))) updateDecorations()
     })
 
     registerExtensionCommand('generateKeybindingsForTabsWithNumbers', async () => {
