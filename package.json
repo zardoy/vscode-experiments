@@ -475,6 +475,18 @@
                     "description": "Display numbers on tabs in reversed mode. Doesn't affect fromLeft mode",
                     "default": false
                 },
+                "showTabNumbers.badgeText": {
+                    "type": "string",
+                    "enum": [
+                        "numberOnly",
+                        "numberWithPrefix"
+                    ],
+                    "enumDescriptions": [
+                        "Display only tab number",
+                        "Display tab number with leading 't' e.g. 't1', 't2'"
+                    ],
+                    "default": "numberOnly"
+                },
                 "createdCodeTransformers": {
                     "type": "object",
                     "description": "Will be moved to code actions (transformers) creator"
