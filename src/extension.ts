@@ -58,7 +58,6 @@ import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsRef
 import autoRenameJsxTag from './features/autoRenameJsxTag'
 import openReferencesInView from './features/openReferencesInView'
 import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
-import generateGitlabPush from './features/generateGitlabPush'
 import removedCommands from './removedCommands'
 import universeDefinitions from './features/textSearchDefinitions'
 import discardAndCloseAllUntitled from './features/discardAndCloseAllUntitled'
@@ -130,7 +129,6 @@ export const activate = () => {
     autoRenameJsxTag()
     openReferencesInView()
     statusbarOccurrencesCount()
-    generateGitlabPush()
     registerRenameFileParts()
     removedCommands()
     universeDefinitions()
