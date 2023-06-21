@@ -17,7 +17,7 @@ export default () => {
         const normallizeDynamicOptions = () =>
             Object.entries(dynamicPushOptions)
                 .filter(([, value]) => value)
-                .map(([key, value]) => ` -o ${key}=${value!}`)
+                .map(([key, value]) => ` -o ${key}=${value}`)
                 .join('')
 
         const getOptionsNames = () => [...Object.keys(dynamicPushOptions), ...Object.keys(staticPushOptions)]
@@ -72,6 +72,20 @@ export default () => {
             const activeItem = quickPick.activeItems[0]!
             if (!activeItem) return
             isDisposeEnabled = false
+        quickPick.onDidAccept(() => {
+            const activeItem = quickPick.activeItems[0]
+            if (editingIndex === undefined) {
+                if (!activeItem) return
+                editingIndex = quickPick.items.indexOf(activeItem)
+                const { label } = activeItem
+                const editingOption = [...Object.entries(dynamicPushOptions), ...Object.entries(dynamicPushOptions)].find(
+                    ([option, value]) => option === label,
+                )!
+                quickPick.items = []
+                quickPick.title = `Changing option: ${label}`
+                quickPick.value = editingOption[1]!
+                return
+            }
 
             const updatingPartIndex = quickPick.items.indexOf(activeItem)
             const { label } = activeItem

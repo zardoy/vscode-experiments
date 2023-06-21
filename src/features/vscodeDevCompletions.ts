@@ -39,7 +39,7 @@ export default () => {
                 const { path } = location
                 const completingInfo = getJsonCompletingInfo(location, document, position)
                 if (!completingInfo) return
-                const { insideStringRange } = completingInfo ?? {}
+                const { insideStringRange } = completingInfo
                 if (insideStringRange) {
                     const value: string = getNodeValue(findNodeAtLocation(root, path)!)!
                     const commands = await vscode.commands.getCommands(true)

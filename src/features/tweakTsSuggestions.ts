@@ -8,6 +8,7 @@ export const fromInsertCompletions = {
     value: false,
 }
 
+/** @deprecated Not needed anymore, will be removed */
 export const registerTweakTsSuggestions = () => {
     let fromInner = false
     vscode.languages.registerCompletionItemProvider(

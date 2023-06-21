@@ -38,7 +38,7 @@ export default () => {
         }
 
         const { indexChanges, mergeChanges, workingTreeChanges } = repo.state
-        let posChanged = false
+        let posChanged = false as boolean
         const { dispose } = vscode.window.onDidChangeTextEditorSelection(async ({ textEditor }) => {
             if (textEditor.document.uri.toString() !== rightEditor.document.uri.toString()) return
             posChanged = true
@@ -56,6 +56,6 @@ export default () => {
 
 const detectGitTabTextEditor = () => {
     const input = vscode.window.tabGroups.activeTabGroup.activeTab?.input
-    if (!(input instanceof vscode.TabInputTextDiff) || input?.original?.scheme !== 'git') return
+    if (!(input instanceof vscode.TabInputTextDiff) || input.original.scheme !== 'git') return
     return vscode.window.visibleTextEditors.find(({ document }) => document.uri.toString() === input.modified.toString())!
 }

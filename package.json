@@ -129,10 +129,6 @@
                 "title": "Insert Comma to the End of Line"
             },
             {
-                "command": "copyProductIconName",
-                "title": "Copy Product Icon Name (Codicons)"
-            },
-            {
                 "command": "selectLineContents",
                 "title": "Select Line Contents"
             },
@@ -173,6 +169,14 @@
                 "title": "Rename Variable Parts Part Move Down"
             },
             {
+                "command": "renameVariablePartsAddPartAbove",
+                "title": "Rename Variable Parts Add Part Above"
+            },
+            {
+                "command": "renameVariablePartsAddPartBelow",
+                "title": "Rename Variable Parts Add Part Below"
+            },
+            {
                 "command": "renameVariablePartsPartMoveUp",
                 "title": "Rename Variable Parts Part Move Up"
             },
@@ -201,16 +205,8 @@
                 "title": "Git Previous Change"
             },
             {
-                "command": "selectOutlineItem",
-                "title": "Select Outline Item"
-            },
-            {
                 "command": "turnCommentIntoJsdoc",
                 "title": "Turn Comment Into Jsdoc"
-            },
-            {
-                "command": "copyOutlineItemName",
-                "title": "Copy Outline Item Name"
             },
             {
                 "command": "applyCreatedCodeTransformers",
@@ -245,16 +241,8 @@
                 "title": "Open GitHub Env Terminal"
             },
             {
-                "command": "openOutlineItemInNewEditor",
-                "title": "Open Outline Item in New Editor"
-            },
-            {
                 "command": "insertFileName",
                 "title": "Insert File Name"
-            },
-            {
-                "command": "goToHighlightedLocations",
-                "title": "Go to Highlighted Locations"
             },
             {
                 "command": "insertTypeDecoration",
@@ -273,8 +261,56 @@
                 "title": "Accept created push sequence"
             },
             {
+                "command": "inspectCompletionsDetails",
+                "title": "Inspect Completions Details"
+            },
+            {
+                "command": "inspectCompletionsDetailsRaw",
+                "title": "Inspect Completions Details in Raw Editor"
+            },
+            {
                 "command": "renameFileParts",
                 "title": "Rename File Parts"
+            },
+            {
+                "command": "peekTextSearchDefinitions",
+                "title": "Peek Text Search Definitions"
+            },
+            {
+                "command": "discardAndCloseAllUntitled",
+                "title": "Discard and Close All Untitled"
+            },
+            {
+                "command": "openOriginalFileFromDiff",
+                "title": "Open Original File From Diff"
+            },
+            {
+                "command": "copyWorkspaceName",
+                "title": "Copy Workspace Name"
+            },
+            {
+                "command": "goToReferences",
+                "title": "Go to References"
+            },
+            {
+                "command": "selectTabsToKeepOpen",
+                "title": "Select Tabs to Keep Open (Close Other Saved)..."
+            },
+            {
+                "command": "selectTabsToKeepOpenRevert",
+                "title": "Select Tabs to Keep Open (Revert and Close Other)..."
+            },
+            {
+                "command": "fixAllDiagnostics",
+                "title": "Fix All Diagnostics"
+            },
+            {
+                "command": "fixHintDiagnostics",
+                "title": "Fix Hint Diagnostics"
+            },
+            {
+                "command": "formatSelectedOnly",
+                "title": "Format Selected Only"
             }
         ],
         "configuration": {
@@ -425,7 +461,7 @@
                 },
                 "features.showTabNumbers": {
                     "type": "string",
-                    "markdownDescription": "For `focusTabByNumber` command",
+                    "markdownDescription": "Mode of `tabsWithNumbers` feature! Primarily for `focusTabByNumber` command",
                     "enum": [
                         "disabled",
                         "fromLeft",
@@ -446,6 +482,16 @@
                 "autoEscapeQuoteJson": {
                     "type": "boolean",
                     "default": true
+                },
+                "goToFileJson": {
+                    "type": "string",
+                    "description": "Wether to enable definition provider for path-like strings in JSON",
+                    "enum": [
+                        "always",
+                        "onlyIfExists",
+                        "never"
+                    ],
+                    "default": "onlyIfExists"
                 },
                 "autoRenameJsxTag": {
                     "type": "boolean",
@@ -480,6 +526,27 @@
                     "type": "boolean",
                     "description": "Wether to display statusbar with all occurences count (including selected) in the following format: E (case matching occurences)",
                     "default": false
+                },
+                "inspectCompletionsDetails.resolveItems": {
+                    "type": "number",
+                    "description": "Number of completions to resolve (too large numbers slow down completions)",
+                    "default": 1000
+                },
+                "inspectCompletionsDetails.includeCompletionData": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true,
+                    "default": []
+                },
+                "inspectCompletionsDetails.openLocation": {
+                    "type": "string",
+                    "enum": [
+                        "toSide",
+                        "newTab"
+                    ],
+                    "default": "toSide"
                 },
                 "generateGitlabPush": {
                     "type": "object",
@@ -528,7 +595,7 @@
                                     "type": "boolean",
                                     "default": false
                                 },
-                                "merge_request.merge_when_pipeline_succeeds":{
+                                "merge_request.merge_when_pipeline_succeeds": {
                                     "type": "boolean",
                                     "default": false
                                 },
@@ -585,6 +652,14 @@
                     "when": "false"
                 },
                 {
+                    "command": "renameVariablePartsAddPartAbove",
+                    "when": "false"
+                },
+                {
+                    "command": "renameVariablePartsAddPartBelow",
+                    "when": "false"
+                },
+                {
                     "command": "generateGitlabPushAccept",
                     "when": "false"
                 }
@@ -634,6 +709,18 @@
                 "when": "zardoyExperiments.renameVariablePartsOpened"
             },
             {
+                "command": "zardoyExperiments.renameVariablePartsAddPartAbove",
+                "key": "ctrl+u",
+                "mac": "cmd+u",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
+                "command": "zardoyExperiments.renameVariablePartsAddPartAbove",
+                "key": "ctrl+j",
+                "mac": "cmd+j",
+                "when": "zardoyExperiments.renameVariablePartsOpened"
+            },
+            {
                 "command": "zardoyExperiments.generateGitlabPushAccept",
                 "key": "ctrl+o",
                 "mac": "cmd+o",
@@ -657,13 +744,14 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.9",
-        "@zardoy/vscode-utils": "^0.0.33",
+        "@zardoy/vscode-utils": "^0.0.47",
         "change-case": "^4.1.2",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
         "ini": "^2.0.0",
         "jsonc-parser": "^3.2.0",
+        "lodash": "^4.17.21",
         "lower-case-first": "^2.0.2",
         "markdown-to-txt": "^2.0.1",
         "minimatch": "^5.0.1",
@@ -672,11 +760,14 @@
         "pid-cwd": "^1.2.0",
         "pluralize": "github:plurals/pluralize",
         "rambda": "^6.9.0",
+        "remark": "^14.0.2",
+        "string-dedent": "^3.0.1",
         "valtio": "^1.6.4",
         "vscode-framework": "^0.0.18",
         "vscode-uri": "^3.0.6"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.190",
         "@types/node": "^16.11.26",
         "@types/vscode": "^1.66.0",
         "@zardoy/tsconfig": "^1.4.0",

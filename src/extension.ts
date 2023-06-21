@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { extensionCtx, getExtensionSetting, registerExtensionCommand, registerNoop, setDebugEnabled } from 'vscode-framework'
+import { getExtensionSetting, registerExtensionCommand, setDebugEnabled } from 'vscode-framework'
 import { range } from 'rambda'
 import { registerAlwaysTab } from './features/specialTab'
 import { registerTsCodeactions } from './features/tsCodeactions'
@@ -12,7 +12,6 @@ import { registerPickProblemsBySource } from './features/problemsBySource'
 import { registerAutoAlignImport } from './features/alignImport'
 import { registerStatusBarProblems } from './features/statusbarProblems'
 import { registerNextLetterSwapCase } from './features/nextLetterSwapCase'
-import { registerFixCss } from './features/fixCss'
 import { registerInsertCompletions } from './features/insertCompletions'
 import { registerCopyVariableName } from './features/copyVariableName'
 import { registerSignatureCompletions } from './features/signatureCompletions'
@@ -30,7 +29,6 @@ import { registerCopyCurrentWorkspacePath } from './features/copyCurrentWorkspac
 import { registerEnsureGitUser } from './features/ensureGitUser'
 import { registerInsertComma } from './features/insertComma'
 import { registerSuggestDefaultImportName } from './features/suggestDefaultImportName'
-import { registerProductIconReference } from './features/productIconReference'
 import { registerSelectLineContents } from './features/selectLineContents'
 import { registerCutLineContents } from './features/cutLineContents'
 import { registerCutLineContentsPreserve } from './features/cutLineContentsPreserve'
@@ -44,8 +42,6 @@ import expandTag from './features/expandTag'
 import tabsWithNumbers from './features/tabsWithNumbers'
 import { initGitApi } from './git-api'
 import gitNextChange from './features/gitNextChange'
-import copyOutlineItemName from './features/copyOutlineItemName'
-import selectOutlineItem from './features/selectOutlineItem'
 import turnCommentIntoJsdoc from './features/turnCommentIntoJsdoc'
 import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformers'
 import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
@@ -56,18 +52,28 @@ import autoEscapeJson from './features/autoEscapeJson'
 import gitStageQuickPick from './features/gitStageQuickPick'
 import githubEnvTerminal from './features/githubEnvTerminal'
 import indentEmptyLineOnClick from './features/autoIndentEmptyLine'
-import openOutlineItemInNewEditor from './features/openOutlineItemInNewEditor'
 import insertFileName from './features/insertFileName'
 import tsPluginIntegrations from './features/tsPluginIntegrations'
-import goToHighlightedLocations from './features/goToHighlightedLocations'
 import tsHighlightedKeywordsReferences from './features/tsHighlightedKeywordsReferences'
-import autoRenameJsx from './features/autoRenameJsx'
+import autoRenameJsxTag from './features/autoRenameJsxTag'
 import openReferencesInView from './features/openReferencesInView'
 import statusbarOccurrencesCount from './features/statusbarOccurrencesCount'
 import generateGitlabPush from './features/generateGitlabPush'
+import removedCommands from './removedCommands'
+import universeDefinitions from './features/textSearchDefinitions'
+import discardAndCloseAllUntitled from './features/discardAndCloseAllUntitled'
+import openOriginalFileFromDiff from './features/openOriginalFileFromDiff'
+import copyWorkspaceName from './features/copyWorkspaceName'
+import goToReferences from './features/goToReferences'
+import jsonGoToFile from './features/jsonGoToFile'
+import selectTabsToKeepOpen from './features/selectTabsToKeepOpen'
+import fixAllDiagnostics from './features/fixAllDiagnostics'
+import formatSelectedOnly from './features/formatSelectedOnly'
 
 export const activate = () => {
     void initGitApi()
+
+    registerTweakTsSuggestions()
 
     // preserveCamelCase()
     registerTsCodeactions()
@@ -81,7 +87,6 @@ export const activate = () => {
     registerAutoAlignImport()
     registerStatusBarProblems()
     registerNextLetterSwapCase()
-    registerFixCss()
     registerInsertCompletions()
     registerCopyVariableName()
     registerSignatureCompletions()
@@ -94,12 +99,10 @@ export const activate = () => {
     registerGoToNextProblemInFile()
     registerFixedPaste()
     registerOpenRepositoryOfActiveExtension()
-    registerTweakTsSuggestions()
     registerCopyCurrentWorkspacePath()
     registerEnsureGitUser()
     registerInsertComma()
     registerSuggestDefaultImportName()
-    registerProductIconReference()
     registerSelectLineContents()
     registerCutLineContents()
     registerCutLineContentsPreserve()
@@ -111,8 +114,6 @@ export const activate = () => {
     expandTag()
     tabsWithNumbers()
     gitNextChange()
-    copyOutlineItemName()
-    selectOutlineItem()
     turnCommentIntoJsdoc()
     applyCreatedCodeTransformers()
     newTerminalWithSameCwd()
@@ -123,16 +124,26 @@ export const activate = () => {
     gitStageQuickPick()
     githubEnvTerminal()
     indentEmptyLineOnClick()
-    openOutlineItemInNewEditor()
     insertFileName()
     tsPluginIntegrations()
-    goToHighlightedLocations()
     tsHighlightedKeywordsReferences()
-    autoRenameJsx()
+    autoRenameJsxTag()
     openReferencesInView()
     statusbarOccurrencesCount()
     generateGitlabPush()
     registerRenameFileParts()
+    removedCommands()
+    universeDefinitions()
+    discardAndCloseAllUntitled()
+    openOriginalFileFromDiff()
+    copyWorkspaceName()
+    goToReferences()
+    jsonGoToFile()
+    selectTabsToKeepOpen()
+    fixAllDiagnostics()
+    formatSelectedOnly()
+
+    if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
 
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')

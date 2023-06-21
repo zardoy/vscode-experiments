@@ -1,7 +1,8 @@
 import * as vscode from 'vscode'
-import { CommandHandler, getExtensionCommandId, registerExtensionCommand, showQuickPick } from 'vscode-framework'
+import { CommandHandler, registerExtensionCommand } from 'vscode-framework'
 import { MaybePromise } from 'vscode-framework/build/util'
 import { noCase } from 'change-case'
+import { showQuickPick } from '@zardoy/vscode-utils/build/quickPick'
 import { getGitActiveRepoOrThrow, GitChange, GitRepository } from '../git-api'
 
 export default () => {
@@ -10,23 +11,29 @@ export default () => {
             repoPickChanges: (repoState: GitRepository['state']) => GitChange[],
             apllyPaths: (repo: GitRepository, paths: string[]) => MaybePromise<void>,
         ): CommandHandler =>
-        async ({ command }) => {
+        async ({ command }, immediateAction?) => {
             const repo = getGitActiveRepoOrThrow()
             if (!repo) return
             const changes = repoPickChanges(repo.state)
-            const selectedUris = await showQuickPick(
-                changes.map(({ uri }) => {
-                    const relativePath = vscode.workspace.asRelativePath(uri)
-                    return {
-                        label: relativePath,
-                        value: uri,
-                    }
-                }),
-                {
-                    canPickMany: true,
-                    title: noCase(command),
-                },
-            )
+            const currentlyFocusedChangeIdx = changes.findIndex(({ uri }) => uri.fsPath === vscode.window.activeTextEditor?.document.uri.fsPath)
+            const currentlyFocusedChange = changes[currentlyFocusedChangeIdx]
+            let selectedUris: vscode.Uri[] | undefined
+            if (immediateAction && currentlyFocusedChange && immediateAction === 'current') selectedUris = [currentlyFocusedChange.uri]
+            else
+                selectedUris = await showQuickPick(
+                    changes.map(({ uri }) => {
+                        const relativePath = vscode.workspace.asRelativePath(uri)
+                        return {
+                            label: relativePath,
+                            value: uri,
+                        }
+                    }),
+                    {
+                        canPickMany: true,
+                        title: noCase(command),
+                        initialSelectedIndex: currentlyFocusedChangeIdx,
+                    },
+                )
             if (!selectedUris) return
             await apllyPaths(
                 repo,

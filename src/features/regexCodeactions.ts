@@ -1,6 +1,5 @@
 import * as vscode from 'vscode'
 import { defaultJsSupersetLangs } from '@zardoy/vscode-utils/build/langs'
-import { getExtensionCommandId } from 'vscode-framework'
 
 export const registerRegexCodeActions = () => {
     const REGEX_REGEX = /\/(?!\*|>).+?(?<!\\)\//g
@@ -12,7 +11,7 @@ export const registerRegexCodeActions = () => {
             if (!range.start.isEqual(range.end)) return
             const pos = range.start
             // maybe even open as side-panel?
-            for (const match of document.lineAt(pos).text.matchAll(REGEX_REGEX) ?? []) {
+            for (const match of document.lineAt(pos).text.matchAll(REGEX_REGEX)) {
                 const regexRange = new vscode.Range(
                     ...([match.index!, match.index! + match[0]!.length].map(ch => pos.with(undefined, ch)) as [vscode.Position, vscode.Position]),
                 )

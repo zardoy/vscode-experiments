@@ -25,7 +25,7 @@ export const cutLineContents = async (preserve: boolean) => {
         const firstLine = newSelections[0]?.end.line
         const isSurroundedByNewlines =
             firstLine !== undefined &&
-            [(-1, 1)].every(diff => {
+            [-1, 1].every(diff => {
                 const lineNum = firstLine + diff
                 if (lineNum === document.lineCount) return false
                 // Whether we should do the same for the last line?

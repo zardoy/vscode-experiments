@@ -227,19 +227,17 @@ export const registerRenameVariableParts = () => {
                 }
 
                 mainDisposable.dispose()
-                await vscode.window.withProgress(
-                    { location: vscode.ProgressLocation.Notification, title: `Renaming ${renamingEntity === 'fileName' ? 'file' : 'variable'}` },
-                    async () => {
-                        let edit = new vscode.WorkspaceEdit()
-
-                        if (renamingEntity === 'fileName') edit.renameFile(uri, UriUtils.joinPath(uri, '..', `${getResultingName()}${fullExt}`))
-
-                        if (renamingEntity === 'variable')
-                            edit = await vscode.commands.executeCommand('vscode.executeDocumentRenameProvider', uri, selection.end, getResultingName())
-
+                let edit = new vscode.WorkspaceEdit()
+                if (renamingEntity === 'fileName')
+                    await vscode.window.withProgress({ location: vscode.ProgressLocation.Notification, title: `Renaming file` }, async () => {
+                        edit.renameFile(uri, UriUtils.joinPath(uri, '..', `${getResultingName()}${fullExt}`))
                         await vscode.workspace.applyEdit(edit)
-                    },
-                )
+                    })
+
+                if (renamingEntity === 'variable') {
+                    edit = await vscode.commands.executeCommand('vscode.executeDocumentRenameProvider', uri, selection.end, getResultingName())
+                    await vscode.workspace.applyEdit(edit)
+                }
             }),
             registerCommand('renameVariablePartsAcceptReplace', () => {
                 if (renamingEntity === 'variable')
@@ -251,6 +249,32 @@ export const registerRenameVariableParts = () => {
 
                 mainDisposable.dispose()
             }),
+            registerCommand('renameVariablePartsAddPartAbove', async () => {
+                if (!isDisposeEnabled) return
+                const activeItem = quickPick.activeItems[0]
+                if (!activeItem) return
+                const focusedPartIndex = quickPick.items.indexOf(activeItem)
+                isDisposeEnabled = false
+                const newPart = await vscode.window.showInputBox({ value: '', title: quickPick.title })
+                if (newPart) parts.splice(focusedPartIndex, 0, newPart)
+
+                setActiveItem(focusedPartIndex)
+                quickPick.show()
+                isDisposeEnabled = true
+            }),
+            registerCommand('renameVariablePartsAddPartBelow', async () => {
+                if (!isDisposeEnabled) return
+                const activeItem = quickPick.activeItems[0]
+                if (!activeItem) return
+                const focusedPartIndex = quickPick.items.indexOf(activeItem)
+                isDisposeEnabled = false
+                const newPart = await vscode.window.showInputBox({ value: '', title: quickPick.title })
+                if (newPart) parts.splice(focusedPartIndex + 1, 0, newPart)
+
+                setActiveItem(focusedPartIndex)
+                quickPick.show()
+                isDisposeEnabled = true
+            }),
             {
                 dispose() {
                     void vscode.commands.executeCommand('setContext', 'zardoyExperiments.renameVariablePartsOpened', false)
@@ -258,7 +282,7 @@ export const registerRenameVariableParts = () => {
             },
         )
         quickPick.onDidAccept(async () => {
-            const activeItem = quickPick.activeItems[0]!
+            const activeItem = quickPick.activeItems[0]
             if (!activeItem) return
             const updatingPartIndex = quickPick.items.indexOf(activeItem)
             const { label } = activeItem

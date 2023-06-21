@@ -17,7 +17,7 @@ export const registerStatusBarProblems = () => {
         Hint: undefined,
         Warning: undefined,
     }
-    const removeSeverity = (sev: Severity) => {
+    const removeSeverity = (sev: string) => {
         const item = prevStatusbarItems[sev]
         if (!item) return
         item.hide()

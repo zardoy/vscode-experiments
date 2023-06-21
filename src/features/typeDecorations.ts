@@ -85,6 +85,7 @@ export default () => {
         if (controller.signal.aborted) return
         if (isInStyles && !getExtensionSetting('typeDecorations.enableInStyles')) return
         const hoverData: vscode.Hover[] = await vscode.commands.executeCommand('vscode.executeHoverProvider', document.uri, pos.translate(0, -offset))
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (controller.signal.aborted) return
 
         let typeString: string | undefined
