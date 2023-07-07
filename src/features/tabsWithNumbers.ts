@@ -66,7 +66,7 @@ export default () => {
                     ({
                         numberOnly: `${tabNumber}`,
                         numberWithPrefix: `t${tabNumber}`,
-                    }[getExtensionSetting('showTabNumbers.badgeText')])
+                    })[getExtensionSetting('showTabNumbers.badgeText')]
 
                 if (!isByRecentMode) {
                     const { tabs } = vscode.window.tabGroups.activeTabGroup
