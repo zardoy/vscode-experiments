@@ -120,6 +120,7 @@ export default () => {
         disposables.push(
             vscode.window.onDidChangeActiveTextEditor(textEditor => {
                 if (!textEditor || textEditor.viewColumn === undefined) return
+
                 const { uri } = textEditor.document
                 if (uri.scheme === 'search-editor') return
 
