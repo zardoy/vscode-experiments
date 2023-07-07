@@ -221,6 +221,10 @@
                 "title": "Toggle Extension Host Output"
             },
             {
+                "command": "toggleVueSemanticServerOutput",
+                "title": "Toggle Vue Semantic Server Output"
+            },
+            {
                 "command": "openCompletionKindPlayground",
                 "title": "Open Completion Kind Playground"
             },

@@ -47,6 +47,7 @@ import applyCreatedCodeTransformers from './features/applyCreatedCodeTransformer
 import newTerminalWithSameCwd from './features/newTerminalWithSameCwd'
 import vscodeDevCompletions from './features/vscodeDevCompletions'
 import toggleExtHostOutput from './features/toggleExtHostOutput'
+import toggleVueSemanticServerOutput from './features/toggleVueSemanticServerOutput'
 import completionsKindPlayground from './features/completionsKindPlayground'
 import autoEscapeJson from './features/autoEscapeJson'
 import gitStageQuickPick from './features/gitStageQuickPick'
@@ -118,6 +119,7 @@ export const activate = () => {
     newTerminalWithSameCwd()
     vscodeDevCompletions()
     toggleExtHostOutput()
+    toggleVueSemanticServerOutput()
     completionsKindPlayground()
     autoEscapeJson()
     gitStageQuickPick()
