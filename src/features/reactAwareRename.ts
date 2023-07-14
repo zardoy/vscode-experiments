@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerReactAwareRename = () => {
+export default () => {
     registerExtensionCommand('reactAwareRename', async (_, { execCommand = true }: { execCommand?: boolean | string } = {}) => {
         const skipCommand = await (async () => {
             // Another naive implementation that shouldn't be used

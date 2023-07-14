@@ -38,6 +38,6 @@ export const cutLineContents = async (preserve: boolean) => {
     }
 }
 
-export const registerCutLineContents = () => {
+export default () => {
     registerExtensionCommand('cutLineContents', async () => cutLineContents(false))
 }

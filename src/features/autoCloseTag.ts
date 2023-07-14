@@ -3,7 +3,7 @@ import { equals } from 'rambda'
 import { oneOf } from '@zardoy/utils'
 import { getExtensionSetting } from 'vscode-framework'
 
-export const registerAutoCloseTag = () => {
+export default () => {
     if (!getExtensionSetting('features.jsxAutoCloseTag')) return
     const lastTwoChanges = [] as string[]
     vscode.workspace.onDidChangeTextDocument(async ({ contentChanges, document, reason }) => {

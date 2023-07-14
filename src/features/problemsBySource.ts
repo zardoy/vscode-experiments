@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand, showQuickPick } from 'vscode-framework'
 
-export const registerPickProblemsBySource = () => {
+export default () => {
     registerExtensionCommand('problemsBySource', async () => {
         const document = vscode.window.activeTextEditor?.document
         if (document === undefined) return

@@ -3,7 +3,7 @@ import * as vscode from 'vscode'
 import { groupBy } from 'rambda'
 import { showQuickPick } from 'vscode-framework'
 
-export const registerCopyWithDiagnostic = async () => {
+const WIP = async () => {
     const activeEditor = vscode.window.activeTextEditor
     if (!activeEditor) return
     const diagnostics = vscode.languages.getDiagnostics(activeEditor.document.uri)

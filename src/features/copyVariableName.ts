@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerCopyVariableName = () => {
+export default () => {
     registerExtensionCommand('copyLineVariableName', async () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return
@@ -38,5 +38,3 @@ export const registerCopyVariableName = () => {
         await vscode.env.clipboard.writeText(varName)
     })
 }
-
-export const ate = () => {}

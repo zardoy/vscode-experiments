@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerGoToMatchingTagOrPair = () => {
+export default () => {
     registerExtensionCommand('goToMatchingTagOrPair', async () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return

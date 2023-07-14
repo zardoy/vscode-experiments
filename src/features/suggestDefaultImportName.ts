@@ -3,7 +3,7 @@ import { camelCase } from 'change-case'
 import { defaultJsSupersetLangsWithVue } from '@zardoy/vscode-utils/build/langs'
 import { getExtensionSetting } from 'vscode-framework'
 
-export const registerSuggestDefaultImportName = () => {
+export default () => {
     if (!getExtensionSetting('features.suggestImportName')) return
     vscode.languages.registerCompletionItemProvider(defaultJsSupersetLangsWithVue, {
         provideCompletionItems(document, position, token, context) {

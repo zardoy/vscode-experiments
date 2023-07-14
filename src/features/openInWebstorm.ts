@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 import { noWebSupported } from '../util'
 
-export const registerOpenInWebstorm = () => {
+export default () => {
     registerExtensionCommand('openFileInWebstorm', async () => {
         if (process.env.PLATFORM === 'web') {
             noWebSupported()

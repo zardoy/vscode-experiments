@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { defaultJsSupersetLangsWithVue } from '@zardoy/vscode-utils/build/langs'
 import { getExtensionSetting } from 'vscode-framework'
 
-export const registerTsCodeactions = () => {
+export default () => {
     if (!getExtensionSetting('features.tsCodeActions')) return
     // TODO schema. check that works on virtual workspaces (e.g. github repos)
 

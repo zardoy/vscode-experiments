@@ -3,7 +3,7 @@ import { getExtensionSetting } from 'vscode-framework'
 import { notFoundModule } from '../codeActions'
 import {} from '@zardoy/vscode-utils/build/'
 
-export const registerAddVscodeImport = () => {
+export default () => {
     if (!getExtensionSetting('features.missingVscodeImportCodeAction')) return
     vscode.languages.registerCodeActionsProvider(['typescript'], {
         provideCodeActions(document, range, context, token) {

@@ -5,7 +5,7 @@ import { normalizeRegex } from '@zardoy/vscode-utils/build/settings'
 import _ from 'lodash'
 import { fromInsertCompletions } from './tweakTsSuggestions'
 
-export const registerInsertCompletions = () => {
+export default () => {
     registerExtensionCommand('insertCompletions', async () => {
         await vscode.commands.executeCommand(getExtensionCommandId('insertAutoCompletions'), { showQuickPick: true })
     })

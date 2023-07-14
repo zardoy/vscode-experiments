@@ -6,35 +6,39 @@ module.exports = defineConfig({
         disableExtensions: false,
     },
     target: { desktop: true, web: true },
-    // esbuild: {
-    //     plugins: {
-    //         // @ts-ignore
-    //         plugins: [
-    //             {
-    //                 name: 'web-fix',
-    //                 setup(build) {
-    //                     build.onResolve({ filter: /decode-named-character-reference/ }, () => {
-    //                         return {
-    //                             namespace: 'OVERRIDE_MODULE',
-    //                             path: 'OVERRIDE_MODULE',
-    //                         }
-    //                     })
-    //                     build.onLoad({ filter: /.*/, namespace: 'OVERRIDE_MODULE' }, () => {
-    //                         return {
-    //                             contents: `
-    //                         import {characterEntities} from 'character-entities'
-
-    //                         export function decodeNamedCharacterReference(value) {
-    //                             return own.call(characterEntities, value) ? characterEntities[value] : false
-    //                           }
-    //                           `,
-    //                             loader: 'ts',
-    //                             resolveDir: '.',
-    //                         }
-    //                     })
-    //                 },
-    //             },
-    //         ],
-    //     },
-    // },
+    esbuild: {
+        plugins: [
+            {
+                name: 'all-features-index',
+                setup(build) {
+                    const namespace = 'all-features-index'
+                    const fs = require('fs')
+                    const featuresDir = './src/features'
+                    build.onResolve({ filter: /^all-features-index$/ }, args => {
+                        return {
+                            path: args.path,
+                            watchDirs: [featuresDir],
+                            namespace,
+                        }
+                    })
+                    build.onLoad({ filter: /.*/, namespace }, args => {
+                        const files = fs.readdirSync(featuresDir)
+                        let contents = ''
+                        for (const file of files) {
+                            if (file === 'index.ts') continue
+                            if (file.endsWith('.ts')) {
+                                const fileName = file.replace('.ts', '')
+                                contents += `export { default as ${fileName} } from './${fileName}'\n`
+                            }
+                        }
+                        return {
+                            contents,
+                            resolveDir: featuresDir,
+                            loader: 'ts',
+                        }
+                    })
+                },
+            },
+        ],
+    },
 })

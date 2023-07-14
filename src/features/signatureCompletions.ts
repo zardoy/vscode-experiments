@@ -3,7 +3,7 @@ import { range } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
 import { lowerCaseFirst } from 'lower-case-first'
 
-export const registerSignatureCompletions = () => {
+export default () => {
     if (!getExtensionSetting('features.signatureCompletions')) return
     const triggerParameterHintsOnSignatureCompletions = getExtensionSetting('features.triggerParameterHintsOnSignatureCompletions')
     vscode.languages.registerCompletionItemProvider(getExtensionSetting('signatureCompletions.enableLanguages'), {

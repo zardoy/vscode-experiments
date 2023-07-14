@@ -2,8 +2,7 @@ import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 import { notSingleSursor } from '../codeActions'
 
-// TODO alt+cmd+backspace rm casePart
-export const registerAlwaysTab = () => {
+export default () => {
     registerExtensionCommand('tab', async () => {
         const { activeTextEditor } = vscode.window
         if (!activeTextEditor) throw new Error('no activeTextEditor')

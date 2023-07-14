@@ -8,7 +8,7 @@ import { Utils as UriUtils } from 'vscode-uri'
 import { extname } from 'path-browserify'
 
 // doesn't support multicursor
-export const registerRenameVariableParts = () => {
+export default () => {
     // small task: add back button when editingIndex (like in GitLens menus)
     registerExtensionCommand('renameVariableParts', async (_data, renamingEntity: 'fileName' | 'variable' = 'variable') => {
         const activeEditor = getActiveRegularEditor()

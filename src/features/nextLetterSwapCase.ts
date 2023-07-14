@@ -1,8 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-// TODO simple and stable, move to extra-commands
-export const registerNextLetterSwapCase = () => {
+export default () => {
     registerExtensionCommand('nextLetterSwapCase', async () => {
         const editor = vscode.window.activeTextEditor
         if (editor === undefined || editor.viewColumn === undefined) return

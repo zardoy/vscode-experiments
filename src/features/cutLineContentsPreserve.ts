@@ -4,6 +4,6 @@ import { registerExtensionCommand } from 'vscode-framework'
 import { selectLineContents } from './selectLineContents'
 import { cutLineContents } from './cutLineContents'
 
-export const registerCutLineContentsPreserve = () => {
+export default () => {
     registerExtensionCommand('cutLineContentsPreserve', async () => cutLineContents(true))
 }

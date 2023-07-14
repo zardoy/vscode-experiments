@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { basename } from 'path-browserify'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerCopyFileName = () => {
+export default () => {
     registerExtensionCommand('copyFileName', async () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor) return

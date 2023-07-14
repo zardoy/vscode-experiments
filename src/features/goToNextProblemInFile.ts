@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
 
-export const registerGoToNextProblemInFile = () => {
+export default () => {
     registerExtensionCommand('goToNextProblemInFile', async (_, backwards = false) => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return

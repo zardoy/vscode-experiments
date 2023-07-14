@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { registerExtensionCommand, showQuickPick } from 'vscode-framework'
 import { noWebSupported } from '../util'
 
-export const registerOpenRepositoryOfActiveExtension = () => {
+export default () => {
     registerExtensionCommand('openRepositoryOfActiveExtension', async () => {
         if (process.env.PLATFORM === 'web') {
             noWebSupported()

@@ -3,7 +3,7 @@ import { range } from 'rambda'
 import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
 import { defaultJsSupersetLangs } from '@zardoy/vscode-utils/build/langs'
 
-export const registerAutoAlignImport = () => {
+export default () => {
     // TODO doesn't work with line-delimited imports
     const alignImport = async () => {
         const editor = vscode.window.activeTextEditor

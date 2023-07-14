@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerFixedPaste = () => {
+export default () => {
     let lastPasteRange: vscode.Selection | undefined
     // TODO test https://github.com/rubymaniac/vscode-paste-and-indent/blob/master/src/extension.ts
     registerExtensionCommand('fixedPaste', async () => {

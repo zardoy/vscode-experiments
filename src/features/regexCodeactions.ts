@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { defaultJsSupersetLangs } from '@zardoy/vscode-utils/build/langs'
 
-export const registerRegexCodeActions = () => {
+export default () => {
     const REGEX_REGEX = /\/(?!\*|>).+?(?<!\\)\//g
 
     // Almost done, doesn't work properly with const d = /**  *//d/. TODO FLAGS!

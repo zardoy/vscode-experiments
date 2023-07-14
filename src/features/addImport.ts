@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerAddImport = () => {
+export default () => {
     registerExtensionCommand('addImport', async () => {
         // for TS files only
         // TODO this command will be removed from here in favor of TS plugin
@@ -13,8 +13,6 @@ export const registerAddImport = () => {
             insertLine = index
             break
         }
-
-        console.log(insertLine)
         // const nextImportIndex = /^(?!import)/m.exec(editor.document.getText())?.index ?? 0
         // let nextImportLine = 1
         // let lineIndex = 0
@@ -32,7 +30,6 @@ export const registerAddImport = () => {
             const pos = selections[0]!.start
             if (pos.line !== insertLine) dispose()
             const pos2 = new vscode.Position(insertLine, textEditor.document.lineAt(insertLine).text.length)
-            console.log(pos, pos2)
             if (!pos.isEqual(new vscode.Position(insertLine + 1, 0)) && !pos.isEqual(pos2)) return
 
             // looses selections and mutl-selections

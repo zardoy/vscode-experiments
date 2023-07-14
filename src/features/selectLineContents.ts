@@ -18,7 +18,7 @@ export const selectLineContents = () => {
     return newSelections
 }
 
-export const registerSelectLineContents = () => {
+export default () => {
     // doesn't expand on second execution
     registerExtensionCommand('selectLineContents', () => {
         const activeEditor = getActiveRegularEditor()

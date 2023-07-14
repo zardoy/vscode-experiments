@@ -1,7 +1,7 @@
 import vscode from 'vscode'
 import { registerActiveDevelopmentCommand, registerExtensionCommand } from 'vscode-framework'
 
-export const registerInsertTag = () => {
+export default () => {
     registerExtensionCommand('insertTag', async () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor) return

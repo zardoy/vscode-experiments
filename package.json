@@ -303,6 +303,10 @@
             {
                 "command": "formatSelectedOnly",
                 "title": "Format Selected Only"
+            },
+            {
+                "command": "debugRememberedConfiguration",
+                "title": "Debug Remembered Configuration"
             }
         ],
         "configuration": {
@@ -666,7 +670,10 @@
     },
     "pnpm": {
         "overrides": {
-            "esbuild": "^0.14.10"
+            "esbuild": "0.15.x"
+        },
+        "patchedDependencies": {
+            "vscode-framework@0.0.18": "patches/vscode-framework@0.0.18.patch"
         }
     },
     "dependencies": {
@@ -676,7 +683,9 @@
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.9",
         "@zardoy/vscode-utils": "^0.0.47",
+        "ansi-escapes": "^6.2.0",
         "change-case": "^4.1.2",
+        "create-index": "^2.6.0",
         "escape-string-regexp": "^5.0.0",
         "execa": "^6.1.0",
         "hosted-git-info": "^4.1.0",
@@ -693,6 +702,7 @@
         "rambda": "^6.9.0",
         "remark": "^14.0.2",
         "string-dedent": "^3.0.1",
+        "udmx": "^0.1.0",
         "valtio": "^1.6.4",
         "vscode-framework": "^0.0.18",
         "vscode-uri": "^3.0.6"
@@ -704,7 +714,7 @@
         "@zardoy/tsconfig": "^1.4.0",
         "eslint": "^8.11.0",
         "eslint-config-zardoy": "^0.2.11",
-        "typescript": "^4.6.2"
+        "typescript": "^5.1.3"
     },
     "prettier": {
         "semi": false,

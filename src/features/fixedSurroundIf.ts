@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerFixedSurroundIf = () => {
+export default () => {
     registerExtensionCommand('fixedSurroundIf', async () => {
         await vscode.commands.executeCommand('expandLineSelection')
         await vscode.commands.executeCommand('surround.with')

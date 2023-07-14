@@ -9,7 +9,7 @@ export const fromInsertCompletions = {
 }
 
 /** @deprecated Not needed anymore, will be removed */
-export const registerTweakTsSuggestions = () => {
+export default () => {
     let fromInner = false
     vscode.languages.registerCompletionItemProvider(
         defaultJsSupersetLangsWithVue,

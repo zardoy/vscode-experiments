@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { groupBy, sortBy } from 'rambda'
 import { getExtensionSetting } from 'vscode-framework'
 
-export const registerStatusBarProblems = () => {
+export default () => {
     const setting = getExtensionSetting('features.statusBarDiagnostic')
     if (setting === 'disabled') return
     const severityColorMap = {

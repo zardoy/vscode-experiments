@@ -2,8 +2,8 @@ import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
 import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
 import { noWebSupported } from '../util'
 
-// TODO global git hook
-export const registerEnsureGitUser = () => {
+// todo use global git hook
+export default () => {
     registerExtensionCommand('ensureGitUser', async () => {
         if (process.env.PLATFORM === 'web') {
             noWebSupported()

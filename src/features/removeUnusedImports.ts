@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { oneOf } from '@zardoy/utils'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerRemoveUnusedImports = () => {
+export default () => {
     registerExtensionCommand('removeUnusedImports', async () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return

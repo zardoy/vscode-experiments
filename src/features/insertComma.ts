@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 
-export const registerInsertComma = () => {
+export default () => {
     registerExtensionCommand('insertComma', async () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor) return
