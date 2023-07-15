@@ -307,6 +307,14 @@
             {
                 "command": "debugRememberedConfiguration",
                 "title": "Debug Remembered Configuration"
+            },
+            {
+                "command": "goToPreviousTrackedPosition",
+                "title": "Go to Previous Tracked Position"
+            },
+            {
+                "command": "showTrackedPositionsStack",
+                "title": "Show Tracked Positions Stack"
             }
         ],
         "configuration": {
@@ -555,6 +563,15 @@
                         "newTab"
                     ],
                     "default": "toSide"
+                },
+                "trackDocumentPositions.enable": {
+                    "type": "boolean",
+                    "description": "Wether to track document positions for commands like `goToPreviousTrackedPosition`",
+                    "default": false
+                },
+                "trackDocumentPositions.debounce": {
+                    "type": "number",
+                    "default": 1000
                 }
             }
         },
@@ -682,7 +699,7 @@
         "@types/minimatch": "^3.0.5",
         "@types/pluralize": "^0.0.29",
         "@zardoy/utils": "^0.0.9",
-        "@zardoy/vscode-utils": "^0.0.47",
+        "@zardoy/vscode-utils": "^0.0.50",
         "ansi-escapes": "^6.2.0",
         "change-case": "^4.1.2",
         "create-index": "^2.6.0",
@@ -702,6 +719,7 @@
         "rambda": "^6.9.0",
         "remark": "^14.0.2",
         "string-dedent": "^3.0.1",
+        "strip-json-comments": "^5.0.1",
         "udmx": "^0.1.0",
         "valtio": "^1.6.4",
         "vscode-framework": "^0.0.18",

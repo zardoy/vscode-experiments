@@ -13,7 +13,7 @@ module.exports = defineConfig({
                 setup(build) {
                     const namespace = 'all-features-index'
                     const fs = require('fs')
-                    const featuresDir = './src/features'
+                    const featuresDir = './src/features/'
                     build.onResolve({ filter: /^all-features-index$/ }, args => {
                         return {
                             path: args.path,
@@ -28,7 +28,7 @@ module.exports = defineConfig({
                             if (file === 'index.ts') continue
                             if (file.endsWith('.ts')) {
                                 const fileName = file.replace('.ts', '')
-                                contents += `export { default as ${fileName} } from './${fileName}'\n`
+                                contents += `export * as ${fileName} from './${fileName}'\n`
                             }
                         }
                         return {
