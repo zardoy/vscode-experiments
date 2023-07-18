@@ -62,6 +62,7 @@ export default () => {
     }, disposables)
 
     vscode.workspace.onDidChangeTextDocument(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!history) return
         const [, lastKind] = history.at(-1) ?? []
         if (lastKind === 'text-change' || lastKind === vscode.TextEditorSelectionChangeKind.Keyboard) return
