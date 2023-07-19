@@ -11,6 +11,9 @@ module.exports = defineConfig({
             {
                 name: 'all-features-index',
                 setup(build) {
+                    const webBuild = !!build.initialOptions.outfile?.endsWith('extension-web.js')
+                    const skipWebFeatures = ['inspectCompletionsDetails']
+
                     const namespace = 'all-features-index'
                     const fs = require('fs')
                     const featuresDir = './src/features/'
@@ -25,9 +28,9 @@ module.exports = defineConfig({
                         const files = fs.readdirSync(featuresDir)
                         let contents = ''
                         for (const file of files) {
-                            if (file === 'index.ts') continue
                             if (file.endsWith('.ts')) {
                                 const fileName = file.replace('.ts', '')
+                                if (file === 'index.ts' || (webBuild && skipWebFeatures.includes(fileName))) continue
                                 contents += `export * as ${fileName} from './${fileName}'\n`
                             }
                         }

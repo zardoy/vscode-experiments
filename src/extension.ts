@@ -44,8 +44,6 @@ export const activate = () => {
         }
     })
 
-    if (process.env.PLATFORM === 'node') void import('./features/inspectCompletionsDetails').then(({ default: d }) => d())
-
     registerExtensionCommand('fixedTerminalMaximize', async () => {
         await vscode.commands.executeCommand('workbench.action.toggleMaximizedPanel')
         await new Promise(resolve => {
