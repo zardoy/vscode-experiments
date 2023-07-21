@@ -15,10 +15,8 @@ export default () => {
         const workspace = getCurrentWorkspaceRoot()
         const getName = async () => {
             const [lastConfigName, pinned] = extensionCtx.workspaceState.get('debugRememberedConfiguration', ['', false] as State)
-            const configs = await vscode.workspace.fs
-                .readFile(Utils.joinPath(workspace.uri, '.vscode/launch.json'))
-                .then(b => jsoncParser.parse(b.toString())?.configurations)
-            const configNames: string[] = configs.map((c: any) => c.name)
+            const config = await vscode.workspace.fs.readFile(Utils.joinPath(workspace.uri, '.vscode/launch.json')).then(b => jsoncParser.parse(b.toString()))
+            const configNames: string[] = [config.configurations, config.compounds].filter(Boolean).flatMap((configs: any) => configs.map(c => c.name))
             if (showSelector) {
                 const pinButton = {
                     tooltip: 'Pin Choice',
