@@ -315,6 +315,10 @@
             {
                 "command": "showTrackedPositionsStack",
                 "title": "Show Tracked Positions Stack"
+            },
+            {
+                "command": "newUntitledEditor",
+                "title": "New Untitled Editor"
             }
         ],
         "configuration": {
@@ -572,6 +576,14 @@
                 "trackDocumentPositions.debounce": {
                     "type": "number",
                     "default": 1000
+                },
+                "newUntitledEditor.suggestLanguages": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": []
                 }
             }
         },
