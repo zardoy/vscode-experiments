@@ -20,22 +20,22 @@ export default () => {
             if (!useStatePatternMatch) return false
             const newName = await vscode.window.showInputBox({ value: useStatePatternMatch[1] })
             if (newName === undefined) return
-            const edit: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
+            const mainEdit: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
                 'vscode.executeDocumentRenameProvider',
                 document.uri,
                 new vscode.Position(targetRange.end.line, lineText.indexOf(useStatePatternMatch[1]!)),
                 newName,
             )
-            const editSetter: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
+            const editRenameSetter: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
                 'vscode.executeDocumentRenameProvider',
                 document.uri,
                 // though its fast
                 new vscode.Position(targetRange.end.line, lineText.indexOf(', set') + ', set'.length + 1),
                 `set${newName[0]!.toUpperCase()}${newName.slice(1)}`,
             )
-            //@ts-expect-error merging edits
-            edit._edits.push(...editSetter._edits)
-            await vscode.workspace.applyEdit(edit)
+
+            mainEdit.set(document.uri, [...mainEdit.get(document.uri), ...editRenameSetter.get(document.uri)])
+            await vscode.workspace.applyEdit(mainEdit)
             return true
         })()
         if (skipCommand === undefined || skipCommand || !execCommand) return
