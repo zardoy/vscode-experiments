@@ -33,7 +33,7 @@ export default () => {
     }
 
     vscode.window.onDidChangeTextEditorSelection(({ kind, textEditor: editor, selections }) => {
-        if (!editor.selection.start.isEqual(editor.selection.end)) return
+        if (editor !== vscode.window.activeTextEditor || !editor.selection.start.isEqual(editor.selection.end)) return
         // todo
         if (selections.length > 1) return
         const last = history.at(-1)
@@ -61,7 +61,8 @@ export default () => {
         pushPosition(keyPosCandidate && last?.[1] === undefined ? undefined : kind, true)
     }, disposables)
 
-    vscode.workspace.onDidChangeTextDocument(() => {
+    vscode.workspace.onDidChangeTextDocument(({ document }) => {
+        if (document !== vscode.window.activeTextEditor?.document) return
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!history) return
         const [, lastKind] = history.at(-1) ?? []
