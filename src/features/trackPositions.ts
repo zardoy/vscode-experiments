@@ -22,7 +22,10 @@ export default () => {
         historyPerEditor.set(key, history)
     }
 
+    let writePositions = true
+
     const pushPosition = (kind?: OurKind, forceAdd = false) => {
+        if (!writePositions) return
         const editor = vscode.window.activeTextEditor
         if (!editor) return
         const position = editor.selection.active
@@ -93,6 +96,7 @@ export default () => {
                 }),
             )
 
+        const currentPos = editor.selection.active
         const index = await showQuickPick(getItems(), {
             title: 'Tracked Positions Stack',
             ignoreFocusOut: true,
@@ -101,13 +105,24 @@ export default () => {
                     this.items = getItems()
                 }
             },
+            onDidChangeFirstActive(item, index) {
+                writePositions = false
+                const [selectedPos] = history[index]!
+                editor.selection = new vscode.Selection(selectedPos, selectedPos)
+                editor.revealRange(new vscode.Range(selectedPos, selectedPos))
+                setTimeout(() => {
+                    writePositions = true
+                })
+            },
         })
         onHistoryUpdate = undefined
-        if (index === undefined) return
+        if (index === undefined) {
+            editor.selection = new vscode.Selection(currentPos, currentPos)
+            editor.revealRange(new vscode.Range(currentPos, currentPos))
+            return
+        }
+
         void vscode.window.showTextDocument(uri)
-        const [selectedPos] = history[index]!
-        editor.selection = new vscode.Selection(selectedPos, selectedPos)
-        editor.revealRange(new vscode.Range(selectedPos, selectedPos))
     })
     disposables.push(extensionCtx.subscriptions.at(-1)!)
     registerExtensionCommand('goToPreviousTrackedPosition', () => {
