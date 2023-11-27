@@ -26,15 +26,14 @@ export default () => {
                 new vscode.Position(targetRange.end.line, lineText.indexOf(useStatePatternMatch[1]!)),
                 newName,
             )
-            const editRenameSetter: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
+            const setterEdit: vscode.WorkspaceEdit = await vscode.commands.executeCommand(
                 'vscode.executeDocumentRenameProvider',
                 document.uri,
-                // though its fast
                 new vscode.Position(targetRange.end.line, lineText.indexOf(', set') + ', set'.length + 1),
                 `set${newName[0]!.toUpperCase()}${newName.slice(1)}`,
             )
 
-            mainEdit.set(document.uri, [...mainEdit.get(document.uri), ...editRenameSetter.get(document.uri)])
+            mainEdit.set(document.uri, [...setterEdit.get(document.uri)])
             await vscode.workspace.applyEdit(mainEdit)
             return true
         })()
