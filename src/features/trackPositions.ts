@@ -7,38 +7,51 @@ export const enableIf: keyof Settings = 'trackDocumentPositions.enable'
 export default () => {
     const disposables = [] as vscode.Disposable[]
 
-    type OurKind = vscode.TextEditorSelectionChangeKind | 'focus-out' | 'text-change'
+    type OurKind = vscode.TextEditorSelectionChangeKind | 'focus-out' | 'text-change' | 'editor-open'
 
     type History = Array<[pos: vscode.Position, kind?: OurKind]>
 
-    const historyPerEditor = new Map<vscode.Uri, History>()
+    const historyPerEditor = new Map<string, History>()
     let history: History
+    let previousUri: string | undefined
+    let currentUri: string | undefined
     let onHistoryUpdate: (() => void) | undefined
+
     const changeHistory = () => {
         const editor = vscode.window.activeTextEditor
-        if (!editor) return
-        const key = editor.document.uri
+        if (!editor || editor.document.uri.toString() === currentUri) return
+        const key = editor.document.uri.toString()
         history = historyPerEditor.get(key) ?? []
         historyPerEditor.set(key, history)
+        previousUri = currentUri
+        currentUri = key.toString()
     }
 
-    let writePositions = true
+    let dontWriteTillNextChange = false
+    let lastPosition: vscode.Position | undefined
 
     const pushPosition = (kind?: OurKind, forceAdd = false) => {
-        if (!writePositions) return
-        const editor = vscode.window.activeTextEditor
-        if (!editor) return
-        const position = editor.selection.active
-        const lastPos = history.at(-1)?.[0]
-        if (!forceAdd && lastPos && position.isEqual(lastPos)) return
+        if (dontWriteTillNextChange) return
+        const position = kind === 'focus-out' ? lastPosition : vscode.window.activeTextEditor?.selection.active
+        const lastHistoryPos = history.at(-1)?.[0]
+        if (!position) return
+        if (!forceAdd && lastHistoryPos && position.isEqual(lastHistoryPos)) return
         history.push([position, kind])
         onHistoryUpdate?.()
     }
 
     vscode.window.onDidChangeTextEditorSelection(({ kind, textEditor: editor, selections }) => {
         if (editor !== vscode.window.activeTextEditor || !editor.selection.start.isEqual(editor.selection.end)) return
+        if (editor.document.uri.toString() !== currentUri) return
+        if (dontWriteTillNextChange) {
+            dontWriteTillNextChange = false
+            return
+        }
+
         // todo
         if (selections.length > 1) return
+        lastPosition = editor.selection.active
+
         const last = history.at(-1)
         const pos = editor.selection.active
         let minorChange = false
@@ -61,7 +74,7 @@ export default () => {
 
         const keyPosCandidate = isLineStart || isLineEnd || isFileStart || isFileEnd
 
-        pushPosition(keyPosCandidate && last?.[1] === undefined ? undefined : kind, true)
+        pushPosition(keyPosCandidate && last?.[1] === undefined ? undefined : kind)
     }, disposables)
 
     vscode.workspace.onDidChangeTextDocument(({ document }) => {
@@ -74,7 +87,7 @@ export default () => {
     }, disposables)
 
     changeHistory()
-    pushPosition()
+    pushPosition('editor-open')
 
     vscode.window.onDidChangeActiveTextEditor(() => {
         pushPosition('focus-out')
@@ -85,38 +98,51 @@ export default () => {
         const editor = vscode.window.activeTextEditor
         if (!editor) return
         const { uri } = editor.document
-        const history = historyPerEditor.get(uri)
+        const history = historyPerEditor.get(uri.toString())
         if (!history) return
         const getItems = () =>
-            history.map(
-                ([pos, kind], index): VSCodeQuickPickItem<number> => ({
-                    label: `${pos.line + 1}:${pos.character + 1}`,
-                    description: typeof kind === 'string' || kind === undefined ? kind : vscode.TextEditorSelectionChangeKind[kind],
-                    value: index,
-                }),
-            )
+            history
+                .map(
+                    ([pos, kind], index): VSCodeQuickPickItem<vscode.Position> => ({
+                        label: `${pos.line + 1}:${pos.character + 1}`,
+                        description: typeof kind === 'string' || kind === undefined ? kind : vscode.TextEditorSelectionChangeKind[kind],
+                        value: pos,
+                    }),
+                )
+                .reverse()
 
         const currentPos = editor.selection.active
-        const index = await showQuickPick(getItems(), {
+        const selected = await showQuickPick(getItems(), {
             title: 'Tracked Positions Stack',
             ignoreFocusOut: true,
+            buttons: [
+                {
+                    // close button
+                    iconPath: new vscode.ThemeIcon('close'),
+                    tooltip: 'Close',
+                },
+            ],
+            onDidTriggerButton() {
+                // clear history
+                history.splice(0, history.length)
+                onHistoryUpdate?.()
+                // void vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+            },
             onDidShow() {
                 onHistoryUpdate = () => {
                     this.items = getItems()
                 }
             },
-            onDidChangeFirstActive(item, index) {
-                writePositions = false
-                const [selectedPos] = history[index]!
+            onDidChangeFirstActive(item) {
+                dontWriteTillNextChange = true
+                // const [selectedPos] = history[item.value]!
+                const selectedPos = item.value
                 editor.selection = new vscode.Selection(selectedPos, selectedPos)
                 editor.revealRange(new vscode.Range(selectedPos, selectedPos))
-                setTimeout(() => {
-                    writePositions = true
-                })
             },
         })
         onHistoryUpdate = undefined
-        if (index === undefined) {
+        if (selected === undefined) {
             editor.selection = new vscode.Selection(currentPos, currentPos)
             editor.revealRange(new vscode.Range(currentPos, currentPos))
             return
@@ -129,7 +155,7 @@ export default () => {
         const editor = vscode.window.activeTextEditor
         if (!editor) return
         const { uri } = editor.document
-        const history = historyPerEditor.get(uri)
+        const history = historyPerEditor.get(uri.toString())
         if (!history) return
         const [selectedPos] = history.at(-2) ?? []
         history.pop()
