@@ -4,7 +4,8 @@ import { makeOutlineChainFromPos } from '@zardoy/vscode-utils/build/outline'
 export default () => {
     vscode.languages.registerCodeActionsProvider(['javascriptreact', 'typescriptreact'], {
         async provideCodeActions(document, range, context, token) {
-            document.getWordRangeAtPosition(range.start, /<[A-Z][-\da-zA-Z]+/)
+            const tagRange = document.getWordRangeAtPosition(range.start, /<[A-Z][-\da-zA-Z]+/)
+            if (!tagRange) return
             const diagnostic = context.diagnostics.find(d => d.message.startsWith('Cannot find name'))
             if (!diagnostic) return
             const componentName = /'(.+?)'/.exec(diagnostic.message)?.[1]
