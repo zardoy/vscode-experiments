@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -30,7 +30,7 @@ dependencies:
     version: 0.0.9
   '@zardoy/vscode-utils':
     specifier: ^0.0.50
-    version: 0.0.50(@types/vscode@1.67.0)(jsonc-parser@3.2.0)(vscode-framework@0.0.18)
+    version: 0.0.50(@types/vscode@1.76.0)(jsonc-parser@3.2.0)(vscode-framework@0.0.18)
   ansi-escapes:
     specifier: ^6.2.0
     version: 6.2.0(typescript@5.1.3)
@@ -99,7 +99,7 @@ dependencies:
     version: 1.6.4(react@18.2.0)
   vscode-framework:
     specifier: ^0.0.18
-    version: 0.0.18(patch_hash=lhb2z6ifio3oh247cifgje3poe)(@types/vscode@1.67.0)(typescript@5.1.3)
+    version: 0.0.18(patch_hash=lhb2z6ifio3oh247cifgje3poe)(@types/vscode@1.76.0)(typescript@5.1.3)
   vscode-uri:
     specifier: ^3.0.6
     version: 3.0.6
@@ -112,8 +112,8 @@ devDependencies:
     specifier: ^16.11.26
     version: 16.11.26
   '@types/vscode':
-    specifier: ^1.66.0
-    version: 1.67.0
+    specifier: ^1.76.0
+    version: 1.76.0
   '@zardoy/tsconfig':
     specifier: ^1.4.0
     version: 1.4.0(typescript@5.1.3)
@@ -611,8 +611,8 @@ packages:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: false
 
-  /@types/vscode@1.67.0:
-    resolution: {integrity: sha512-GH8BDf8cw9AC9080uneJfulhSa7KHSMI2s/CyKePXoGNos9J486w2V4YKoeNUqIEkW4hKoEAWp6/cXTwyGj47g==}
+  /@types/vscode@1.76.0:
+    resolution: {integrity: sha512-CQcY3+Fe5hNewHnOEAVYj4dd1do/QHliXaknAEYSXx2KEHUzFibDZSKptCon+HPgK55xx20pR+PBJjf0MomnBA==}
 
   /@types/yauzl@2.10.0:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
@@ -798,13 +798,13 @@ packages:
       type-fest: 2.18.0
     dev: false
 
-  /@zardoy/vscode-utils@0.0.50(@types/vscode@1.67.0)(jsonc-parser@3.2.0)(vscode-framework@0.0.18):
+  /@zardoy/vscode-utils@0.0.50(@types/vscode@1.76.0)(jsonc-parser@3.2.0)(vscode-framework@0.0.18):
     resolution: {integrity: sha512-RH9efS6ejnPfsjhWQmTimYUQNUyAR3w5H2DJbI5XVNaV0lR4EjaOdiEP1fgF+1HDI5U8Z9eU3n+CDS8HyHRMbQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     peerDependencies:
       '@types/vscode': ^1.65.0
-      esbuild: '*'
+      esbuild: 0.15.x
       jest: ^29.0.3
       jsonc-parser: ^3.2.0
       vscode-framework: ^0.0.18
@@ -818,7 +818,7 @@ packages:
       vscode-framework:
         optional: true
     dependencies:
-      '@types/vscode': 1.67.0
+      '@types/vscode': 1.76.0
       '@zardoy/utils': 0.0.4
       chokidar: 3.5.3
       commander: 9.5.0
@@ -832,7 +832,7 @@ packages:
       type-fest: 2.19.0
       typed-jsonfile: 0.2.1
       untildify: 4.0.0
-      vscode-framework: 0.0.18(patch_hash=lhb2z6ifio3oh247cifgje3poe)(@types/vscode@1.67.0)(typescript@5.1.3)
+      vscode-framework: 0.0.18(patch_hash=lhb2z6ifio3oh247cifgje3poe)(@types/vscode@1.76.0)(typescript@5.1.3)
       vscode-manifest: 0.0.8
       vscode-uri: 3.0.6
     dev: false
@@ -5122,7 +5122,7 @@ packages:
       type-fest: 2.19.0
     dev: false
 
-  /typed-vscode@0.0.5(@types/vscode@1.67.0)(typescript@5.1.3):
+  /typed-vscode@0.0.5(@types/vscode@1.76.0)(typescript@5.1.3):
     resolution: {integrity: sha512-BJpELW+Q35iWc6t/Na0ZGprG1jwGgFb3U+71UIDKjxEp+LZZKatMzoBSuPoO/saTeSzMY8YinGsglkgru8u9jg==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
@@ -5130,7 +5130,7 @@ packages:
     peerDependencies:
       '@types/vscode': ^1.62.0
     dependencies:
-      '@types/vscode': 1.67.0
+      '@types/vscode': 1.76.0
       code-block-writer: 11.0.0
       commander: 8.3.0
       cosmiconfig: 7.0.1
@@ -5385,17 +5385,17 @@ packages:
     resolution: {integrity: sha512-DRibZL6DsNhIgYQ+wNdWDL2SL3bKPlVrRiBqV5yuMm++op8W4kGFtaQfCs4KEJn0wBZcHVHJ3eoywX8983k1ow==}
     dev: false
 
-  /vscode-extra@0.0.4(@types/vscode@1.67.0):
+  /vscode-extra@0.0.4(@types/vscode@1.76.0):
     resolution: {integrity: sha512-dI435DBqb9VSGX0HpapJN5jSg3hXXU9y6hlmXIJAiI3sF2YpEZjC+aZncn1NkkuUmbT0IY19cQOjQiez8mmJ7A==}
     engines: {node: '"^12.20.0 || ^14.13.1 || >=16.0.0"'}
     peerDependencies:
       '@types/vscode': ^1.60.0
     dependencies:
-      '@types/vscode': 1.67.0
+      '@types/vscode': 1.76.0
       lodash: 4.17.21
     dev: false
 
-  /vscode-framework@0.0.18(patch_hash=lhb2z6ifio3oh247cifgje3poe)(@types/vscode@1.67.0)(typescript@5.1.3):
+  /vscode-framework@0.0.18(patch_hash=lhb2z6ifio3oh247cifgje3poe)(@types/vscode@1.76.0)(typescript@5.1.3):
     resolution: {integrity: sha512-9Vp/KVboUFtEGc7vKNXQb5YK1B27JBeZ67U+Yi5aH9ZvtM9fERydbL+n2p+GS2oGf9x3pyT2bEfF3j/sXojHig==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
@@ -5404,7 +5404,7 @@ packages:
       '@types/vscode': ^1.58.1
     dependencies:
       '@prisma/debug': 3.10.0
-      '@types/vscode': 1.67.0
+      '@types/vscode': 1.76.0
       '@vscode/test-web': 0.0.15
       change-case: 4.1.2
       chokidar: 3.5.3
@@ -5428,9 +5428,9 @@ packages:
       pkg-dir: 5.0.0
       pretty-format: 27.5.1
       typed-jsonfile: 0.2.1
-      typed-vscode: 0.0.5(@types/vscode@1.67.0)(typescript@5.1.3)
+      typed-vscode: 0.0.5(@types/vscode@1.76.0)(typescript@5.1.3)
       typescript-json-schema: 0.51.0
-      vscode-extra: 0.0.4(@types/vscode@1.67.0)
+      vscode-extra: 0.0.4(@types/vscode@1.76.0)
       vscode-manifest: 0.0.8
       ws: 8.5.0
     transitivePeerDependencies:

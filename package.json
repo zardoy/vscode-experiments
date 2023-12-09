@@ -740,7 +740,7 @@
     "devDependencies": {
         "@types/lodash": "^4.14.190",
         "@types/node": "^16.11.26",
-        "@types/vscode": "^1.66.0",
+        "@types/vscode": "^1.76.0",
         "@zardoy/tsconfig": "^1.4.0",
         "eslint": "^8.11.0",
         "eslint-config-zardoy": "^0.2.11",
