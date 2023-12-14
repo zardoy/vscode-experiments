@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
-import { registerExtensionCommand } from 'vscode-framework'
+import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
+import { Utils } from 'vscode-uri'
 
 export default () => {
     registerExtensionCommand('reactAwareRename', async (_, { execCommand = true }: { execCommand?: boolean | string } = {}) => {
@@ -12,12 +13,22 @@ export default () => {
             const definitions: vscode.LocationLink[] = await vscode.commands.executeCommand('vscode.executeDefinitionProvider', document.uri, pos)
             const definition = definitions[0]
             if (!definition || definition.targetUri.toString() !== document.uri.toString()) return false
-            const { targetRange } = definition
+            let { targetRange, targetSelectionRange } = definition
+            if (targetSelectionRange) targetRange = targetSelectionRange
             // multiline isn't supported by design
             if (targetRange.start.line !== targetRange.end.line) return false
             const lineText = document.lineAt(targetRange.end).text
             const useStatePatternMatch = /\s*const \[(.+), set\1] = /i.exec(lineText)
-            if (!useStatePatternMatch) return false
+            if (!useStatePatternMatch) {
+                const fileName = Utils.basename(document.uri).replace(/\..+$/, '')
+                if (getExtensionSetting('reactAware.autoTriggerRenameComponent') && document.getText(targetRange) === fileName) {
+                    await vscode.commands.executeCommand('extraCommands.renameSymbolAndFile')
+                    return true
+                }
+
+                return false
+            }
+
             const newName = await vscode.window.showInputBox({ value: useStatePatternMatch[1] })
             if (newName === undefined) return
             const mainEdit: vscode.WorkspaceEdit = await vscode.commands.executeCommand(

@@ -584,6 +584,10 @@
                         "type": "string"
                     },
                     "default": []
+                },
+                "reactAware.autoTriggerRenameComponent": {
+                    "type": "boolean",
+                    "default": false
                 }
             }
         },
