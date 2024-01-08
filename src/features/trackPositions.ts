@@ -31,7 +31,7 @@ export default () => {
     let lastPosition: vscode.Position | undefined
 
     const pushPosition = (kind?: OurKind, forceAdd = false) => {
-        if (dontWriteTillNextChange) return
+        if (dontWriteTillNextChange || !(history as any)) return
         const position = kind === 'focus-out' ? lastPosition : vscode.window.activeTextEditor?.selection.active
         const lastHistoryPos = history.at(-1)?.[0]
         if (!position) return

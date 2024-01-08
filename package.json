@@ -319,6 +319,10 @@
             {
                 "command": "newUntitledEditor",
                 "title": "New Untitled Editor"
+            },
+            {
+                "command": "fixedGitStageFile",
+                "title": "Fixed Git Stage File"
             }
         ],
         "configuration": {
