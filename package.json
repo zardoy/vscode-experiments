@@ -323,6 +323,10 @@
             {
                 "command": "fixedGitStageFile",
                 "title": "Fixed Git Stage File"
+            },
+            {
+                "command": "stylexSnippet",
+                "title": "Stylex Snippet"
             }
         ],
         "configuration": {
