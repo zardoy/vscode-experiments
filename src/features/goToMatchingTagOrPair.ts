@@ -5,8 +5,15 @@ export default () => {
     registerExtensionCommand('goToMatchingTagOrPair', async () => {
         const activeEditor = vscode.window.activeTextEditor
         if (!activeEditor || activeEditor.viewColumn === undefined) return
+        const { document } = activeEditor
+        const pos = activeEditor.selection.start
+        const prevChar = document.getText(new vscode.Range(pos.translate(0, -1), pos))
+        const nextChar = document.getText(new vscode.Range(pos, pos.translate(0, 1)))
+        const brackets = new Set(['(', ')', '[', ']', '{', '}'])
+        const hasBracket = brackets.has(prevChar) || brackets.has(nextChar)
         const initialPos = activeEditor.selection.end
-        await vscode.commands.executeCommand('editor.emmet.action.matchTag')
+        if (!hasBracket) await vscode.commands.executeCommand('editor.emmet.action.matchTag')
+
         const currentPos = activeEditor.selection.end
         if (currentPos.isEqual(initialPos)) await vscode.commands.executeCommand('editor.action.jumpToBracket')
     })
