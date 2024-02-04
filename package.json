@@ -335,6 +335,14 @@
             {
                 "command": "stylexSnippet",
                 "title": "Stylex Snippet"
+            },
+            {
+                "command": "restoreBreakpointsPack",
+                "title": "Restore Breakpoints Pack"
+            },
+            {
+                "command": "saveBreakpointsPack",
+                "title": "Save Breakpoints Pack"
             }
         ],
         "configuration": {
