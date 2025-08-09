@@ -42,7 +42,7 @@ export default () => {
 
         const mainWorkspaceEdit = new vscode.WorkspaceEdit()
         let codeActionNeedsSelectionIndex = 0
-        interface Metadata {
+        type Metadata = {
             needsSelectionIndex?: number
             skipSelectionResetting: boolean
         }
@@ -63,7 +63,6 @@ export default () => {
                 needsSelectionIndex === undefined ? undefined : rangeToSelection(diagnostic.range),
             ),
         )
-        // eslint-disable-next-line curly
         if (codeActionsToSelect.length > 0) {
             editor.selections = codeActionsToSelect
         }
@@ -73,7 +72,6 @@ export default () => {
             // eslint-disable-next-line no-await-in-loop
             const { edit } = (await applyCodeAction(diagnostic, codeFix, metadata)) ?? {}
             if (edit)
-                // eslint-disable-next-line curly
                 for (const [uri, edits] of edit.entries()) {
                     mainWorkspaceEdit.set(uri, [...mainWorkspaceEdit.get(uri), ...edits])
                 }
@@ -87,7 +85,6 @@ export default () => {
             const { needsSelectionIndex, skipSelectionResetting } = metadata
             const newSelectionIndex = editor.selections.length - (codeActionsToSelect.length - (needsSelectionIndex ?? -1))
             const currentSelection = editor.selections[newSelectionIndex]
-            // eslint-disable-next-line curly
             if (needsSelectionIndex !== undefined && !skipSelectionResetting && currentSelection) {
                 editor.selection = currentSelection
             }

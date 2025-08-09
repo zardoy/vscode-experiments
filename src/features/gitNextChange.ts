@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { CommandHandler, registerExtensionCommand } from 'vscode-framework'
+import { type CommandHandler, registerExtensionCommand } from 'vscode-framework'
 import { getGitActiveRepoOrThrow } from '../git-api'
 
 export default () => {

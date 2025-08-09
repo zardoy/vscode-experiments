@@ -1,9 +1,9 @@
 import * as vscode from 'vscode'
-import { CommandHandler, registerExtensionCommand } from 'vscode-framework'
-import { MaybePromise } from 'vscode-framework/build/util'
+import { type CommandHandler, registerExtensionCommand } from 'vscode-framework'
+import { type MaybePromise } from 'vscode-framework/build/util'
 import { noCase } from 'change-case'
 import { showQuickPick } from '@zardoy/vscode-utils/build/quickPick'
-import { getGitActiveRepoOrThrow, GitChange, GitRepository } from '../git-api'
+import { getGitActiveRepoOrThrow, type GitChange, type GitRepository } from '../git-api'
 
 export default () => {
     const gitFilesCommand =

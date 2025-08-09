@@ -22,7 +22,6 @@ export default () => {
             if (
                 highlights.some(({ range }) => document.getText(range) !== elemName) ||
                 highlights.some(h => !document.getWordRangeAtPosition(h.range.start, elemRegex))
-                // eslint-disable-next-line curly
             ) {
                 return
             }

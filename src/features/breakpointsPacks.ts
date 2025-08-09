@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
 import { extensionCtx, registerActiveDevelopmentCommand, registerExtensionCommand, showQuickPick } from 'vscode-framework'
 import { omitObj } from '@zardoy/utils'
-import { GitRepository, getGitActiveRepoOrThrow } from '../git-api'
+import { type GitRepository, getGitActiveRepoOrThrow } from '../git-api'
 
 interface Location {
     file: string

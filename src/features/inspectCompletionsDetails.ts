@@ -107,11 +107,13 @@ export default () => {
                             return renderMd ? processMarkdown(rest.documentation.value) : rest.documentation.value
                         }
 
-                        case 'detail':
+                        case 'detail': {
                             return renderMd ? `\nDetail:\n\`\`\`${document.languageId}\n${rest.detail!}\n\`\`\`\n` : rest.detail!
+                        }
 
-                        default:
+                        default: {
                             return String(rest[prop])
+                        }
                     }
                 }),
             ]

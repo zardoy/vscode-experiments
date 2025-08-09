@@ -33,7 +33,6 @@ export default () => {
         )
         if (!selectedTabs) return
         await Promise.all(selectedTabs.filter(({ isDirty }) => !isDirty).map(tab => window.tabGroups.close(tab)))
-        // eslint-disable-next-line curly
         if (revert) {
             for (const tab of selectedTabs.filter(({ isDirty }) => isDirty)) {
                 if (!(tab.input instanceof TabInputText)) continue

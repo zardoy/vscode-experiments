@@ -4,7 +4,7 @@ import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
 export default () => {
     registerExtensionCommand('goToNextProblemInFile', async (_, backwards = false) => {
         const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined) return
+        if (activeEditor?.viewColumn === undefined) return
 
         await vscode.commands.executeCommand(`editor.action.marker.${backwards ? 'prev' : 'next'}`)
         const triggerCodeAction = getExtensionSetting('goToNextProblemInFile.triggerCodeAction')

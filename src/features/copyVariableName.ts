@@ -4,7 +4,7 @@ import { registerExtensionCommand } from 'vscode-framework'
 export default () => {
     registerExtensionCommand('copyLineVariableName', async () => {
         const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined) return
+        if (activeEditor?.viewColumn === undefined) return
         // also would make sense to support mutliple selections/cursors
         const lineText = activeEditor.document.lineAt(activeEditor.selection.end).text
         const regexps = {

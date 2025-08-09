@@ -31,7 +31,7 @@ export default () => {
 
     const updateDiagnostics = () => {
         const editor = vscode.window.activeTextEditor
-        if (editor === undefined || editor.viewColumn === undefined) {
+        if (editor?.viewColumn === undefined) {
             cleanStatusbarItems()
             return
         }

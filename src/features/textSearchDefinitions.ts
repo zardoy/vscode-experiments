@@ -1,4 +1,4 @@
-import { commands, Location, LocationLink, window, workspace } from 'vscode'
+import { commands, Location, type LocationLink, window, workspace } from 'vscode'
 import { registerExtensionCommand } from 'vscode-framework'
 import { Utils } from 'vscode-uri'
 

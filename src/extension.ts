@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { getExtensionSetting, getExtensionSettingId, registerExtensionCommand, setDebugEnabled } from 'vscode-framework'
+import { getExtensionSetting, getExtensionSettingId, registerExtensionCommand, setDebugEnabled, type Settings } from 'vscode-framework'
 import { range } from 'rambda'
 import * as allFeatures from 'all-features-index'
 import { initGitApi } from './git-api'
@@ -9,7 +9,8 @@ export const activate = () => {
     void initGitApi()
     removedCommands()
 
-    const optionalFeaturesRegistry: Array<[setting: string, module: Feature, result: vscode.Disposable[] | undefined | null]> = []
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const optionalFeaturesRegistry: Array<[setting: keyof Settings, module: Feature, result: vscode.Disposable[] | undefined | null]> = []
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const registerFeature = (module: Feature) => module.default!() ?? null

@@ -7,7 +7,7 @@ export default () => {
     // TODO doesn't work with line-delimited imports
     const alignImport = async () => {
         const editor = vscode.window.activeTextEditor
-        if (editor === undefined || editor.viewColumn === undefined || !defaultJsSupersetLangs.includes(editor.document.languageId)) return
+        if (editor?.viewColumn === undefined || !defaultJsSupersetLangs.includes(editor.document.languageId)) return
 
         let metImportStatement = false
         let isInImport = false

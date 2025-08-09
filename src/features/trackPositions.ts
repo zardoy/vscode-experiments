@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { showQuickPick } from '@zardoy/vscode-utils/build/quickPick'
-import { Settings, VSCodeQuickPickItem, extensionCtx, registerExtensionCommand } from 'vscode-framework'
+import { type Settings, type VSCodeQuickPickItem, extensionCtx, registerExtensionCommand } from 'vscode-framework'
 
 export const enableIf: keyof Settings = 'trackDocumentPositions.enable'
 

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { getActiveRegularEditor } from '@zardoy/vscode-utils'
 import { noCase, camelCase } from 'change-case'
-import { getExtensionCommandId, getExtensionContributionsPrefix, registerExtensionCommand, RegularCommands } from 'vscode-framework'
+import { getExtensionCommandId, getExtensionContributionsPrefix, registerExtensionCommand, type RegularCommands } from 'vscode-framework'
 import { proxy, subscribe } from 'valtio/vanilla'
 import { lowerCaseFirst } from 'lower-case-first'
 import { Utils as UriUtils } from 'vscode-uri'

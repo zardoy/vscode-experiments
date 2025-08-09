@@ -13,7 +13,6 @@ export default () => {
         ['copyProductIconName', 'commands.suggestCodicons', 'usernamehw.commands'],
     ]
 
-    // eslint-disable-next-line curly
     for (const [removedCommand, replacedCommand, extensionOwner] of REMOVED_COMMANDS) {
         registerExtensionCommand(removedCommand as any, async (_, ...args) => {
             try {

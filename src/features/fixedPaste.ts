@@ -6,7 +6,7 @@ export default () => {
     // TODO test https://github.com/rubymaniac/vscode-paste-and-indent/blob/master/src/extension.ts
     registerExtensionCommand('fixedPaste', async () => {
         const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined) return
+        if (activeEditor?.viewColumn === undefined) return
         const currentPos = activeEditor.selection.start
         await vscode.commands.executeCommand('editor.action.clipboardPasteAction')
         // no-op for now
@@ -21,7 +21,7 @@ export default () => {
     })
     registerExtensionCommand('jsonAwarePaste', async () => {
         const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined) return
+        if (activeEditor?.viewColumn === undefined) return
         const clipboardText = await vscode.env.clipboard.readText()
         const fixedText = clipboardText.split('\\').join('\\\\').split('"').join('\\"')
         await activeEditor.edit(builder => {
@@ -30,7 +30,7 @@ export default () => {
     })
     registerExtensionCommand('focusLastPasteRange', () => {
         const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined || !lastPasteRange) return
+        if (activeEditor?.viewColumn === undefined || !lastPasteRange) return
         activeEditor.selection = lastPasteRange
     })
 }

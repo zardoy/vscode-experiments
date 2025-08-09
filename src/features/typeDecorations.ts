@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import * as vscode from 'vscode'
 import { getExtensionSetting, registerExtensionCommand } from 'vscode-framework'
 import { getNormalizedVueOutline } from '@zardoy/vscode-utils/build/vue'
@@ -28,8 +29,7 @@ export default () => {
             }
 
             const style = outline.find(item => item.name === 'style')
-            if (style?.range.contains(position)) return true
-            return false
+            return style?.range.contains(position) ?? false;
         }
 
         return false
@@ -53,7 +53,7 @@ export default () => {
         if (
             !textEditor ||
             (editor && textEditor.document.uri !== editor.document.uri) ||
-            textEditor.viewColumn === undefined ||
+            (textEditor.viewColumn === undefined) ||
             !vscode.languages.match(enableLanguages, textEditor.document)
         )
             return

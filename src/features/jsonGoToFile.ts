@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { getJsonCompletingInfo } from '@zardoy/vscode-utils/build/jsonCompletions'
 import { getLocation } from 'jsonc-parser'
 import { getExtensionSetting } from 'vscode-framework'
-import { URI, Utils } from 'vscode-uri'
+import { type URI, Utils } from 'vscode-uri'
 import { fsExists } from '@zardoy/vscode-utils/build/fs'
 
 export default () => {

@@ -5,7 +5,7 @@ import { registerExtensionCommand } from 'vscode-framework'
 export default () => {
     registerExtensionCommand('removeUnusedImports', async () => {
         const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined) return
+        if (activeEditor?.viewColumn === undefined) return
         const diagnostics = vscode.languages.getDiagnostics(activeEditor.document.uri)
         const unusedImport = diagnostics.filter(({ code }) => oneOf(code, 6133, 6192))
         const { document } = activeEditor

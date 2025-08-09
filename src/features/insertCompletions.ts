@@ -26,7 +26,7 @@ export default () => {
         ) => {
             fromInsertCompletions.value = true
             const activeEditor = vscode.window.activeTextEditor
-            if (!activeEditor || activeEditor.viewColumn === undefined) return
+            if (activeEditor?.viewColumn === undefined) return
             // TODO how it make sense to run on each selection
             const activePos = activeEditor.selection.end
             const completions: vscode.CompletionList = await vscode.commands.executeCommand(

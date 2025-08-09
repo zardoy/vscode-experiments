@@ -8,7 +8,7 @@ export default () => {
             noWebSupported()
         } else {
             const activeEditor = vscode.window.activeTextEditor
-            if (!activeEditor || activeEditor.viewColumn === undefined) return
+            if (activeEditor?.viewColumn === undefined) return
             const currentPos = activeEditor.selection.end
 
             const { execa } = await import('execa')

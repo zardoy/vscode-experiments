@@ -23,7 +23,7 @@ export default () => {
             const oldText = document.getText(this.prepareRename!(document, position, token) as vscode.Range)
             const matches = document.getText().matchAll(new RegExp(regex.toString().slice(1, -1).replace('(.+)', escapeStringRegexp(oldText)), 'g'))
             for (const match of matches) {
-                const pos = document.positionAt(match.index!)
+                const pos = document.positionAt(match.index)
                 workspaceEdit.replace(document.uri, new vscode.Range(pos.translate(0, match[1]!.length + 2), pos.translate(0, match[0]!.length - 2)), newName)
             }
 

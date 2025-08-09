@@ -2,6 +2,8 @@
     "extends": "zardoy",
     "rules": {
         "unicorn/import-style": "off",
+        "curly": "off",
+        "@typescript-eslint/consistent-type-definitions": "off",
         "no-empty-function": "off",
         "@typescript-eslint/no-unnecessary-condition": "error",
         "@typescript-eslint/no-explicit-any": "off"

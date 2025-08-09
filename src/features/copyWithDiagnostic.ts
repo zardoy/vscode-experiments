@@ -25,7 +25,7 @@ const WIP = async () => {
             if (pickedSources === undefined) return
             const pickedDiagnostics = await showQuickPick(
                 pickedSources.flat(1).map(diagnostic => ({
-                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                     
                     label: `${diagnostic.source} ${diagnostic.code && typeof diagnostic.code === 'object' ? diagnostic.code.value : diagnostic.code}`,
                     detail: diagnostic.message,
                     value: diagnostic,

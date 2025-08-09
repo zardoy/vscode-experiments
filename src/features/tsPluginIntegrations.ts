@@ -42,7 +42,6 @@ export default () => {
         if (kindName === 'StringLiteral' && !newText.endsWith("'")) {
             await new Promise<void>(resolve => {
                 // TODO refactor to vscode-utils
-                // eslint-disable-next-line sonarjs/no-identical-functions
                 const { dispose } = vscode.workspace.onDidChangeTextDocument(({ document }) => {
                     if (document.uri !== editor.document.uri) return
                     resolve()

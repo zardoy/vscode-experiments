@@ -16,7 +16,7 @@ export default () => {
             const ensureGitUserSetting = getExtensionSetting('ensureGitUser')
             for (const [pattern, expected] of Object.entries(ensureGitUserSetting))
                 if (minimatch.default(workspaceRoot.uri.fsPath, pattern)) {
-                    const data = decodeIni(fs.readFileSync(join(workspaceRoot.uri.fsPath, '.git/config'), 'utf-8'))
+                    const data = decodeIni(fs.readFileSync(join(workspaceRoot.uri.fsPath, '.git/config'), 'utf8'))
                     if (!data.user) throw new Error('User not even configured')
                     const fullStr = `${data.user.name} <${data.user.email}>`
                     if (fullStr !== expected) throw new Error(`.git/config user ${fullStr} doesn't match ${expected}`)

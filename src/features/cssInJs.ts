@@ -30,7 +30,7 @@ export default () => {
         let text = editor.document.getText(editor.selection)
         if (!text.trim()) return
         const transformJsPropToCss = (prop: string) => {
-            const converted = prop.replace(/([A-Z])/g, '-$1').toLowerCase()
+            const converted = prop.replaceAll(/([A-Z])/g, '-$1').toLowerCase()
             return converted
         }
 
@@ -66,6 +66,7 @@ export default () => {
             return input
         }
 
+        // eslint-disable-next-line import/no-named-as-default-member
         const transformed = JSON.stringify(patch(postcssJs.objectify(root)), null, '\t')
         await editor.edit(edit => edit.replace(editor.selection, transformed.slice(1, -1)))
     })

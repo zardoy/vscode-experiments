@@ -13,7 +13,7 @@ export default () => {
             // maybe even open as side-panel?
             for (const match of document.lineAt(pos).text.matchAll(REGEX_REGEX)) {
                 const regexRange = new vscode.Range(
-                    ...([match.index!, match.index! + match[0]!.length].map(ch => pos.with(undefined, ch)) as [vscode.Position, vscode.Position]),
+                    ...([match.index, match.index + match[0]!.length].map(ch => pos.with(undefined, ch)) as [vscode.Position, vscode.Position]),
                 )
                 if (regexRange.intersection(new vscode.Range(pos, pos))) {
                     console.log('regex detected', match[0])

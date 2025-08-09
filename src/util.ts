@@ -18,6 +18,7 @@ export const controlledPromise = <T>() => {
     const listeners: Array<(resolved: T) => any> = []
     let resolved: any
     return {
+        // eslint-disable-next-line unicorn/no-thenable
         then(listener: (resolved: T) => any) {
             if (resolved) listener(resolved)
             else listeners.push(listener)

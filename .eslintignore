@@ -2,3 +2,5 @@
 !src/
 !src/**
 src/futureFeatures.ts
+src/generated.ts
+src/globals.d.ts

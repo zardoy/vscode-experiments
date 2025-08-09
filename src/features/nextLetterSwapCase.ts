@@ -4,7 +4,7 @@ import { registerExtensionCommand } from 'vscode-framework'
 export default () => {
     registerExtensionCommand('nextLetterSwapCase', async () => {
         const editor = vscode.window.activeTextEditor
-        if (editor === undefined || editor.viewColumn === undefined) return
+        if (editor?.viewColumn === undefined) return
 
         await editor.edit(builder => {
             for (const selection of editor.selections) {

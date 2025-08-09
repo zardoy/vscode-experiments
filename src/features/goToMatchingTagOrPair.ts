@@ -4,10 +4,15 @@ import { registerExtensionCommand } from 'vscode-framework'
 export default () => {
     registerExtensionCommand('goToMatchingTagOrPair', async () => {
         const activeEditor = vscode.window.activeTextEditor
-        if (!activeEditor || activeEditor.viewColumn === undefined) return
+        if (activeEditor?.viewColumn === undefined) return
         const { document } = activeEditor
         const pos = activeEditor.selection.start
-        const prevChar = document.getText(new vscode.Range(pos.translate(0, -1), pos))
+
+        // Get previous character if not at start of line
+        const prevChar = pos.character > 0
+            ? document.getText(new vscode.Range(pos.translate(0, -1), pos))
+            : ''
+
         const nextChar = document.getText(new vscode.Range(pos, pos.translate(0, 1)))
         const brackets = new Set(['(', ')', '[', ']', '{', '}'])
         const hasBracket = brackets.has(prevChar) || brackets.has(nextChar)
