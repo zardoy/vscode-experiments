@@ -7,6 +7,7 @@ module.exports = defineConfig({
     },
     target: { desktop: true, web: true },
     esbuild: {
+        platform: 'node',
         plugins: [
             {
                 name: 'all-features-index',
