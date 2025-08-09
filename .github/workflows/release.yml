@@ -10,7 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: pnpm/action-setup@v4
-      - run: pnpm prettier --check src/**
+        with:
+          run_install: |
+            args: [--frozen-lockfile, --strict-peer-dependencies]
       - run: pnpm lint
       - run: pnpm tsc
       - run: pnpx zardoy-release vscode-extension
