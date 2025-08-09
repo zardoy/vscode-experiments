@@ -802,6 +802,11 @@
         "vscode-framework": "^0.0.18",
         "vscode-uri": "^3.0.6"
     },
+    "release": {
+        "preset": {
+            "publishMarketplace": false
+        }
+    },
     "devDependencies": {
         "@types/lodash": "^4.14.190",
         "@types/node": "^16.11.26",
