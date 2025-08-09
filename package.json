@@ -757,7 +757,16 @@
         },
         "patchedDependencies": {
             "vscode-framework@0.0.18": "patches/vscode-framework@0.0.18.patch"
-        }
+        },
+        "ignoredBuiltDependencies": [
+            "playwright",
+            "usb"
+        ],
+        "onlyBuiltDependencies": [
+            "esbuild",
+            "typed-vscode",
+            "vscode-framework"
+        ]
     },
     "dependencies": {
         "@types/hosted-git-info": "^3.0.2",
