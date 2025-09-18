@@ -747,7 +747,7 @@
         ]
     },
     "scripts": {
-        "start": "vscode-framework start",
+        "start": "vscode-framework start --skip-launching",
         "build": "vscode-framework build",
         "lint": "eslint src/**"
     },
