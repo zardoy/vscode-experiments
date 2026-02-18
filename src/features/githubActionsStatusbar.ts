@@ -1,4 +1,5 @@
-//@eslint-disable
+/* eslint-disable unicorn/no-abusive-eslint-disable */
+/* eslint-disable */
 import * as vscode from 'vscode'
 import { getExtensionSetting, type Settings } from 'vscode-framework'
 import { gitApi } from '../git-api'
@@ -6,6 +7,7 @@ import { gitApi } from '../git-api'
 const GITHUB_API_BASE = 'https://api.github.com'
 const GIT_POLL_INTERVAL_MS = 1000
 const BUILD_POLL_INTERVAL_MS = 3000
+const FETCH_TIMEOUT_MS = 8000
 
 type RunStatus = 'success' | 'failure' | 'in_progress' | 'queued' | 'cancelled' | 'skipped' | 'neutral' | null
 
@@ -31,9 +33,19 @@ async function fetchLatestRunForCommit(
     headSha: string,
 ): Promise<{ status: RunStatus; conclusion: string | null } | null> {
     const url = `${GITHUB_API_BASE}/repos/${owner}/${repo}/actions/runs?head_sha=${headSha}&per_page=1`
-    const res = await fetch(url, {
-        headers: { Accept: 'application/vnd.github.v3+json' },
-    })
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+    let res: Response
+    try {
+        res = await fetch(url, {
+            headers: { Accept: 'application/vnd.github.v3+json' },
+            signal: controller.signal,
+        })
+    } catch {
+        return null
+    } finally {
+        clearTimeout(timeout)
+    }
     if (!res.ok) return null
     const data = (await res.json()) as { workflow_runs?: Array<{ status: string; conclusion: string | null }> }
     const run = data.workflow_runs?.[0]
@@ -105,10 +117,9 @@ export default () => {
         }
     }
 
-    const updateStatusBar = (status: RunStatus, branch: string) => {
+    const updateStatusBar = (status: RunStatus) => {
         if (disposed) return
-        const emoji = statusToEmoji(status)
-        statusBarItem.text = `${emoji} ${branch}`
+        statusBarItem.text = statusToEmoji(status) + ' CI'
         statusBarItem.show()
     }
 
@@ -136,13 +147,13 @@ export default () => {
             if (!commitSha || !parsed) {
                 if (!commitSha) statusBarItem.hide()
                 else {
-                    statusBarItem.text = `⏳ ${branch}`
+                    statusBarItem.text = '⏳ GitHub CI'
                     statusBarItem.show()
                 }
                 return
             }
             if (cache && cache.commitSha === commitSha && cache.branch === branch) {
-                updateStatusBar(cache.status, branch)
+                updateStatusBar(cache.status)
                 if (cache.status === 'in_progress' || cache.status === 'queued') {
                     if (buildPollTimer === undefined) {
                         buildPollTimer = setTimeout(() => {
@@ -176,7 +187,7 @@ export default () => {
         const status = result?.status ?? null
         const conclusion = result?.conclusion ?? null
         cache = { commitSha, branch, status, conclusion }
-        updateStatusBar(status, branch)
+        updateStatusBar(status)
         if (status === 'in_progress' || status === 'queued') {
             if (buildPollTimer !== undefined) clearTimeout(buildPollTimer)
             buildPollTimer = setTimeout(() => {
