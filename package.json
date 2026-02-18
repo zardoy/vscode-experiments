@@ -575,6 +575,11 @@
                     "description": "Wether to display statusbar with all occurences count (including selected) in the following format: E (case matching occurences)",
                     "default": false
                 },
+                "features.githubActionsStatusbar": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Show latest GitHub Actions build status in the status bar (emoji + branch). Polls git every 1s; caches status by commit until commit changes; re-polls API every 3s while build is in progress. Uses public GitHub API (no auth for public repos)."
+                },
                 "inspectCompletionsDetails.resolveItems": {
                     "type": "number",
                     "description": "Number of completions to resolve (too large numbers slow down completions)",
