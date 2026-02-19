@@ -7,6 +7,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { getCurrentWorkspaceRoot } from '@zardoy/vscode-utils/build/fs'
+import * as path from 'path'
 import * as vscode from 'vscode'
 import { Uri, Event, Disposable, ProviderResult, Command } from 'vscode'
 
@@ -376,8 +377,27 @@ export const getGitApiOrThrow = () => {
     return gitApi.api
 }
 
+/** True if workspaceUri is inside or equal to repoRootUri (handles .git not in workspace root) */
+function repositoryContainsWorkspace(workspaceUri: Uri, repoRootUri: Uri): boolean {
+    const w = workspaceUri.fsPath
+    const r = repoRootUri.fsPath
+    if (w === r) return true
+    const sep = path.sep
+    return w.startsWith(r + sep) || w.startsWith(r + '/')
+}
+
+/** Returns the repo that contains the current workspace folder (or exact match). Prefers innermost repo. */
+export const getRepositoryForWorkspace = (api: API): GitRepository | undefined => {
+    const workspaceRoot = getCurrentWorkspaceRoot()?.uri
+    if (!workspaceRoot) return undefined
+    const containing = api.repositories.filter(r => repositoryContainsWorkspace(workspaceRoot, r.rootUri))
+    if (containing.length === 0) return undefined
+    return containing.sort((a, b) => b.rootUri.fsPath.length - a.rootUri.fsPath.length)[0]
+}
+
 export const getGitActiveRepoOrThrow = () => {
-    const gitApi = getGitApiOrThrow()
-    const currentWorkspaceRoot = getCurrentWorkspaceRoot()
-    return gitApi.repositories.find(({ rootUri }) => currentWorkspaceRoot.uri.toString() === rootUri.toString())
+    const api = getGitApiOrThrow()
+    const repo = getRepositoryForWorkspace(api)
+    if (!repo) throw new Error('No git repository found for workspace')
+    return repo
 }

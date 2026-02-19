@@ -2,7 +2,7 @@
 /* eslint-disable */
 import * as vscode from 'vscode'
 import { getExtensionSetting, type Settings } from 'vscode-framework'
-import { gitApi } from '../git-api'
+import { gitApi, getRepositoryForWorkspace } from '../git-api'
 
 const GITHUB_API_BASE = 'https://api.github.com'
 const GIT_POLL_INTERVAL_MS = 1000
@@ -131,8 +131,7 @@ export default () => {
                 statusBarItem.hide()
                 return
             }
-            const root = vscode.workspace.workspaceFolders?.[0]?.uri
-            const repo = root ? api.repositories.find(r => r.rootUri.toString() === root.toString()) : undefined
+            const repo = getRepositoryForWorkspace(api)
             if (!repo) {
                 statusBarItem.hide()
                 return
