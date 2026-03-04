@@ -347,6 +347,10 @@
             {
                 "command": "openContextBookmark",
                 "title": "Open Context Bookmark"
+            },
+            {
+                "command": "openPixiSpineViewer",
+                "title": "Open Pixi Spine Viewer"
             }
         ],
         "configuration": {
@@ -579,6 +583,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Show latest GitHub Actions build status in the status bar (emoji + branch). Polls git every 1s; caches status by commit until commit changes; re-polls API every 3s while build is in progress. Uses public GitHub API (no auth for public repos)."
+                },
+                "features.pixiSpineViewer": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable Pixi Spine Viewer: when src/shared/assets/textures.json exists with spinesPaths, command starts a local HTTP server and opens pixi-spine-viewer.vercel.app with spinesMap URL. POST /update-spine updates x/y/scale etc. in textures.json."
                 },
                 "inspectCompletionsDetails.resolveItems": {
                     "type": "number",
