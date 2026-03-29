@@ -277,6 +277,10 @@
                 "title": "Peek Text Search Definitions"
             },
             {
+                "command": "peekWorkspaceSymbolDefinitions",
+                "title": "Peek Workspace Symbol Definitions"
+            },
+            {
                 "command": "discardAndCloseAllUntitled",
                 "title": "Discard and Close All Untitled"
             },
