@@ -49,6 +49,7 @@ export default (): vscode.Disposable => vscode.languages.registerColorProvider(
             { language: 'javascript' },
             { language: 'typescriptreact' },
             { language: 'javascriptreact' },
+            { language: 'svelte' },
         ],
         {
             async provideDocumentColors(

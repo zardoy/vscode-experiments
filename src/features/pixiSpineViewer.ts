@@ -29,7 +29,8 @@ interface SpineMapItem {
     json: string
     atlas: string
     png: string
-    [key: string]: string | number | boolean | undefined
+    actions?: Record<string, { type: string; url: string }>
+    [key: string]: string | number | boolean | Record<string, { type: string; url: string }> | undefined
 }
 
 export const enableIf: keyof Settings = 'features.pixiSpineViewer'
@@ -84,11 +85,17 @@ function buildSpinesMap(
         const assetBase = `${baseUrl}/asset/${encodeURIComponent(name)}/`
         const entry: SpineMapItem = {
             name,
+            ...config,
             path: relPath,
             json: assetBase + encodeURIComponent(scanned.json),
             atlas: assetBase + encodeURIComponent(scanned.atlas),
             png: assetBase + encodeURIComponent(scanned.images[0]!),
-            ...config,
+            actions: {
+                'Open Folder': {
+                    type: 'fetch',
+                    url: `${baseUrl}/action-callback?type=open-folder&name=${encodeURIComponent(name)}`,
+                },
+            },
         }
         scanned.images.forEach((img, i) => {
             const key = i === 0 ? 'png' : `png${i + 1}`
@@ -218,6 +225,24 @@ function createServer(
                     res.end(JSON.stringify({ error: 'Invalid request' }))
                 }
             })
+            return
+        }
+
+        if (req.method === 'GET' && pathname === '/action-callback') {
+            const params = new URLSearchParams(qs ?? '')
+            const type = params.get('type')
+            const name = params.get('name')
+            if (type === 'open-folder' && name && typeof name === 'string') {
+                const cfg = spinePaths[name]
+                if (cfg?.path) {
+                    const spineDir = path.normalize(path.join(baseDir, cfg.path))
+                    if (spineDir.startsWith(baseDir)) {
+                        void vscode.commands.executeCommand('revealInExplorer', vscode.Uri.file(spineDir))
+                    }
+                }
+            }
+            res.writeHead(204)
+            res.end()
             return
         }
 
